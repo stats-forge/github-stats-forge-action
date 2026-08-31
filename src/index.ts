@@ -3,103 +3,95 @@ import path from "node:path";
 
 import { getInput, info, setFailed, setOutput, warning } from "@actions/core";
 // The renderer is a build-time dependency: esbuild bundles it into dist/index.js,
-// so the action does no install at run time and the action tag pins the version.
+// so the action installs nothing at run time and the action tag pins the version.
 import { api, topLangs, pin, wakatime, gist, CardConfig } from "@stats-forge/api";
 import type { ApiResult } from "@stats-forge/api";
 
-type CardName = "stats" | "top-langs" | "pin" | "wakatime" | "gist";
 type Handler = (
   query: Record<string, string>,
   config: CardConfig,
 ) => Promise<ApiResult>;
 
-const HANDLERS: Record<CardName, Handler> = {
-  stats: api,
-  "top-langs": topLangs,
-  pin,
-  wakatime,
-  gist,
-};
+interface CardDefinition {
+  handler: Handler;
+  /** The option this card cannot render without. */
+  requires: string;
+}
 
-/** The option each card cannot render without. */
-const REQUIRED_OPTION: Record<CardName, string> = {
-  stats: "username",
-  "top-langs": "username",
-  wakatime: "username",
-  pin: "repo",
-  gist: "id",
-};
+/** Adding a card is a one-line change here. */
+const CARDS = {
+  stats: { handler: api, requires: "username" },
+  "top-langs": { handler: topLangs, requires: "username" },
+  pin: { handler: pin, requires: "repo" },
+  wakatime: { handler: wakatime, requires: "username" },
+  gist: { handler: gist, requires: "id" },
+} satisfies Record<string, CardDefinition>;
+
+type CardName = keyof typeof CARDS;
 
 const isCardName = (value: string): value is CardName =>
-  Object.hasOwn(HANDLERS, value);
-
-/**
- * @param options Raw option values from JSON input.
- * @returns Options with every value coerced to the string a query string would yield.
- */
-const normalizeOptions = (
-  options: Record<string, unknown>,
-): Record<string, string> => {
-  const normalized: Record<string, string> = {};
-  for (const [key, value] of Object.entries(options)) {
-    if (value === null || value === undefined) {
-      continue;
-    }
-    normalized[key] = Array.isArray(value) ? value.join(",") : String(value);
-  }
-  return normalized;
-};
+  Object.hasOwn(CARDS, value);
 
 /**
  * Parse the `options` input, which is either a query string or a JSON object.
  *
  * @param value Raw `options` input.
- * @returns Parsed options.
+ * @returns Parsed options, every value a string.
  * @throws {Error} If the value starts with `{` but is not valid JSON.
  */
 const parseOptions = (value: string): Record<string, string> => {
-  if (!value) {
+  const trimmed = value.trim();
+  if (!trimmed) {
     return {};
   }
-  const trimmed = value.trim();
 
   if (trimmed.startsWith("{")) {
+    let parsed: Record<string, unknown>;
     try {
-      return normalizeOptions(JSON.parse(trimmed) as Record<string, unknown>);
+      parsed = JSON.parse(trimmed) as Record<string, unknown>;
     } catch {
       throw new Error("Invalid JSON in options.");
     }
+    return Object.fromEntries(
+      Object.entries(parsed)
+        .filter(([, entry]) => entry !== null && entry !== undefined)
+        .map(([key, entry]) => [
+          key,
+          Array.isArray(entry) ? entry.join(",") : String(entry),
+        ]),
+    );
   }
 
-  const options: Record<string, string> = {};
-  const query = trimmed.startsWith("?") ? trimmed.slice(1) : trimmed;
-  for (const [key, value] of new URLSearchParams(query).entries()) {
-    // A repeated key is how the query-string form expresses a list.
-    const existing = options[key];
-    options[key] = existing === undefined ? value : `${existing},${value}`;
-  }
-  return options;
+  // URLSearchParams strips a single leading "?" natively.
+  const params = new URLSearchParams(trimmed);
+  return Object.fromEntries(
+    [...new Set(params.keys())].map((key) => [
+      key,
+      params.getAll(key).join(","),
+    ]),
+  );
 };
 
 /**
- * @param card Card being rendered.
- * @param options Parsed options, mutated to fill in a default username.
- * @param repoOwner `GITHUB_REPOSITORY_OWNER`, used as the username default.
- * @throws {Error} If the card's required option is missing.
+ * @param card Requested card type.
+ * @param options Parsed options.
+ * @returns The card's definition.
+ * @throws {Error} If the card is unknown or its required option is missing.
  */
-const validateOptions = (
-  card: CardName,
+const resolveCard = (
+  card: string,
   options: Record<string, string>,
-  repoOwner: string | undefined,
-): void => {
-  if (options["username"] === undefined && repoOwner !== undefined) {
-    options["username"] = repoOwner;
-    warning("username not provided; defaulting to repository owner.");
+): CardDefinition => {
+  if (!isCardName(card)) {
+    throw new Error(
+      `Unsupported card type: ${card}. Expected one of ${Object.keys(CARDS).join(", ")}.`,
+    );
   }
-  const required = REQUIRED_OPTION[card];
-  if (options[required] === undefined) {
-    throw new Error(`${required} is required for the ${card} card.`);
+  const definition: CardDefinition = CARDS[card];
+  if (!options[definition.requires]) {
+    throw new Error(`${definition.requires} is required for the ${card} card.`);
   }
+  return definition;
 };
 
 const run = async (): Promise<void> => {
@@ -111,27 +103,33 @@ const run = async (): Promise<void> => {
   }
 
   const card = getInput("card", { required: true }).toLowerCase();
-  if (!isCardName(card)) {
-    throw new Error(
-      `Unsupported card type: ${card}. Expected one of ${Object.keys(HANDLERS).join(", ")}.`,
-    );
+  const options = parseOptions(getInput("options"));
+
+  const repositoryOwner = process.env["GITHUB_REPOSITORY_OWNER"];
+  if (!options["username"] && repositoryOwner) {
+    options["username"] = repositoryOwner;
+    warning("username not provided; defaulting to repository owner.");
   }
+
+  const { handler } = resolveCard(card, options);
 
   const token = getInput("token");
   const config = new CardConfig({
     pats: token ? [{ name: "action input `token`", value: token }] : [],
   });
 
-  const options = parseOptions(getInput("options"));
-  validateOptions(card, options, process.env["GITHUB_REPOSITORY_OWNER"]);
-
-  const result = await HANDLERS[card](options, config);
+  const result = await handler(options, config);
 
   // The renderer never throws on a data-fetch error; it returns a `status` starting
   // with "error" plus a "Something went wrong" SVG. Fail before writing, so a broken
   // card is never committed over a good one.
-  if (/^(true|1|yes)$/i.test(getInput("fail_on_error")) && result.status.startsWith("error")) {
-    throw new Error(`Card generation failed while fetching data (${result.status}).`);
+  if (
+    /^(true|1|yes)$/i.test(getInput("fail_on_error")) &&
+    result.status.startsWith("error")
+  ) {
+    throw new Error(
+      `Card generation failed while fetching data (${result.status}).`,
+    );
   }
   if (!result.content) {
     throw new Error("Card renderer returned empty output.");
