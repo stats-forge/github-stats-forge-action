@@ -1,0 +1,40 @@
+{
+  "name": "github-stats-forge-action",
+  "version": "0.1.0",
+  "description": "Generate GitHub stats cards in GitHub Actions",
+  "type": "module",
+  "private": true,
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/stats-forge/github-stats-forge-action.git"
+  },
+  "engines": {
+    "node": "24.x"
+  },
+  "scripts": {
+    "build": "esbuild src/index.ts --bundle --platform=node --target=node24 --format=esm --outfile=dist/index.js",
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "vitest",
+    "prepare": "husky",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint:knip": "knip"
+  },
+  "dependencies": {
+    "@actions/core": "^3.0.1",
+    "@stats-forge/api": "0.1.0"
+  },
+  "devDependencies": {
+    "esbuild": "0.25.12",
+    "husky": "9.1.7",
+    "knip": "6.27.0",
+    "lint-staged": "17.1.0",
+    "prettier": "3.9.5",
+    "typescript": "6.0.3",
+    "vitest": "4.1.10"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,css,json,jsonc,yaml,yml}": "prettier --write"
+  }
+}

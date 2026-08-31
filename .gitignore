@@ -1,0 +1,8 @@
+node_modules
+.DS_Store
+coverage
+*.tsbuildinfo
+
+# `dist/` is deliberately NOT ignored. A bundled JavaScript action runs the
+# committed bundle straight from the repo — nothing installs dependencies at
+# run time, so `pnpm build` output must be checked in.

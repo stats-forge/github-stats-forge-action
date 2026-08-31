@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: package.json
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm format:check
+      - run: pnpm typecheck
+      - run: pnpm lint:knip
+      - run: pnpm test
+
+      # The committed bundle must match the sources it was built from, or the
+      # action ships code nobody reviewed. This is the single most common way
+      # bundled action repos break.
+      - run: pnpm build
+      - name: Fail if dist/ is stale
+        run: git diff --exit-code -- dist/
+
+  # The only real proof a bundled action works is running the bundle.
+  e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: ./
+        with:
+          card: stats
+          options: "?username=octocat&show_icons=true"
+          path: /tmp/stats.svg
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - run: test -s /tmp/stats.svg
