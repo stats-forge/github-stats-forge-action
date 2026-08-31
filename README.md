@@ -69,10 +69,10 @@ every instance goes away.
 | Input           | Required | Default             | Description |
 | --------------- | -------- | ------------------- | ----------- |
 | `card`          | yes      | —                   | `stats`, `top-langs`, `pin`, `wakatime` or `gist`. |
-| `options`       | no       | `""`                | Query string (`?username=x&theme=dark`) or a JSON object. |
+| `options`       | no       | `""`                | Card options as a query string (`key=value&...`) or JSON. Repeated keys are joined with commas. If `username` is omitted, the repository owner is used. |
 | `path`          | no       | `profile/<card>.svg` | Output path, including the filename. |
-| `token`         | no       | `github.token`      | PAT with `read:user`; add `repo` to count private contributions. |
-| `fail_on_error` | no       | `false`             | Fail the job instead of writing a "Something went wrong" card. |
+| `token`         | no       | `github.token`      | GitHub token (PAT or `GITHUB_TOKEN`). For private repo stats use a PAT with `repo` and `read:user`; for any gist, a PAT with `gist`. |
+| `fail_on_error` | no       | `false`             | Fail the action when data fetching fails (e.g. a GitHub API rate limit) instead of writing the "Something went wrong" error card. |
 
 `username` defaults to the repository owner when omitted.
 

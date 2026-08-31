@@ -2,12 +2,15 @@ name: CI
 
 on:
   push:
-    branches: [master]
+    branches: [main]
   pull_request:
 
 jobs:
-  check:
+  code-checks:
+    name: Code checks
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v5
       - uses: pnpm/action-setup@v6
@@ -22,21 +25,54 @@ jobs:
       - run: pnpm test
 
       # The committed bundle must match the sources it was built from, or the
-      # action ships code nobody reviewed. This is the single most common way
-      # bundled action repos break.
+      # action ships code nobody reviewed.
       - run: pnpm build
       - name: Fail if dist/ is stale
         run: git diff --exit-code -- dist/
 
-  # The only real proof a bundled action works is running the bundle.
-  e2e:
+  action:
+    name: Action renders a card
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v5
-      - uses: ./
+
+      - name: Generate stats card
+        id: generate
+        uses: ./
         with:
           card: stats
-          options: "?username=octocat&show_icons=true"
-          path: /tmp/stats.svg
+          options: username=octocat
+          path: profile/stats.svg
           token: ${{ secrets.GITHUB_TOKEN }}
-      - run: test -s /tmp/stats.svg
+
+      # An empty file, or an error card, would still satisfy `test -s`.
+      - name: Assert an SVG was written
+        run: grep -q "<svg" "${{ steps.generate.outputs.path }}"
+        shell: bash
+
+  action-ignores-core-version:
+    name: Action ignores core_version
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v5
+
+      # The renderer is bundled, so there is no install step and nothing to
+      # resolve. The input is accepted and ignored rather than failing a
+      # workflow migrated from the composite action.
+      - name: Generate with a deprecated core_version
+        id: generate
+        uses: ./
+        with:
+          card: stats
+          options: username=octocat
+          path: profile/stats.svg
+          token: ${{ secrets.GITHUB_TOKEN }}
+          core_version: "latest && whoami"
+
+      - name: Assert the card was still rendered
+        run: grep -q "<svg" "${{ steps.generate.outputs.path }}"
+        shell: bash
