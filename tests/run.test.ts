@@ -215,8 +215,22 @@ describe('run', () => {
       content: '<svg>Something went wrong</svg>',
     });
 
+    await expect(run()).rejects.toThrow('Card generation failed: Could not fetch user');
+  });
+
+  it('does not blame the network for an option the renderer rejected', async () => {
+    mocks.handlers.stats.mockResolvedValueOnce({
+      status: 'error',
+      retryable: false,
+      error: {
+        code: 'invalid_param',
+        message: 'Invalid number input for parameter "border_radius"',
+      },
+      content: '<svg>Something went wrong</svg>',
+    });
+
     await expect(run()).rejects.toThrow(
-      'Card generation failed while fetching data: Could not fetch user',
+      'Card generation failed: Invalid number input for parameter "border_radius"',
     );
   });
 
