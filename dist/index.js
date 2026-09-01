@@ -26604,7 +26604,9 @@ var run = async () => {
   });
   const result = await handler(options, config2);
   if (result.status === "error") {
-    throw new Error(`Card generation failed while fetching data: ${result.error.message}`);
+    throw new Error(
+      result.retryable ? `Card generation failed while fetching data: ${result.error.message}` : `Card generation failed: ${result.error.message}`
+    );
   }
   if (!result.content) {
     throw new Error("Card renderer returned empty output.");

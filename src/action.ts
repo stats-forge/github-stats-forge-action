@@ -118,8 +118,13 @@ export const run = async (): Promise<void> => {
   // A data-fetch error is never thrown, only answered as `status: "error"` with
   // the failure drawn onto a card.
   // Writing that would replace a good card with an apology, so it fails instead.
+  // Only a retryable failure came from fetching.
   if (result.status === 'error') {
-    throw new Error(`Card generation failed while fetching data: ${result.error.message}`);
+    throw new Error(
+      result.retryable
+        ? `Card generation failed while fetching data: ${result.error.message}`
+        : `Card generation failed: ${result.error.message}`,
+    );
   }
   if (!result.content) {
     throw new Error('Card renderer returned empty output.');
