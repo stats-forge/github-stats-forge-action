@@ -15,11 +15,17 @@ on:
   workflow_dispatch:
     inputs:
       major_version:
-        description: The major tag to move, e.g. v0
+        description: Which major tag to move
         required: true
+        type: choice
+        options:
+          - v0
+          - v1
+          - v2
       target:
-        description: The tag or commit it should point at, e.g. v0.1.0
+        description: The release to point it at, e.g. v0.1.0
         required: true
+        type: string
 
 permissions: {}
 
@@ -55,6 +61,18 @@ jobs:
           if [ "${EVENT}" = 'workflow_dispatch' ]; then
             major="${INPUT_MAJOR}"
             ref="${INPUT_TARGET}"
+
+            # `major_version` is a choice, so it cannot be mistyped.
+            # `target` is free text, and pointing a major at the wrong line, or
+            # at a loose commit, is the way this breaks. So it has to be a
+            # release tag on the major being moved.
+            case "${ref}" in
+              "${major}".[0-9]*.[0-9]*) ;;
+              *)
+                echo "::error::'${ref}' is not a ${major}.x.y release tag."
+                exit 1
+                ;;
+            esac
           else
             case "${RELEASE_TAG}" in
               v[0-9]*.[0-9]*.[0-9]*) ;;
@@ -67,23 +85,16 @@ jobs:
             ref="${RELEASE_TAG}"
           fi
 
-          case "${major}" in
-            v[0-9]*) ;;
-            *)
-              echo "::error::'${major}' is not a major tag like v0."
-              exit 1
-              ;;
-          esac
+          # The tag has to already exist, on both paths.
+          if ! type=$(gh api "repos/${REPO}/git/ref/tags/${ref}" --jq '.object.type' 2>/dev/null); then
+            echo "::error::tag ${ref} does not exist."
+            exit 1
+          fi
 
-          # `ref` is a tag on a release, and anything git resolves on a dispatch.
           # An annotated tag points at a tag object rather than the commit.
-          if type=$(gh api "repos/${REPO}/git/ref/tags/${ref}" --jq '.object.type' 2>/dev/null); then
-            sha=$(gh api "repos/${REPO}/git/ref/tags/${ref}" --jq '.object.sha')
-            if [ "${type}" = 'tag' ]; then
-              sha=$(gh api "repos/${REPO}/git/tags/${sha}" --jq '.object.sha')
-            fi
-          else
-            sha=$(gh api "repos/${REPO}/commits/${ref}" --jq '.sha')
+          sha=$(gh api "repos/${REPO}/git/ref/tags/${ref}" --jq '.object.sha')
+          if [ "${type}" = 'tag' ]; then
+            sha=$(gh api "repos/${REPO}/git/tags/${sha}" --jq '.object.sha')
           fi
 
           if gh api "repos/${REPO}/git/ref/tags/${major}" >/dev/null 2>&1; then

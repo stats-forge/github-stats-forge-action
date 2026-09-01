@@ -71,10 +71,14 @@ published to npm — the action is consumed by tag.
 3. Merge that PR. Release-please tags `vX.Y.Z` and publishes the GitHub release,
    then `update-major-tag.yml` moves the floating `vX` that people pin.
 
-To roll a bad release back, run `update-major-tag.yml` by hand: give it the
-major to move and the tag or commit it should point at, and everyone pinned to
-`vX` is back on the older release. The `vX.Y.Z` tag and its release are left
-alone.
+To roll a bad release back, run `update-major-tag.yml` by hand. Pick the major
+from the dropdown and give it an earlier release tag on that same major, and
+everyone pinned to `vX` is back on the older release. The `vX.Y.Z` tag and its
+release are left alone.
+
+The dispatch deliberately refuses anything that is not an existing `vX.Y.Z` tag
+on the major being moved — no branches, no loose commits, no crossing from `v0`
+to `v1`. Add a new major to the dropdown when you first cut one.
 
 The release workflow runs on `workflow_run` after CI, and only when CI passed,
 so a red commit on `main` never reaches a release.
