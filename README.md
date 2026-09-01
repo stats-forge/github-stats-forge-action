@@ -87,31 +87,6 @@ every instance goes away.
 
 Output: `path` — where the SVG was written.
 
-## Migrating from `stats-organization/github-readme-stats-action`
-
-Every remaining input keeps its name and meaning, so changing the `uses:` line is
-normally the whole migration. Two inputs are gone:
-
-**`core_version` is gone.** That action installs the renderer from npm on every
-run, so it could pick a version at run time. This one **bundles** the renderer
-into `dist/index.js`, so there is nothing to install and nothing to choose — the
-action tag is the version selector. Pin `@v1.2.3` instead. The input is not
-declared at all, so passing it gets you the runner's own "Unexpected input(s)"
-warning.
-
-**`fail_on_error` is gone, and `true` is now the only behaviour.** Upstream
-defaults it to `false`, which writes the "Something went wrong" card on a failed
-fetch — replacing a good card in your README with an apology, which a commit step
-then commits. There is no reason to want that, so the action now fails and writes
-nothing: the previous card survives until the next successful run. If you were
-already passing `fail_on_error: true`, drop the line; if you were relying on the
-`false` default, a rate-limited run now turns the workflow red instead of
-quietly defacing your README.
-
-The trade-off is deliberate: no `npm install` per step (faster, and it cannot
-fail on a registry blip), and the exact renderer code is committed and reviewable
-in this repo rather than resolved at run time.
-
 ## Contributing
 
 See [CONTRIBUTING.md](.github/CONTRIBUTING.md) for local development, the test

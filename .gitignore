@@ -3,6 +3,6 @@ node_modules
 coverage
 *.tsbuildinfo
 
-# `dist/` is deliberately NOT ignored. A bundled JavaScript action runs the
-# committed bundle straight from the repo — nothing installs dependencies at
-# run time, so `pnpm build` output must be checked in.
+# `dist/` is deliberately NOT ignored.
+# The action runs the committed bundle straight from the repo, so `pnpm build`
+# output must be checked in.

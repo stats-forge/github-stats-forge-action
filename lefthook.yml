@@ -5,11 +5,11 @@ pre-commit:
   jobs:
     - name: format
       glob: '*.{js,jsx,ts,tsx,json,jsonc,yaml,yml,md}'
-      # `--no-error-on-unmatched-pattern`: a commit that only touches the
-      # committed bundle stages files `ignorePatterns` excludes, which is not a
-      # reason to reject the commit.
+      # `--no-error-on-unmatched-pattern`: a commit touching only the bundle
+      # stages files `ignorePatterns` excludes.
+      # That is not a reason to reject it.
       run: pnpm exec oxfmt --write --no-error-on-unmatched-pattern {staged_files}
-      # a file oxfmt rewrote goes into the same commit, rather than being left dirty
+      # a file oxfmt rewrote goes into the same commit, not left dirty
       stage_fixed: true
 
     - name: test

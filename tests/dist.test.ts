@@ -17,12 +17,13 @@ interface Run {
 }
 
 /**
- * Run the committed bundle the way the runner does: a bare `node dist/index.js`
- * with the inputs in the environment.
+ * Run the committed bundle the way the runner does: `node dist/index.js`, with
+ * the inputs in the environment.
  *
- * Only failure paths are exercised here — anything that reaches the renderer
- * would need the network. That is the `action` job's business; this test's job
- * is to prove the bundle exists, loads, and reads its inputs.
+ * Only failure paths are exercised, since reaching the renderer needs the
+ * network.
+ * That is the `action` job's business.
+ * This proves the bundle exists, loads, and reads its inputs.
  *
  * @param inputs Action inputs, by their `action.yml` names.
  * @returns The exit code and everything written to stdout.

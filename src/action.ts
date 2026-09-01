@@ -2,8 +2,9 @@ import { mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
 import { getInput, info, setOutput, warning } from '@actions/core';
-// The renderer is a build-time dependency: esbuild bundles it into dist/index.js,
-// so the action installs nothing at run time and the action tag pins the version.
+// A build-time dependency.
+// esbuild bundles it into dist/index.js, so nothing installs at run time and the
+// action tag pins the version.
 import {
   CardConfig,
   gist,
@@ -36,7 +37,7 @@ type CardName = keyof typeof CARDS;
 const isCardName = (value: string): value is CardName => Object.hasOwn(CARDS, value);
 
 /**
- * Parse the `options` input, which is either a query string or a JSON object.
+ * Parse the `options` input, either a query string or a JSON object.
  *
  * @param value Raw `options` input.
  * @returns Parsed options, every value a string.
@@ -91,8 +92,9 @@ export const resolveCard = (card: string, options: Record<string, string>): Card
 /**
  * Render the requested card and write it to disk.
  *
- * @throws {Error} If the inputs are unusable, or the renderer reports a failure
- *         or returns nothing — in which case nothing is written.
+ * @throws {Error} If the inputs are unusable, or the renderer fails or returns
+ *         nothing.
+ *         Nothing is written in either case.
  */
 export const run = async (): Promise<void> => {
   const card = getInput('card', { required: true }).toLowerCase();
@@ -113,10 +115,9 @@ export const run = async (): Promise<void> => {
 
   const result = await handler(options, config);
 
-  // The renderer never throws on a data-fetch error; it answers `status: "error"`
-  // with the failure drawn onto a "Something went wrong" SVG. Writing that would
-  // replace a good card in the README with an apology, so the renderer's failure
-  // is the action's failure and nothing is written.
+  // A data-fetch error is never thrown, only answered as `status: "error"` with
+  // the failure drawn onto a card.
+  // Writing that would replace a good card with an apology, so it fails instead.
   if (result.status === 'error') {
     throw new Error(`Card generation failed while fetching data: ${result.error.message}`);
   }

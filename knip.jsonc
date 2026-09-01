@@ -1,12 +1,11 @@
 {
   "$schema": "./node_modules/knip/schema.json",
-  // `src/index.ts` is a default entry, which is also what `action.yml` points
-  // at once esbuild has bundled it into `dist/index.js`.
+  // `src/index.ts` is a default entry.
+  // It is also what `action.yml` runs, once bundled into `dist/index.js`.
   "project": ["src/**/*.ts"],
-  // Build output, not source: committed only because a bundled action runs
-  // straight from the repo. knip reports the hint "Remove from ignore" when
-  // `dist/` happens to be absent; with the committed bundle present, dropping
-  // this makes knip scan 1.1mb of bundled CJS and report its dynamic requires.
+  // Build output, not source.
+  // knip hints "Remove from ignore" while `dist/` is absent, but with the bundle
+  // present, dropping this makes it scan 1.1mb of CJS and report its requires.
   "ignore": ["dist/**"],
   "vitest": {
     "entry": ["tests/*.test.ts"],

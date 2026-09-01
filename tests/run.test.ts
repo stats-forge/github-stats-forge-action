@@ -50,8 +50,9 @@ let workdir: string;
 beforeEach(async () => {
   workdir = await mkdtemp(path.join(tmpdir(), 'stats-forge-action-'));
   vi.spyOn(process, 'cwd').mockReturnValue(workdir);
-  // GitHub Actions sets this on every runner, so a test that does not want the
-  // fallback has to say so — otherwise CI and a laptop disagree.
+  // Set on every GitHub runner.
+  // A test that does not want the fallback has to say so, or CI and a laptop
+  // disagree.
   vi.stubEnv('GITHUB_REPOSITORY_OWNER', '');
   mocks.inputs.clear();
   mocks.inputs.set('card', 'stats');

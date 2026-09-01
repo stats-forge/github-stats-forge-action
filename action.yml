@@ -2,6 +2,10 @@ name: GitHub Stats Forge Action
 description: Generate GitHub stats cards in GitHub Actions.
 author: stats-forge
 
+branding:
+  icon: bar-chart-2
+  color: blue
+
 inputs:
   card:
     description: Card type to generate (stats, top-langs, pin, wakatime, gist).
@@ -26,7 +30,3 @@ outputs:
 runs:
   using: node24
   main: dist/index.js
-
-branding:
-  icon: bar-chart-2
-  color: purple

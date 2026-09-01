@@ -3,7 +3,7 @@ import { defineConfig } from 'oxfmt';
 
 export default defineConfig({
   ...oxfmtConfig,
-  // The committed esbuild bundle: generated, and 1.1mb of it. `.gitignore`
-  // cannot hold it, because a bundled action runs `dist/` straight from the repo.
+  // The committed bundle: generated, and 1.1mb of it.
+  // `.gitignore` cannot hold it, because the action runs `dist/` from the repo.
   ignorePatterns: ['dist'],
 });

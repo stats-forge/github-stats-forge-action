@@ -1,19 +1,19 @@
-# No `packages:` key: this repo ships a single package. The file exists for the
-# settings below, which are shared with `stats-forge/github-stats-forge`.
+# No `packages:` key: this repo ships a single package.
+# The file exists for the settings below, shared with `github-stats-forge`.
 
 # `onlyBuiltDependencies` in pnpm 10; renamed and turned into a map in 11.
 allowBuilds:
-  # Fetches a platform binary from a postinstall script; without this, pnpm
-  # skips it and `pnpm build` has no esbuild to run.
+  # Fetches a platform binary from a postinstall script.
+  # Without this, pnpm skips it and `pnpm build` has no esbuild to run.
   esbuild: true
   lefthook: true
 
 # Deliberately stricter than pnpm's 1440 default (3 days vs 1)
 minimumReleaseAge: 4320
 
-# The cooling-off period is there to catch a compromised upstream publish. It
-# buys nothing against our own packages, and would otherwise hold the action
-# three days behind every release we make ourselves.
+# The cooling-off period catches a compromised upstream publish.
+# It buys nothing against our own packages, and would hold the action three days
+# behind every release we make ourselves.
 minimumReleaseAgeExclude:
   - '@stats-forge/*'
 
