@@ -15,8 +15,18 @@ no shared instance, no proxy between your README and your data.
 ```yaml
 name: Stats cards
 on:
-  schedule: [{ cron: "0 3 * * *" }]
   workflow_dispatch:
+  schedule:
+    #        ┌───────────── minute (0 - 59)
+    #        │ ┌───────────── hour (0 - 23)
+    #        │ │ ┌───────────── day of the month (1 - 31)
+    #        │ │ │ ┌───────────── month (1 - 12 or JAN-DEC)
+    #        │ │ │ │ ┌───────────── day of the week (0 - 6 or SUN-SAT)
+    #        │ │ │ │ │
+    #        │ │ │ │ │
+    #        │ │ │ │ │
+    #        * * * * *
+    - cron: '0 3 * * *'
 
 permissions:
   contents: write
@@ -30,20 +40,20 @@ jobs:
       - uses: stats-forge/github-stats-forge-action@v1
         with:
           card: stats
-          options: "?username=octocat&show_icons=true&theme=dark"
+          options: '?username=octocat&show_icons=true&theme=dark'
           path: profile/stats.svg
           token: ${{ secrets.STATS_PAT }}
 
       - uses: stats-forge/github-stats-forge-action@v1
         with:
           card: top-langs
-          options: "?username=octocat&layout=compact"
+          options: '?username=octocat&layout=compact'
           path: profile/langs.svg
           token: ${{ secrets.STATS_PAT }}
 
       - uses: stefanzweifel/git-auto-commit-action@v6
         with:
-          commit_message: "chore: refresh stats cards"
+          commit_message: 'chore: refresh stats cards'
 ```
 
 Then in your README:
@@ -66,13 +76,12 @@ every instance goes away.
 
 ## Inputs
 
-| Input           | Required | Default             | Description |
-| --------------- | -------- | ------------------- | ----------- |
-| `card`          | yes      | —                   | `stats`, `top-langs`, `pin`, `wakatime` or `gist`. |
-| `options`       | no       | `""`                | Card options as a query string (`key=value&...`) or JSON. Repeated keys are joined with commas. If `username` is omitted, the repository owner is used. |
-| `path`          | no       | `profile/<card>.svg` | Output path, including the filename. |
-| `token`         | no       | `github.token`      | GitHub token (PAT or `GITHUB_TOKEN`). For private repo stats use a PAT with `repo` and `read:user`; for any gist, a PAT with `gist`. |
-| `fail_on_error` | no       | `false`             | Fail the action when data fetching fails (e.g. a GitHub API rate limit) instead of writing the "Something went wrong" error card. |
+| Input     | Required | Default              | Description                                                                                                                                             |
+| --------- | -------- | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `card`    | yes      | —                    | `stats`, `top-langs`, `pin`, `wakatime` or `gist`.                                                                                                      |
+| `options` | no       | `""`                 | Card options as a query string (`key=value&...`) or JSON. Repeated keys are joined with commas. If `username` is omitted, the repository owner is used. |
+| `path`    | no       | `profile/<card>.svg` | Output path, including the filename.                                                                                                                    |
+| `token`   | no       | `github.token`       | GitHub token (PAT or `GITHUB_TOKEN`). For private repo stats use a PAT with `repo` and `read:user`; for any gist, a PAT with `gist`.                    |
 
 `username` defaults to the repository owner when omitted.
 
@@ -80,33 +89,30 @@ Output: `path` — where the SVG was written.
 
 ## Migrating from `stats-organization/github-readme-stats-action`
 
-Every input keeps its name and meaning, so changing the `uses:` line is normally
-the whole migration. One exception:
+Every remaining input keeps its name and meaning, so changing the `uses:` line is
+normally the whole migration. Two inputs are gone:
 
 **`core_version` is gone.** That action installs the renderer from npm on every
 run, so it could pick a version at run time. This one **bundles** the renderer
 into `dist/index.js`, so there is nothing to install and nothing to choose — the
-action tag is the version selector. Pin `@v1.2.3` instead of passing
-`core_version`. Passing it anyway logs a warning and is otherwise ignored.
+action tag is the version selector. Pin `@v1.2.3` instead. The input is not
+declared at all, so passing it gets you the runner's own "Unexpected input(s)"
+warning.
+
+**`fail_on_error` is gone, and `true` is now the only behaviour.** Upstream
+defaults it to `false`, which writes the "Something went wrong" card on a failed
+fetch — replacing a good card in your README with an apology, which a commit step
+then commits. There is no reason to want that, so the action now fails and writes
+nothing: the previous card survives until the next successful run. If you were
+already passing `fail_on_error: true`, drop the line; if you were relying on the
+`false` default, a rate-limited run now turns the workflow red instead of
+quietly defacing your README.
 
 The trade-off is deliberate: no `npm install` per step (faster, and it cannot
 fail on a registry blip), and the exact renderer code is committed and reviewable
 in this repo rather than resolved at run time.
 
-## Development
+## Contributing
 
-```sh
-pnpm install
-pnpm build        # esbuild src/index.ts -> dist/index.js
-pnpm typecheck
-pnpm test
-```
-
-`dist/` is committed on purpose — the action runs the bundle straight from the
-repo. CI rebuilds it and fails on `git diff -- dist/`, so a stale bundle cannot
-ship.
-
-## Status
-
-Scaffold. `src/index.ts` imports `@stats-forge/api`, which is not published yet —
-see step 7 of `FORK_PLAN.md` in the workspace root.
+See [CONTRIBUTING.md](.github/CONTRIBUTING.md) for local development, the test
+layout, and why `dist/` is committed.

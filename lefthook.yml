@@ -1,0 +1,16 @@
+# Hooks are installed by `prepare`, which pnpm runs after every install.
+pre-commit:
+  # `test` reads what `format` rewrote, so the order matters.
+  piped: true
+  jobs:
+    - name: format
+      glob: '*.{js,jsx,ts,tsx,json,jsonc,yaml,yml,md}'
+      # `--no-error-on-unmatched-pattern`: a commit that only touches the
+      # committed bundle stages files `ignorePatterns` excludes, which is not a
+      # reason to reject the commit.
+      run: pnpm exec oxfmt --write --no-error-on-unmatched-pattern {staged_files}
+      # a file oxfmt rewrote goes into the same commit, rather than being left dirty
+      stage_fixed: true
+
+    - name: test
+      run: pnpm test

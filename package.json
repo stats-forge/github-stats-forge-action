@@ -1,40 +1,39 @@
 {
   "name": "github-stats-forge-action",
   "version": "0.1.0",
-  "description": "Generate GitHub stats cards in GitHub Actions",
-  "type": "module",
   "private": true,
+  "description": "Generate GitHub stats cards in GitHub Actions",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/stats-forge/github-stats-forge-action.git"
   },
-  "engines": {
-    "node": "24.x"
-  },
+  "type": "module",
   "scripts": {
-    "build": "esbuild src/index.ts --bundle --platform=node --target=node24 --format=esm --outfile=dist/index.js",
+    "prepare": "lefthook install",
+    "build": "esbuild src/index.ts --bundle --platform=node --target=node24 --format=esm --banner:js=\"import { createRequire } from 'node:module'; const require = createRequire(import.meta.url);\" --outfile=dist/index.js",
     "typecheck": "tsc -p tsconfig.json",
     "test": "vitest",
-    "prepare": "husky",
-    "format": "prettier --write .",
-    "format:check": "prettier --check .",
+    "format": "oxfmt --write .",
+    "format:check": "oxfmt --check .",
     "lint:knip": "knip"
   },
   "dependencies": {
     "@actions/core": "^3.0.1",
-    "@stats-forge/api": "0.1.0"
+    "@stats-forge/github-stats-forge-core": "0.0.2"
   },
   "devDependencies": {
-    "esbuild": "0.25.12",
-    "husky": "9.1.7",
+    "@marcalexiei/oxfmt-config": "1.2.1",
+    "@types/node": "24.13.3",
+    "esbuild": "0.28.2",
     "knip": "6.27.0",
-    "lint-staged": "17.1.0",
-    "prettier": "3.9.5",
+    "lefthook": "2.1.12",
+    "oxfmt": "0.65.0",
     "typescript": "6.0.3",
     "vitest": "4.1.10"
   },
-  "lint-staged": {
-    "*.{js,jsx,ts,tsx,css,json,jsonc,yaml,yml}": "prettier --write"
-  }
+  "engines": {
+    "node": "24.x"
+  },
+  "packageManager": "pnpm@11.25.0+sha512.5cde925b4f075f725eb71fbae18a42ffe784524789f19b61c731cb8721ec28aaee160e01a8d5af4fedb2a42cdbf300efe23db356b0d4a17b4d63e11f8ab7c956"
 }

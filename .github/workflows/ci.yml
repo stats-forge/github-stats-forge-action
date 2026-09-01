@@ -22,13 +22,23 @@ jobs:
       - run: pnpm format:check
       - run: pnpm typecheck
       - run: pnpm lint:knip
-      - run: pnpm test
 
       # The committed bundle must match the sources it was built from, or the
-      # action ships code nobody reviewed.
+      # action ships code nobody reviewed. Build before the tests, so the
+      # bundle they exercise is this commit's.
       - run: pnpm build
       - name: Fail if dist/ is stale
-        run: git diff --exit-code -- dist/
+        # `--intent-to-add` stages the paths without their content, which puts
+        # a never-committed dist/ into the diff. Plain `git diff` sees only
+        # tracked files, so it would pass on a bundle that was never added.
+        run: |
+          git add --intent-to-add dist/
+          git diff --exit-code --stat -- dist/ || {
+            echo "::error::dist/ is out of date. Run 'pnpm build' and commit the result."
+            exit 1
+          }
+
+      - run: pnpm test
 
   action:
     name: Action renders a card
@@ -47,32 +57,8 @@ jobs:
           path: profile/stats.svg
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      # An empty file, or an error card, would still satisfy `test -s`.
+      # A render failure already fails the step above, so this guards the case
+      # that stays silent: a file written that is not actually an SVG.
       - name: Assert an SVG was written
-        run: grep -q "<svg" "${{ steps.generate.outputs.path }}"
-        shell: bash
-
-  action-ignores-core-version:
-    name: Action ignores core_version
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-    steps:
-      - uses: actions/checkout@v5
-
-      # The renderer is bundled, so there is no install step and nothing to
-      # resolve. The input is accepted and ignored rather than failing a
-      # workflow migrated from the composite action.
-      - name: Generate with a deprecated core_version
-        id: generate
-        uses: ./
-        with:
-          card: stats
-          options: username=octocat
-          path: profile/stats.svg
-          token: ${{ secrets.GITHUB_TOKEN }}
-          core_version: "latest && whoami"
-
-      - name: Assert the card was still rendered
         run: grep -q "<svg" "${{ steps.generate.outputs.path }}"
         shell: bash

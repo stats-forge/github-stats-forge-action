@@ -9,30 +9,15 @@ inputs:
   options:
     description: Options for the card (query string or JSON).
     required: false
-    default: ""
+    default: ''
   path:
     description: Output path for SVG file (relative path; include filename with .svg).
     required: false
-    default: ""
+    default: ''
   token:
     description: GitHub token (PAT or GITHUB_TOKEN).
     required: false
-    default: ""
-  fail_on_error:
-    description: >-
-      Fail the action when the card renderer reports a data-fetch error (e.g. a
-      GitHub API rate limit) instead of writing the "Something went wrong" error
-      card.
-    required: false
-    default: "false"
-  core_version:
-    description: >-
-      Deprecated and ignored. The renderer is bundled into this action, so the
-      action tag selects the version — pin `@v1.2.3` instead. Declared only so a
-      workflow migrating from stats-organization/github-readme-stats-action gets
-      a warning rather than silence.
-    required: false
-    default: ""
+    default: ''
 
 outputs:
   path:
