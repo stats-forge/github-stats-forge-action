@@ -36,6 +36,7 @@ concurrency:
 jobs:
   update-major-tag:
     name: Update major tag
+    environment: release
 
     # A prerelease must not move the tag everyone is pinned to.
     # Null, and so allowed, on a dispatch.
@@ -45,62 +46,60 @@ jobs:
 
     timeout-minutes: 5
 
-    permissions:
-      contents: write # required to move the tag
+    # No `permissions:` block: the push uses the app token below, so GITHUB_TOKEN
+    # needs nothing and inherits the empty set above.
 
     steps:
+      # The same bot that opens the release PR, for the same reason release.yml
+      # uses it: GITHUB_TOKEN is not guaranteed to be able to write here.
+      - name: Setup release helper
+        id: release-helper
+        uses: marcalexiei/github-actions/setup-github-app-user-bot@d5a5561c7caea4f18642f3967aad095af51c3905 # v2.1.0
+        with:
+          app-id: ${{ vars.RELEASE_HELPER_APP_ID }}
+          private-key: ${{ secrets.RELEASE_HELPER_PRIVATE_KEY }}
+
+      # Credentials are persisted on purpose: the push below needs them.
+      # This doubles as a rollback tool, so keep the pin a release or two back.
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1 # zizmor: ignore[artipacked]
+        with:
+          token: ${{ steps.release-helper.outputs.token }}
+          fetch-depth: 0
+
       - name: Move the major tag
         env:
-          GH_TOKEN: ${{ github.token }}
-          REPO: ${{ github.repository }}
-          EVENT: ${{ github.event_name }}
           RELEASE_TAG: ${{ github.event.release.tag_name }}
           INPUT_MAJOR: ${{ inputs.major_version }}
           INPUT_TARGET: ${{ inputs.target }}
         run: |
-          if [ "${EVENT}" = 'workflow_dispatch' ]; then
-            major="${INPUT_MAJOR}"
-            ref="${INPUT_TARGET}"
+          tag="${INPUT_TARGET:-$RELEASE_TAG}"
+          major="${INPUT_MAJOR:-${tag%%.*}}"
 
-            # `major_version` is a choice, so it cannot be mistyped.
-            # `target` is free text, and pointing a major at the wrong line, or
-            # at a loose commit, is the way this breaks. So it has to be a
-            # release tag on the major being moved.
-            case "${ref}" in
-              "${major}".[0-9]*.[0-9]*) ;;
-              *)
-                echo "::error::'${ref}' is not a ${major}.x.y release tag."
+          case "${tag}" in
+            v[0-9]*.[0-9]*.[0-9]*) ;;
+            *)
+              # A release of some other tag is not this workflow's business, but
+              # a dispatch asked for a move and has to be told it cannot happen.
+              if [ -n "${INPUT_TARGET}" ]; then
+                echo "::error::${tag} is not a vX.Y.Z release tag."
                 exit 1
-                ;;
-            esac
-          else
-            case "${RELEASE_TAG}" in
-              v[0-9]*.[0-9]*.[0-9]*) ;;
-              *)
-                echo "::notice::${RELEASE_TAG} is not a vX.Y.Z tag, so there is no major to move."
-                exit 0
-                ;;
-            esac
-            major="${RELEASE_TAG%%.*}"
-            ref="${RELEASE_TAG}"
-          fi
+              fi
+              echo "::notice::${tag} is not a vX.Y.Z release tag, so there is no major to move."
+              exit 0
+              ;;
+          esac
 
-          # The tag has to already exist, on both paths.
-          if ! type=$(gh api "repos/${REPO}/git/ref/tags/${ref}" --jq '.object.type' 2>/dev/null); then
-            echo "::error::tag ${ref} does not exist."
+          # `major_version` is a choice and cannot be mistyped, but it can still
+          # name the wrong line. The target's own major is the authority.
+          if [ "${major}" != "${tag%%.*}" ]; then
+            echo "::error::${tag} is not on the ${major} line."
             exit 1
           fi
 
-          # An annotated tag points at a tag object rather than the commit.
-          sha=$(gh api "repos/${REPO}/git/ref/tags/${ref}" --jq '.object.sha')
-          if [ "${type}" = 'tag' ]; then
-            sha=$(gh api "repos/${REPO}/git/tags/${sha}" --jq '.object.sha')
-          fi
+          # A lightweight tag needs no git identity.
+          # `^{}` resolves an annotated target to its commit, and force covers
+          # create, move and no-op alike.
+          git tag -f "${major}" "${tag}^{}"
+          git push -f origin "refs/tags/${major}"
 
-          if gh api "repos/${REPO}/git/ref/tags/${major}" >/dev/null 2>&1; then
-            gh api -X PATCH "repos/${REPO}/git/refs/tags/${major}" -f "sha=${sha}" -F force=true >/dev/null
-          else
-            gh api -X POST "repos/${REPO}/git/refs" -f "ref=refs/tags/${major}" -f "sha=${sha}" >/dev/null
-          fi
-
-          echo "::notice::${major} now points at ${sha} (${ref})."
+          echo "::notice::${major} now points at $(git rev-parse "${major}") (${tag})."
