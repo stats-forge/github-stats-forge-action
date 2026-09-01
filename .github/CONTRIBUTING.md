@@ -56,3 +56,30 @@ We use GitHub issues to track public bugs. Report a bug by
 Issues with the cards themselves belong in
 [github-stats-forge](https://github.com/stats-forge/github-stats-forge/issues),
 which is where the renderer lives.
+
+## Releasing
+
+Releases are automated by
+[release-please](https://github.com/googleapis/release-please-action), driven by
+[Conventional Commits](https://www.conventionalcommits.org). Nothing is
+published to npm — the action is consumed by tag.
+
+1. Merge work into `main` with conventional commit subjects. `fix:` gives a
+   patch, `feat:` a minor, and a `!` or a `BREAKING CHANGE:` footer a major.
+2. Release-please keeps a `chore: release` PR open with the version bump and the
+   generated `CHANGELOG.md`. It updates itself as more commits land.
+3. Merge that PR. Release-please tags `vX.Y.Z` and publishes the GitHub release,
+   then `update-major-tag.yml` moves the floating `vX` that people pin.
+
+To roll a bad release back, run `update-major-tag.yml` by hand: give it the
+major to move and the tag or commit it should point at, and everyone pinned to
+`vX` is back on the older release. The `vX.Y.Z` tag and its release are left
+alone.
+
+The release workflow runs on `workflow_run` after CI, and only when CI passed,
+so a red commit on `main` never reaches a release.
+
+The release job needs a `release` environment holding `RELEASE_HELPER_APP_ID`
+and `RELEASE_HELPER_PRIVATE_KEY`. It uses a GitHub App token rather than
+`GITHUB_TOKEN`, because events from the default token do not start other
+workflows, so CI would never run on the release PR.

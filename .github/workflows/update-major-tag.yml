@@ -1,0 +1,95 @@
+name: Update major tag
+run-name: ${{ github.event_name == 'workflow_dispatch' && format('Move {0} to {1}', inputs.major_version, inputs.target) || format('Move the major tag to {0}', github.event.release.tag_name) }}
+
+# The README tells people to pin `@v0`.
+# Release-please only ever creates the exact-version tag, so the floating major
+# is moved here.
+#
+# On a release this runs by itself.
+# The dispatch is the way back: point a major at an earlier release when one
+# turns out bad.
+on:
+  release:
+    types:
+      - published
+  workflow_dispatch:
+    inputs:
+      major_version:
+        description: The major tag to move, e.g. v0
+        required: true
+      target:
+        description: The tag or commit it should point at, e.g. v0.1.0
+        required: true
+
+permissions: {}
+
+concurrency:
+  group: '${{ github.workflow }}-${{ github.ref }}'
+  cancel-in-progress: false
+
+jobs:
+  update-major-tag:
+    name: Update major tag
+
+    # A prerelease must not move the tag everyone is pinned to.
+    # Null, and so allowed, on a dispatch.
+    if: ${{ !github.event.release.prerelease }}
+
+    runs-on: ubuntu-latest
+
+    timeout-minutes: 5
+
+    permissions:
+      contents: write # required to move the tag
+
+    steps:
+      - name: Move the major tag
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          EVENT: ${{ github.event_name }}
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+          INPUT_MAJOR: ${{ inputs.major_version }}
+          INPUT_TARGET: ${{ inputs.target }}
+        run: |
+          if [ "${EVENT}" = 'workflow_dispatch' ]; then
+            major="${INPUT_MAJOR}"
+            ref="${INPUT_TARGET}"
+          else
+            case "${RELEASE_TAG}" in
+              v[0-9]*.[0-9]*.[0-9]*) ;;
+              *)
+                echo "::notice::${RELEASE_TAG} is not a vX.Y.Z tag, so there is no major to move."
+                exit 0
+                ;;
+            esac
+            major="${RELEASE_TAG%%.*}"
+            ref="${RELEASE_TAG}"
+          fi
+
+          case "${major}" in
+            v[0-9]*) ;;
+            *)
+              echo "::error::'${major}' is not a major tag like v0."
+              exit 1
+              ;;
+          esac
+
+          # `ref` is a tag on a release, and anything git resolves on a dispatch.
+          # An annotated tag points at a tag object rather than the commit.
+          if type=$(gh api "repos/${REPO}/git/ref/tags/${ref}" --jq '.object.type' 2>/dev/null); then
+            sha=$(gh api "repos/${REPO}/git/ref/tags/${ref}" --jq '.object.sha')
+            if [ "${type}" = 'tag' ]; then
+              sha=$(gh api "repos/${REPO}/git/tags/${sha}" --jq '.object.sha')
+            fi
+          else
+            sha=$(gh api "repos/${REPO}/commits/${ref}" --jq '.sha')
+          fi
+
+          if gh api "repos/${REPO}/git/ref/tags/${major}" >/dev/null 2>&1; then
+            gh api -X PATCH "repos/${REPO}/git/refs/tags/${major}" -f "sha=${sha}" -F force=true >/dev/null
+          else
+            gh api -X POST "repos/${REPO}/git/refs" -f "ref=refs/tags/${major}" -f "sha=${sha}" >/dev/null
+          fi
+
+          echo "::notice::${major} now points at ${sha} (${ref})."

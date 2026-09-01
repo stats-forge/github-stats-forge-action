@@ -37,14 +37,14 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
-      - uses: stats-forge/github-stats-forge-action@v1
+      - uses: stats-forge/github-stats-forge-action@v0
         with:
           card: stats
           options: '?username=octocat&show_icons=true&theme=dark'
           path: profile/stats.svg
           token: ${{ secrets.STATS_PAT }}
 
-      - uses: stats-forge/github-stats-forge-action@v1
+      - uses: stats-forge/github-stats-forge-action@v0
         with:
           card: top-langs
           options: '?username=octocat&layout=compact'

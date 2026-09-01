@@ -1,0 +1,75 @@
+name: Release
+
+# Release-please keeps a release PR open with the pending bump and changelog.
+# Merging it is what tags and publishes.
+#
+# workflow_run is restricted to the main branch and guarded at the job level
+# with `github.event.workflow_run.head_repository.full_name == github.repository`
+# to prevent fork PRs from triggering the release job.
+on:
+  workflow_run: # zizmor: ignore[dangerous-triggers]
+    workflows:
+      - CI
+    types:
+      - completed
+    branches:
+      - main
+
+permissions: {}
+
+concurrency:
+  group: '${{ github.workflow }}-${{ github.ref }}'
+  cancel-in-progress: false
+
+jobs:
+  release:
+    name: Release
+    environment: release
+
+    if: ${{ github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_repository.full_name == github.repository }}
+
+    runs-on: ubuntu-latest
+
+    timeout-minutes: 5
+
+    permissions:
+      contents: write # required to create releases and tags
+      pull-requests: write # required to create and update release PRs
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      # A GitHub App token, not GITHUB_TOKEN.
+      # Events from the default token do not start other workflows, so CI would
+      # never run on the release PR.
+      - name: Setup release helper
+        id: release-helper
+        uses: marcalexiei/github-actions/setup-github-app-user-bot@d5a5561c7caea4f18642f3967aad095af51c3905 # v2.1.0
+        with:
+          app-id: ${{ vars.RELEASE_HELPER_APP_ID }}
+          private-key: ${{ secrets.RELEASE_HELPER_PRIVATE_KEY }}
+
+      - name: Configure git user for GitHub App
+        run: |
+          git config --global user.name '${BOT_NAME}'
+          git config --global user.email '${BOT_EMAIL}'
+        env:
+          BOT_NAME: ${{ steps.release-helper.outputs.bot-name }}
+          BOT_EMAIL: ${{ steps.release-helper.outputs.bot-email }}
+
+      - name: Release please
+        uses: googleapis/release-please-action@45996ed1f6d02564a971a2fa1b5860e934307cf7 # v5.0.0
+        with:
+          token: ${{ steps.release-helper.outputs.token }}
+          config-file: release-please-config.json
+          manifest-file: release-please-manifest.json
+
+  on-ci-fail:
+    name: 'Failure'
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'failure' }}
+    steps:
+      - run: echo "CI failed. Release will not run"
