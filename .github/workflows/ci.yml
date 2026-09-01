@@ -5,6 +5,8 @@ on:
     branches: [main]
   pull_request:
 
+permissions: {}
+
 jobs:
   code-checks:
     name: Code checks
@@ -12,21 +14,29 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-      - uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6.0.10
-      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          node-version-file: package.json
-          cache: pnpm
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm format:check
-      - run: pnpm typecheck
-      - run: pnpm lint:knip
+          persist-credentials: false
+
+      - name: Install dependencies
+        uses: marcalexiei/github-actions/setup-node-and-pnpm@e3b04865510c657477cc722854b31a3b74c72c09 # v2.2.0
+
+      - name: Format
+        run: pnpm run format:check
+
+      - name: Typecheck
+        run: pnpm run typecheck
+
+      - name: Lint
+        run: pnpm run lint:knip
 
       # The committed bundle must match the sources it was built from.
       # Otherwise the action ships code nobody reviewed.
       # Built before the tests, so the bundle they exercise is this commit's.
-      - run: pnpm build
+      - name: Build the bundle
+        run: pnpm run build
+
       - name: Fail if dist/ is stale
         # `--intent-to-add` stages the paths without their content, putting a
         # never-committed dist/ into the diff.
@@ -39,7 +49,8 @@ jobs:
             exit 1
           }
 
-      - run: pnpm test
+      - name: Test
+        run: pnpm run test
 
   action:
     name: Action renders a card
@@ -47,7 +58,10 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
       - name: Generate stats card
         id: generate

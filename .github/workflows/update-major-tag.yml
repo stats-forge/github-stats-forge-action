@@ -1,13 +1,9 @@
 name: Update major tag
-run-name: ${{ github.event_name == 'workflow_dispatch' && format('Move {0} to {1}', inputs.major_version, inputs.target) || format('Move the major tag to {0}', github.event.release.tag_name) }}
+run-name: Move ${{ inputs.major_version || 'the major tag' }} to ${{ inputs.target || github.event.release.tag_name }}
 
 # The README tells people to pin `@v0`.
-# Release-please only ever creates the exact-version tag, so the floating major
-# is moved here.
-#
-# On a release this runs by itself.
-# The dispatch is the way back: point a major at an earlier release when one
-# turns out bad.
+# Release-please only creates the exact-version tag, so the floating major is
+# moved here: automatically on a release, by hand to roll a bad one back.
 on:
   release:
     types:
@@ -29,10 +25,6 @@ on:
 
 permissions: {}
 
-concurrency:
-  group: '${{ github.workflow }}-${{ github.ref }}'
-  cancel-in-progress: false
-
 jobs:
   update-major-tag:
     name: Update major tag
@@ -46,22 +38,20 @@ jobs:
 
     timeout-minutes: 5
 
-    # No `permissions:` block: the push uses the app token below, so GITHUB_TOKEN
-    # needs nothing and inherits the empty set above.
-
     steps:
-      # The same bot that opens the release PR, for the same reason release.yml
-      # uses it: GITHUB_TOKEN is not guaranteed to be able to write here.
+      # The same bot release.yml uses, for the same reason: GITHUB_TOKEN is not
+      # guaranteed to be able to write here.
       - name: Setup release helper
         id: release-helper
-        uses: marcalexiei/github-actions/setup-github-app-user-bot@d5a5561c7caea4f18642f3967aad095af51c3905 # v2.1.0
+        uses: marcalexiei/github-actions/setup-github-app-user-bot@e3b04865510c657477cc722854b31a3b74c72c09 # v2.2.0
         with:
           app-id: ${{ vars.RELEASE_HELPER_APP_ID }}
           private-key: ${{ secrets.RELEASE_HELPER_PRIVATE_KEY }}
 
       # Credentials are persisted on purpose: the push below needs them.
       # This doubles as a rollback tool, so keep the pin a release or two back.
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1 # zizmor: ignore[artipacked]
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1 # zizmor: ignore[artipacked]
         with:
           token: ${{ steps.release-helper.outputs.token }}
           fetch-depth: 0
@@ -75,26 +65,20 @@ jobs:
           tag="${INPUT_TARGET:-$RELEASE_TAG}"
           major="${INPUT_MAJOR:-${tag%%.*}}"
 
+          # One pattern, two guarantees: the target is a vX.Y.Z release tag, and
+          # it is on the major being moved. A dispatch can fail both; a release
+          # derives the major from the tag, so it can only fail the first.
           case "${tag}" in
-            v[0-9]*.[0-9]*.[0-9]*) ;;
+            "${major}".[0-9]*.[0-9]*) ;;
             *)
-              # A release of some other tag is not this workflow's business, but
-              # a dispatch asked for a move and has to be told it cannot happen.
-              if [ -n "${INPUT_TARGET}" ]; then
-                echo "::error::${tag} is not a vX.Y.Z release tag."
+              [ -z "${INPUT_TARGET}" ] || {
+                echo "::error::${tag} is not a ${major}.x.y release tag."
                 exit 1
-              fi
-              echo "::notice::${tag} is not a vX.Y.Z release tag, so there is no major to move."
+              }
+              echo "::notice::${tag} is not a release tag, so there is no major to move."
               exit 0
               ;;
           esac
-
-          # `major_version` is a choice and cannot be mistyped, but it can still
-          # name the wrong line. The target's own major is the authority.
-          if [ "${major}" != "${tag%%.*}" ]; then
-            echo "::error::${tag} is not on the ${major} line."
-            exit 1
-          fi
 
           # A lightweight tag needs no git identity.
           # `^{}` resolves an annotated target to its commit, and force covers

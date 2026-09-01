@@ -47,7 +47,7 @@ jobs:
       # never run on the release PR.
       - name: Setup release helper
         id: release-helper
-        uses: marcalexiei/github-actions/setup-github-app-user-bot@d5a5561c7caea4f18642f3967aad095af51c3905 # v2.1.0
+        uses: marcalexiei/github-actions/setup-github-app-user-bot@e3b04865510c657477cc722854b31a3b74c72c09 # v2.2.0
         with:
           app-id: ${{ vars.RELEASE_HELPER_APP_ID }}
           private-key: ${{ secrets.RELEASE_HELPER_PRIVATE_KEY }}
@@ -72,4 +72,5 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ github.event.workflow_run.conclusion == 'failure' }}
     steps:
-      - run: echo "CI failed. Release will not run"
+      - name: Report the skipped release
+        run: echo "CI failed. Release will not run"
