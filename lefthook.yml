@@ -12,5 +12,13 @@ pre-commit:
       # a file oxfmt rewrote goes into the same commit, not left dirty
       stage_fixed: true
 
+    - name: build
+      glob:
+        - 'src/**'
+        - 'package.json'
+        - 'pnpm-lock.yaml'
+      # the bundle ships from the repo, so it belongs in the commit that changed it
+      run: pnpm run build && git add dist/
+
     - name: test
       run: pnpm test
