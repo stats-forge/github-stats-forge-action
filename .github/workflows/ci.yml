@@ -28,7 +28,11 @@ jobs:
       - name: Typecheck
         run: pnpm run typecheck
 
+      # `--format=github` turns findings into annotations on the diff.
       - name: Lint
+        run: pnpm run lint:oxlint:ci
+
+      - name: Unused files, exports and dependencies
         run: pnpm run lint:knip
 
       # The committed bundle must match the sources it was built from.

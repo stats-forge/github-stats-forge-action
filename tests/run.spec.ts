@@ -2,19 +2,27 @@ import { mkdtemp, readFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 
+import type { InputOptions, info, setOutput, warning } from '@actions/core';
+import type { ApiResult } from '@stats-forge/github-stats-forge-core/api';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import type { Mock } from 'vitest';
 
 // `vi.mock` is hoisted above this import, so `action.ts` sees the doubles.
 import { run } from '../src/action.js';
 
+/** Every card handler, as loosely as the action calls one. */
+type Handler = (query: unknown, config: unknown) => Promise<ApiResult>;
+
 const mocks = vi.hoisted(() => {
-  const success = { status: 'success', content: '<svg>card</svg>' };
-  const card = () => vi.fn(async () => success as unknown);
+  const success: ApiResult = { status: 'success', content: '<svg>card</svg>' };
+  const card = (): Mock<Handler> => vi.fn<Handler>(() => Promise.resolve(success));
   return {
     inputs: new Map<string, string>(),
-    /** Every `CardConfig` the action constructed, in order. */
-    configs: [] as unknown[],
-    core: { info: vi.fn(), setOutput: vi.fn(), warning: vi.fn() },
+    core: {
+      info: vi.fn<typeof info>(),
+      setOutput: vi.fn<typeof setOutput>(),
+      warning: vi.fn<typeof warning>(),
+    },
     handlers: {
       stats: card(),
       topLangs: card(),
@@ -25,9 +33,9 @@ const mocks = vi.hoisted(() => {
   };
 });
 
-vi.mock('@actions/core', () => ({
+vi.mock(import('@actions/core'), () => ({
   ...mocks.core,
-  getInput: (name: string, options?: { required?: boolean }) => {
+  getInput: (name: string, options?: InputOptions): string => {
     const value = mocks.inputs.get(name) ?? '';
     if (!value && options?.required) {
       throw new Error(`Input required and not supplied: ${name}`);
@@ -36,40 +44,45 @@ vi.mock('@actions/core', () => ({
   },
 }));
 
-vi.mock('@stats-forge/github-stats-forge-core/api', () => ({
-  ...mocks.handlers,
-  CardConfig: class {
-    constructor(options: unknown) {
-      mocks.configs.push(options);
-    }
-  },
-}));
+// Only the handlers are doubled: the real `CardConfig` is what the action builds,
+// and `Object.assign` keeps the metadata each handler carries, e.g.
+// `stats.RANK_ICONS`.
+vi.mock(import('@stats-forge/github-stats-forge-core/api'), async (importOriginal) => {
+  const actual = await importOriginal();
+  return {
+    ...actual,
+    stats: Object.assign(mocks.handlers.stats, actual.stats),
+    topLangs: Object.assign(mocks.handlers.topLangs, actual.topLangs),
+    pin: Object.assign(mocks.handlers.pin, actual.pin),
+    wakatime: Object.assign(mocks.handlers.wakatime, actual.wakatime),
+    gist: Object.assign(mocks.handlers.gist, actual.gist),
+  };
+});
 
 let workdir: string;
-
-beforeEach(async () => {
-  workdir = await mkdtemp(path.join(tmpdir(), 'stats-forge-action-'));
-  vi.spyOn(process, 'cwd').mockReturnValue(workdir);
-  // Set on every GitHub runner.
-  // A test that does not want the fallback has to say so, or CI and a laptop
-  // disagree.
-  vi.stubEnv('GITHUB_REPOSITORY_OWNER', '');
-  mocks.inputs.clear();
-  mocks.inputs.set('card', 'stats');
-  mocks.inputs.set('options', 'username=octocat');
-});
-
-afterEach(() => {
-  mocks.configs.length = 0;
-  vi.unstubAllEnvs();
-  vi.restoreAllMocks();
-  vi.clearAllMocks();
-});
 
 const writtenCard = (relativePath: string): Promise<string> =>
   readFile(path.join(workdir, relativePath), 'utf8');
 
-describe('run', () => {
+describe(run, () => {
+  beforeEach(async () => {
+    workdir = await mkdtemp(path.join(tmpdir(), 'stats-forge-action-'));
+    vi.spyOn(process, 'cwd').mockReturnValue(workdir);
+    // Set on every GitHub runner.
+    // A test that does not want the fallback has to say so, or CI and a laptop
+    // disagree.
+    vi.stubEnv('GITHUB_REPOSITORY_OWNER', '');
+    mocks.inputs.clear();
+    mocks.inputs.set('card', 'stats');
+    mocks.inputs.set('options', 'username=octocat');
+  });
+
+  afterEach(() => {
+    vi.unstubAllEnvs();
+    vi.restoreAllMocks();
+    vi.clearAllMocks();
+  });
+
   it('writes the rendered card to the requested path', async () => {
     mocks.inputs.set('path', 'profile/stats.svg');
 
@@ -108,7 +121,7 @@ describe('run', () => {
 
     await run();
 
-    expect(mocks.handlers.gist).toHaveBeenCalledOnce();
+    expect(mocks.handlers.gist).toHaveBeenCalledTimes(1);
     expect(mocks.handlers.stats).not.toHaveBeenCalled();
   });
 
@@ -117,7 +130,7 @@ describe('run', () => {
 
     await run();
 
-    expect(mocks.handlers.topLangs).toHaveBeenCalledOnce();
+    expect(mocks.handlers.topLangs).toHaveBeenCalledTimes(1);
   });
 
   it('passes the parsed options through to the handler', async () => {
@@ -136,15 +149,21 @@ describe('run', () => {
 
     await run();
 
-    expect(mocks.configs).toEqual([
-      { pats: [{ name: 'action input `token`', value: 'ghp_secret' }] },
-    ]);
+    expect(mocks.handlers.stats).toHaveBeenCalledWith(
+      expect.anything(),
+      expect.objectContaining({
+        pats: [{ name: 'action input `token`', value: 'ghp_secret' }],
+      }),
+    );
   });
 
   it('configures no PAT when no token was supplied', async () => {
     await run();
 
-    expect(mocks.configs).toEqual([{ pats: [] }]);
+    expect(mocks.handlers.stats).toHaveBeenCalledWith(
+      expect.anything(),
+      expect.objectContaining({ pats: [] }),
+    );
   });
 
   it('falls back to the repository owner, and says that it did', async () => {
@@ -197,7 +216,12 @@ describe('run', () => {
     mocks.handlers.stats.mockResolvedValueOnce({
       status: 'error',
       retryable: true,
-      error: { code: 'rate_limited', message: 'Maximum retries exceeded' },
+      error: {
+        code: 'rate_limited',
+        message: 'Maximum retries exceeded',
+        secondaryMessage: undefined,
+        param: undefined,
+      },
       content: '<svg>Something went wrong</svg>',
     });
 
@@ -211,7 +235,12 @@ describe('run', () => {
     mocks.handlers.stats.mockResolvedValueOnce({
       status: 'error',
       retryable: false,
-      error: { code: 'not_found', message: 'Could not fetch user' },
+      error: {
+        code: 'not_found',
+        message: 'Could not fetch user',
+        secondaryMessage: undefined,
+        param: undefined,
+      },
       content: '<svg>Something went wrong</svg>',
     });
 
@@ -225,6 +254,8 @@ describe('run', () => {
       error: {
         code: 'invalid_param',
         message: 'Invalid number input for parameter "border_radius"',
+        secondaryMessage: undefined,
+        param: 'border_radius',
       },
       content: '<svg>Something went wrong</svg>',
     });

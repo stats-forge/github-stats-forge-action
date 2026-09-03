@@ -8,6 +8,6 @@
   // present, dropping this makes it scan 1.1mb of CJS and report its requires.
   "ignore": ["dist/**"],
   "vitest": {
-    "entry": ["tests/*.test.ts"],
+    "entry": ["tests/*.spec.ts"],
   },
 }

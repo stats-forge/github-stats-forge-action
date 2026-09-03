@@ -1,6 +1,10 @@
 # No `packages:` key: this repo ships a single package.
 # The file exists for the settings below, shared with `github-stats-forge`.
 
+# The bundle ships from the repo, so a range would let `dist/` and the manifest
+# disagree about what was built.
+savePrefix: ''
+
 # `onlyBuiltDependencies` in pnpm 10; renamed and turned into a map in 11.
 allowBuilds:
   # Fetches a platform binary from a postinstall script.
@@ -16,6 +20,7 @@ minimumReleaseAge: 4320
 # behind every release we make ourselves.
 minimumReleaseAgeExclude:
   - '@stats-forge/*'
+  - '@marcalexiei/*'
 
 # Reject a version with weaker publish trust evidence than an earlier one.
 trustPolicy: no-downgrade
