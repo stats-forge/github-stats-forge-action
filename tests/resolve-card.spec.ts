@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 
 import { resolveCard } from '../src/action.js';
 
-describe('resolveCard', () => {
+describe(resolveCard, () => {
   it('resolves every card the action documents', () => {
     expect(resolveCard('stats', { username: 'octocat' })).toBeDefined();
     expect(resolveCard('top-langs', { username: 'octocat' })).toBeDefined();

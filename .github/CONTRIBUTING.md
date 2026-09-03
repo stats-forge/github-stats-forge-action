@@ -16,14 +16,15 @@ The cards come from `@stats-forge/github-stats-forge-core/api`, which esbuild in
 pnpm test         # vitest
 pnpm typecheck    # tsc
 pnpm format       # oxfmt, configured by @marcalexiei/oxfmt-config
+pnpm lint:oxlint  # oxlint, configured by @marcalexiei/oxlint-config
 pnpm lint:knip    # unused files, exports and dependencies
 ```
 
 The unit tests stub `@actions/core` and the renderer, so nothing reaches the network.
-`tests/dist.test.ts` runs the built bundle as a subprocess, and therefore needs a `pnpm build` first — it only exercises failure paths, since rendering a real card needs a token.
+`tests/dist.spec.ts` runs the built bundle as a subprocess, and therefore needs a `pnpm build` first — it only exercises failure paths, since rendering a real card needs a token.
 That path is covered by the `action` job in CI, which runs this action against itself.
 
-A `pre-commit` hook formats the staged files and runs the tests.
+A `pre-commit` hook formats and lints the staged files, then runs the tests.
 It is installed by `prepare`, so a fresh `pnpm install` is all it takes.
 
 ## The committed bundle

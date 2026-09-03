@@ -26568,6 +26568,9 @@ var parseOptions = (value) => {
     } catch {
       throw new Error("Invalid JSON in options.");
     }
+    if (typeof parsed !== "object" || parsed === null) {
+      throw new Error("Invalid JSON in options.");
+    }
     return Object.fromEntries(
       Object.entries(parsed).filter(([, entry]) => entry !== null && entry !== void 0).map(([key, entry]) => [key, Array.isArray(entry) ? entry.join(",") : String(entry)])
     );

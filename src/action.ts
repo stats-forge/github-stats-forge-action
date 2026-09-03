@@ -50,10 +50,13 @@ export const parseOptions = (value: string): Record<string, string> => {
   }
 
   if (trimmed.startsWith('{')) {
-    let parsed: Record<string, unknown>;
+    let parsed: unknown;
     try {
-      parsed = JSON.parse(trimmed) as Record<string, unknown>;
+      parsed = JSON.parse(trimmed);
     } catch {
+      throw new Error('Invalid JSON in options.');
+    }
+    if (typeof parsed !== 'object' || parsed === null) {
       throw new Error('Invalid JSON in options.');
     }
     return Object.fromEntries(
