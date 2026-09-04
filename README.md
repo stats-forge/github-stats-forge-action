@@ -76,7 +76,11 @@ Rendering in your own Actions run spends your own token budget, fails loudly in 
 
 `username` defaults to the repository owner when omitted.
 
-Output: `path` — where the SVG was written.
+## Outputs
+
+| Output | Description                                                |
+| ------ | ---------------------------------------------------------- |
+| `path` | Path the SVG was written to, as given in the `path` input. |
 
 ## Contributing
 
