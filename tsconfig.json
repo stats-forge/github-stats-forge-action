@@ -17,5 +17,12 @@
 
     "noEmit": true
   },
-  "include": ["src", "tests", "oxfmt.config.ts", "oxlint.config.ts", "vitest.config.ts"]
+  "include": [
+    "src",
+    "tests",
+    "esbuild.config.ts",
+    "oxfmt.config.ts",
+    "oxlint.config.ts",
+    "vitest.config.ts"
+  ]
 }

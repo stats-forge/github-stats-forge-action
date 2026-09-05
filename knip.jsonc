@@ -5,7 +5,7 @@
   "project": ["src/**/*.ts"],
   // Build output, not source.
   // knip hints "Remove from ignore" while `dist/` is absent, but with the bundle
-  // present, dropping this makes it scan 1.1mb of CJS and report its requires.
+  // present, dropping this makes it scan the whole bundle and report its requires.
   "ignore": ["dist/**"],
   "vitest": {
     "entry": ["tests/*.spec.ts"],

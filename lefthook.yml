@@ -22,6 +22,7 @@ pre-commit:
     - name: build
       glob:
         - 'src/**'
+        - 'esbuild.config.ts'
         - 'package.json'
         - 'pnpm-lock.yaml'
       # the bundle ships from the repo, so it belongs in the commit that changed it
