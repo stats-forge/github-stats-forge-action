@@ -19,8 +19,9 @@ minimumReleaseAge: 4320
 # It buys nothing against our own packages, and would hold the action three days
 # behind every release we make ourselves.
 minimumReleaseAgeExclude:
-  - '@stats-forge/*'
-  - '@marcalexiei/*'
+  - '@stats-forge/github-stats-forge-core'
+  - '@marcalexiei/oxfmt-config'
+  - '@marcalexiei/oxlint-config'
 
 # Reject a version with weaker publish trust evidence than an earlier one.
 trustPolicy: no-downgrade
