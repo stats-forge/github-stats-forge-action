@@ -1,6 +1,6 @@
 {
   "name": "github-stats-forge-action",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "private": true,
   "description": "Generate GitHub stats cards in GitHub Actions",
   "license": "MIT",
