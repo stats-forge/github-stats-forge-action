@@ -69,7 +69,7 @@ jobs:
 
       - name: Generate stats card
         id: generate
-        uses: ./
+        uses: $/
         with:
           card: stats
           options: username=octocat
@@ -79,7 +79,9 @@ jobs:
       # A render failure already fails the step above.
       # This guards the case that stays silent: a file that is not an SVG.
       - name: Assert an SVG was written
-        run: grep -q "<svg" "${{ steps.generate.outputs.path }}"
+        env:
+          CARD_PATH: ${{ steps.generate.outputs.path }}
+        run: grep -q "<svg" "${CARD_PATH}"
         shell: bash
 
   ci-ok:
