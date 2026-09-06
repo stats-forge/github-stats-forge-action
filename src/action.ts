@@ -7,6 +7,7 @@ import { getInput, info, setOutput, warning } from '@actions/core';
 // action tag pins the version.
 import {
   CardConfig,
+  contributedTo,
   gist,
   pin,
   stats,
@@ -30,6 +31,7 @@ const CARDS = {
   pin: { handler: pin, requires: 'repo' },
   wakatime: { handler: wakatime, requires: 'username' },
   gist: { handler: gist, requires: 'id' },
+  'contributed-to': { handler: contributedTo, requires: 'username' },
 } satisfies Record<string, CardDefinition>;
 
 type CardName = keyof typeof CARDS;

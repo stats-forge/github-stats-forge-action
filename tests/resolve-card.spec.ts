@@ -3,17 +3,20 @@ import { describe, expect, it } from 'vitest';
 import { resolveCard } from '../src/action.js';
 
 describe(resolveCard, () => {
-  it('resolves every card the action documents', () => {
-    expect(resolveCard('stats', { username: 'octocat' })).toBeDefined();
-    expect(resolveCard('top-langs', { username: 'octocat' })).toBeDefined();
-    expect(resolveCard('pin', { repo: 'github-stats-forge' })).toBeDefined();
-    expect(resolveCard('wakatime', { username: 'octocat' })).toBeDefined();
-    expect(resolveCard('gist', { id: 'bbfce31e0217a3689c8d' })).toBeDefined();
+  it.each([
+    ['stats', { username: 'octocat' }],
+    ['top-langs', { username: 'octocat' }],
+    ['pin', { repo: 'github-stats-forge' }],
+    ['wakatime', { username: 'octocat' }],
+    ['gist', { id: 'bbfce31e0217a3689c8d' }],
+    ['contributed-to', { username: 'octocat' }],
+  ])('resolves the %s card the action documents', (card, options) => {
+    expect(resolveCard(card, options)).toBeDefined();
   });
 
   it('names the supported cards when given one it does not know', () => {
     expect(() => resolveCard('stat', { username: 'octocat' })).toThrow(
-      'Unsupported card type: stat. Expected one of stats, top-langs, pin, wakatime, gist.',
+      'Unsupported card type: stat. Expected one of stats, top-langs, pin, wakatime, gist, contributed-to.',
     );
   });
 

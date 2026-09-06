@@ -2874,7 +2874,49 @@ child)}return`${openTag(node,false)}${inner}</${node.tag}>`};var write=(node,dep
 `;return}sink.out+=`${indent}${openTag(node,false)}
 `;const bodyStart=sink.out.length;for(const child of children){write(child,depth+1,sink)}sink.out=sink.out.length===bodyStart?`${sink.out.slice(0,mark)}${indent}${openTag(node,true)}
 `:`${sink.out}${indent}</${node.tag}>
-`};var renderMarkup=root=>{const sink={out:""};write(root,0,sink);return sink.out};var themes={default:{title_color:"2f80ed",icon_color:"4c71f2",text_color:"434d58",bg_color:"fffefe"},default_repocard:{title_color:"2f80ed",icon_color:"586069",text_color:"434d58",bg_color:"fffefe"},light_github:{
+`};var renderMarkup=root=>{const sink={out:""};write(root,0,sink);return sink.out};var icons={star:el("path",{"fill-rule":"evenodd",d:"M8 .25a.75.75 0 01.673.418l1.882 3.815 4.21.612a.75.75 0 01.416 1.279l-3.046 2.97.719 4.192a.75.75 0 01-1.088.791L8 12.347l-3.766 1.98a.75.75 0 01-1\
+.088-.79l.72-4.194L.818 6.374a.75.75 0 01.416-1.28l4.21-.611L7.327.668A.75.75 0 018 .25zm0 2.445L6.615 5.5a.75.75 0 01-.564.41l-3.097.45 2.24 2.184a.75.75 0 01.216.664l-.528 3.084 2.769-1.456a.75.75 0\
+ 01.698 0l2.77 1.456-.53-3.084a.75.75 0 01.216-.664l2.24-2.183-3.096-.45a.75.75 0 01-.564-.41L8 2.694v.001z"}),commits:el("path",{"fill-rule":"evenodd",d:"M1.643 3.143L.427 1.927A.25.25 0 000 2.104V5.\
+75c0 .138.112.25.25.25h3.646a.25.25 0 00.177-.427L2.715 4.215a6.5 6.5 0 11-1.18 4.458.75.75 0 10-1.493.154 8.001 8.001 0 101.6-5.684zM7.75 4a.75.75 0 01.75.75v2.992l2.028.812a.75.75 0 01-.557 1.392l-2\
+.5-1A.75.75 0 017 8.25v-3.5A.75.75 0 017.75 4z"}),prs:el("path",{"fill-rule":"evenodd",d:"M7.177 3.073L9.573.677A.25.25 0 0110 .854v4.792a.25.25 0 01-.427.177L7.177 3.427a.25.25 0 010-.354zM3.75 2.5a.\
+75.75 0 100 1.5.75.75 0 000-1.5zm-2.25.75a2.25 2.25 0 113 2.122v5.256a2.251 2.251 0 11-1.5 0V5.372A2.25 2.25 0 011.5 3.25zM11 2.5h-1V4h1a1 1 0 011 1v5.628a2.251 2.251 0 101.5 0V5A2.5 2.5 0 0011 2.5zm1\
+ 10.25a.75.75 0 111.5 0 .75.75 0 01-1.5 0zM3.75 12a.75.75 0 100 1.5.75.75 0 000-1.5z"}),prs_merged:el("path",{"fill-rule":"evenodd",d:"M5.45 5.154A4.25 4.25 0 0 0 9.25 7.5h1.378a2.251 2.251 0 1 1 0 1.\
+5H9.25A5.734 5.734 0 0 1 5 7.123v3.505a2.25 2.25 0 1 1-1.5 0V5.372a2.25 2.25 0 1 1 1.95-.218ZM4.25 13.5a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm8.5-4.5a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5ZM5 3.25a.75.7\
+5 0 1 0 0 .005V3.25Z"}),prs_merged_percentage:el("path",{"fill-rule":"evenodd",d:"M13.442 2.558a.625.625 0 0 1 0 .884l-10 10a.625.625 0 1 1-.884-.884l10-10a.625.625 0 0 1 .884 0zM4.5 6a1.5 1.5 0 1 1 0\
+-3 1.5 1.5 0 0 1 0 3zm0 1a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zm7 6a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm0 1a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"}),issues:el("path",{"fill-rule":"evenodd",d:"M8 1.5a6.\
+5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8zm9 3a1 1 0 11-2 0 1 1 0 012 0zm-.25-6.25a.75.75 0 00-1.5 0v3.5a.75.75 0 001.5 0v-3.5z"}),repo:el("path",{"fill-rule":"evenodd",d:"M2 2.5A2\
+.5 2.5 0 014.5 0h8.75a.75.75 0 01.75.75v12.5a.75.75 0 01-.75.75h-2.5a.75.75 0 110-1.5h1.75v-2h-8a1 1 0 00-.714 1.7.75.75 0 01-1.072 1.05A2.495 2.495 0 012 11.5v-9zm10.5-1V9h-8c-.356 0-.694.074-1 .208V\
+2.5a1 1 0 011-1h8zM5 12.25v3.25a.25.25 0 00.4.2l1.45-1.087a.25.25 0 01.3 0L8.6 15.7a.25.25 0 00.4-.2v-3.25a.25.25 0 00-.25-.25h-3.5a.25.25 0 00-.25.25z"}),fork:el("path",{"fill-rule":"evenodd",d:"M5 3\
+.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm0 2.122a2.25 2.25 0 10-1.5 0v.878A2.25 2.25 0 005.75 8.5h1.5v2.128a2.251 2.251 0 101.5 0V8.5h1.5a2.25 2.25 0 002.25-2.25v-.878a2.25 2.25 0 10-1.5 0v.878a.75.75 \
+0 01-.75.75h-4.5A.75.75 0 015 6.25v-.878zm3.75 7.378a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm3-8.75a.75.75 0 100-1.5.75.75 0 000 1.5z"}),reviews:el("path",{"fill-rule":"evenodd",d:"M8 2c1.981 0 3.671.992 \
+4.933 2.078 1.27 1.091 2.187 2.345 2.637 3.023a1.62 1.62 0 0 1 0 1.798c-.45.678-1.367 1.932-2.637 3.023C11.67 13.008 9.981 14 8 14c-1.981 0-3.671-.992-4.933-2.078C1.797 10.83.88 9.576.43 8.898a1.62 1.\
+62 0 0 1 0-1.798c.45-.677 1.367-1.931 2.637-3.022C4.33 2.992 6.019 2 8 2ZM1.679 7.932a.12.12 0 0 0 0 .136c.411.622 1.241 1.75 2.366 2.717C5.176 11.758 6.527 12.5 8 12.5c1.473 0 2.825-.742 3.955-1.715 \
+1.124-.967 1.954-2.096 2.366-2.717a.12.12 0 0 0 0-.136c-.412-.621-1.242-1.75-2.366-2.717C10.824 4.242 9.473 3.5 8 3.5c-1.473 0-2.825.742-3.955 1.715-1.124.967-1.954 2.096-2.366 2.717ZM8 10a2 2 0 1 1-.\
+001-3.999A2 2 0 0 1 8 10Z"}),discussions_started:el("path",{"fill-rule":"evenodd",d:"M1.75 1h8.5c.966 0 1.75.784 1.75 1.75v5.5A1.75 1.75 0 0 1 10.25 10H7.061l-2.574 2.573A1.458 1.458 0 0 1 2 11.543V10\
+h-.25A1.75 1.75 0 0 1 0 8.25v-5.5C0 1.784.784 1 1.75 1ZM1.5 2.75v5.5c0 .138.112.25.25.25h1a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h3.5a.25.25 0 0 0 .25-.25v-5.5a.25.25 0 0 0-.25-.25h\
+-8.5a.25.25 0 0 0-.25.25Zm13 2a.25.25 0 0 0-.25-.25h-.5a.75.75 0 0 1 0-1.5h.5c.966 0 1.75.784 1.75 1.75v5.5A1.75 1.75 0 0 1 14.25 12H14v1.543a1.458 1.458 0 0 1-2.487 1.03L9.22 12.28a.749.749 0 0 1 .32\
+6-1.275.749.749 0 0 1 .734.215l2.22 2.22v-2.19a.75.75 0 0 1 .75-.75h1a.25.25 0 0 0 .25-.25Z"}),discussions_answered:el("path",{"fill-rule":"evenodd",d:"M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.7\
+5 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z"}),comments:el("path",{d:"M1 2.75C1 1.784 1.784 1 2.75 1h10.5c.966 0 1.75.784 1.75 1.\
+75v7.5A1.75 1.75 0 0 1 13.25 12H9.06l-2.573 2.573A1.458 1.458 0 0 1 4 13.543V12H2.75A1.75 1.75 0 0 1 1 10.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a\
+.749.749 0 0 1 .53-.22h4.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"}),contributions:el("path",{d:"M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0Zm7.25-3.25v2.5h\
+2.5a.75.75 0 0 1 0 1.5h-2.5v2.5a.75.75 0 0 1-1.5 0v-2.5h-2.5a.75.75 0 0 1 0-1.5h2.5v-2.5a.75.75 0 0 1 1.5 0Z"}),gist:el("path",{"fill-rule":"evenodd",d:"M0 1.75C0 .784.784 0 1.75 0h12.5C15.216 0 16 .7\
+84 16 1.75v12.5A1.75 1.75 0 0 1 14.25 16H1.75A1.75 1.75 0 0 1 0 14.25Zm1.75-.25a.25.25 0 0 0-.25.25v12.5c0 .138.112.25.25.25h12.5a.25.25 0 0 0 .25-.25V1.75a.25.25 0 0 0-.25-.25Zm7.47 3.97a.75.75 0 0 1\
+ 1.06 0l2 2a.75.75 0 0 1 0 1.06l-2 2a.749.749 0 0 1-1.275-.326.749.749 0 0 1 .215-.734L10.69 8 9.22 6.53a.75.75 0 0 1 0-1.06ZM6.78 6.53 5.31 8l1.47 1.47a.749.749 0 0 1-.326 1.275.749.749 0 0 1-.734-.2\
+15l-2-2a.75.75 0 0 1 0-1.06l2-2a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042Z"}),pulse:el("path",{d:"M6 2c.306 0 .582.187.696.471L10 10.731l1.304-3.26A.751.751 0 0 1 12 7h3.25a.75.75 0 0 1 0 1.5h\
+-2.742l-1.812 4.529a.751.751 0 0 1-1.392 0L6 4.769l-1.304 3.26A.751.751 0 0 1 4 8.5H.75a.75.75 0 0 1 0-1.5h2.742l1.812-4.529A.751.751 0 0 1 6 2Z"}),code:el("path",{d:"M4.72 3.22a.75.75 0 0 1 1.06 1.06\
+L2.06 8l3.72 3.72a.75.75 0 1 1-1.06 1.06L.47 8.53a.75.75 0 0 1 0-1.06Zm6.56 0a.75.75 0 1 0-1.06 1.06L13.94 8l-3.72 3.72a.75.75 0 1 0 1.06 1.06l4.25-4.25a.75.75 0 0 0 0-1.06Z"}),clock:el("path",{d:"M8 \
+0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0Zm7-3.25v2.992l2.028.812a.75.75 0 0 1-.557 1.392l-2.5-1A.75.75 0 0 1 7 8.25v-3.5a.75.75 0 0 1 1.5 0Z"})};var RANK_TEXT={x:-5,
+"alignment-baseline":"central","dominant-baseline":"central","text-anchor":"middle"};var rankIcon=(kind,rankLevel,percentile)=>{switch(kind){case"github":{return el("svg",{x:-38,y:-30,height:66,width:66,
+"aria-hidden":"true",viewBox:"0 0 16 16",version:"1.1","data-view-component":"true","data-testid":"github-rank-icon"},el("path",{d:"M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.5\
+5-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2\
+-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.\
+16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"}))}case"percentile":{return[el("text",{...RANK_TEXT,y:-12,"data-testid":"percentile-top-header",
+class:"rank-percentile-header"},"Top"),el("text",{...RANK_TEXT,y:12,"data-testid":"percentile-rank-value",class:"rank-percentile-text"},`${percentile.toFixed(1)}%`)]}case"default":default:{return el("\
+text",{...RANK_TEXT,y:3,"data-testid":"level-rank-icon"},rankLevel)}}};var FONT_STACK=`'Segoe UI', Ubuntu, "Helvetica Neue", Sans-Serif`;var FONT_SIZE={display:22,title:18,lead:16,body:14,meta:13,small:12,micro:11};var TITLE_FIREFOX_SIZE=15.5;var FONT_WEIGHT={regular:400,
+semibold:600,bold:700};var font=(weight,size)=>`${String(FONT_WEIGHT[weight])} ${String(FONT_SIZE[size])}px ${FONT_STACK}`;var firefoxFontSize=(selectors,size)=>{const px=typeof size==="number"?size:FONT_SIZE[size];
+return atRule("@supports(-moz-appearance: auto)",cssComment("Selector detects Firefox"),selectors.map(selector=>rule(selector,{"font-size":`${String(px)}px`})))};var CARD_WIDTH={compact:300,standard:400,
+wide:500};var TITLE_BAND={opacity:.08,gap:9};var ACCENT={width:32,height:2,y:8};var CARD_ICON={contributedTo:icons.prs_merged,gist:icons.gist,repo:icons.repo,stats:icons.pulse,topLanguages:icons.code,
+wakatime:icons.clock};var themes={default:{title_color:"2f80ed",icon_color:"4c71f2",text_color:"434d58",bg_color:"fffefe"},default_repocard:{title_color:"2f80ed",icon_color:"586069",text_color:"434d58",bg_color:"fffefe"},light_github:{
 title_color:"0969da",icon_color:"0969da",text_color:"59636e",bg_color:"ffffff",border_color:"d1d9e0"},dark_github:{title_color:"4493f8",icon_color:"4493f8",text_color:"9198a1",bg_color:"0d1117",border_color:"\
 3d444d"},light_github_repocard:{title_color:"0969da",icon_color:"59636e",text_color:"59636e",bg_color:"ffffff",border_color:"d1d9e0"},dark_github_repocard:{title_color:"4493f8",icon_color:"9198a1",text_color:"\
 9198a1",bg_color:"0d1117",border_color:"3d444d"},transparent:{title_color:"006AFF",icon_color:"0579C3",text_color:"417E87",bg_color:"ffffff00"},shadow_red:{title_color:"9A0000",text_color:"444",icon_color:"\
@@ -2928,7 +2970,7 @@ prog_bar_bg_color,"#ddd");if(typeof titleColor!=="string"||typeof textColor!=="s
 const colors={};for(const key of BASE_COLOR_KEYS){const value=params[`${key}${suffix}`];if(value!==void 0){colors[key]=value}}return colors};var MODE_OVERRIDE_KEYS=THEME_VARIANTS.flatMap(variant=>BASE_COLOR_KEYS.
 map(key=>`${key}_${variant}`));var getLightDarkColors=params=>{if(!MODE_OVERRIDE_KEYS.some(key=>params[key]!==void 0)){return{lightColors:getCardColors(params),darkColors:null}}return{lightColors:getCardColors(
 {...params,...extractLightDarkColors(params,"_light")}),darkColors:getCardColors({...params,...extractLightDarkColors(params,"_dark")})}};var COLOR_PARAM_KEYS=[...BASE_COLOR_KEYS,...THEME_VARIANTS.flatMap(
-variant=>BASE_COLOR_KEYS.map(key=>`${key}_${variant}`))];var THEME_PARAM_KEYS=["theme",...THEME_VARIANTS.map(variant=>`theme_${variant}`)];var GITHUB_USERNAME_PATTERN=/^[a-z\d](?:[a-z\d]|-(?=[a-z\d])){0,38}$/i;var OWNER_AFFILIATIONS=["OWNER","COLLABORATOR","ORGANIZATION_MEMBER"];var TRY_AGAIN_LATER="Please try again later";var RETRYABLE={invalid_param:false,missing_param:false,not_found:false,no_tokens:false,rate_limited:true,upstream:true};var SECONDARY_ERROR_MESSAGES={rate_limited:"\
+variant=>BASE_COLOR_KEYS.map(key=>`${key}_${variant}`))];var THEME_PARAM_KEYS=["theme",...THEME_VARIANTS.map(variant=>`theme_${variant}`)];var GITHUB_EPOCH_YEAR=2008;var GITHUB_USERNAME_PATTERN=/^[a-z\d](?:[a-z\d]|-(?=[a-z\d])){0,38}$/i;var OWNER_AFFILIATIONS=["OWNER","COLLABORATOR","ORGANIZATION_MEMBER"];var TRY_AGAIN_LATER="Please try again later";var RETRYABLE={invalid_param:false,missing_param:false,not_found:false,no_tokens:false,rate_limited:true,upstream:true};var SECONDARY_ERROR_MESSAGES={rate_limited:"\
 You can deploy own instance or wait until public will be no longer limited",no_tokens:"Please add an env variable called PAT_1 with your GitHub API token in your deployment environment",upstream:TRY_AGAIN_LATER};
 var CardError=class _CardError extends Error{code;secondaryMessage;param;constructor(message,init){super(message);this.name="CardError";this.code=init.code;this.param=init.param;this.secondaryMessage=
 init.secondaryMessage??SECONDARY_ERROR_MESSAGES[init.code]}get retryable(){return RETRYABLE[this.code]}static invalidParam(param,secondaryMessage){return new _CardError("Something went wrong",{code:"i\
@@ -3196,13 +3238,12 @@ woman_playing_handball:"\u{1F93E}\u200D\u2640\uFE0F",woman_playing_water_polo:"\
 yarn:"\u{1F9F6}",yawning_face:"\u{1F971}",yellow_circle:"\u{1F7E1}",yellow_heart:"\u{1F49B}",yellow_square:"\u{1F7E8}",yemen:"\u{1F1FE}\u{1F1EA}",yen:"\u{1F4B4}",yin_yang:"\u262F\uFE0F",yo_yo:"\u{1FA80}",
 yum:"\u{1F60B}",zambia:"\u{1F1FF}\u{1F1F2}",zany_face:"\u{1F92A}",zap:"\u26A1\uFE0F",zebra:"\u{1F993}",zero:"0\uFE0F\u20E3",zimbabwe:"\u{1F1FF}\u{1F1FC}",zipper_mouth_face:"\u{1F910}",zombie:"\u{1F9DF}",
 zombie_man:"\u{1F9DF}\u200D\u2642\uFE0F",zombie_woman:"\u{1F9DF}\u200D\u2640\uFE0F",zzz:"\u{1F4A4}"};var emojiMap=emojiMap_default;var getEmoji=name=>emojiMap[name];var parseBoolean=value=>{if(typeof value==="boolean"){return value}if(typeof value==="string"){if(value.toLowerCase()==="true"){return true}if(value.toLowerCase()==="false"){return false}}return void 0};
-var parseArray=str=>{if(!str){return[]}return str.split(",")};var clampValue=(number2,min,max)=>{if(Number.isNaN(Number.parseInt(String(number2),10))){return min}return Math.max(min,Math.min(Number(number2),
-max))};var lowercaseTrim=name=>name.toLowerCase().trim();var chunkArray=(arr,perChunk)=>{const chunks=[];for(const[index,item]of arr.entries()){const chunkIndex=Math.floor(index/perChunk);const chunk=chunks[chunkIndex]??
-[];chunk.push(item);chunks[chunkIndex]=chunk}return chunks};var parseEmojis=str=>{if(!str){throw new Error("[parseEmoji]: str argument not provided")}return str.replaceAll(/:(?<shortcode>[\w+-]+):/g,(_match,shortcode)=>getEmoji(
-shortcode)??"")};var isOwnerAffiliation=value=>OWNER_AFFILIATIONS.some(affiliation=>affiliation===value);var parseOwnerAffiliations=affiliations=>{const normalized=affiliations.length>0?affiliations.map(
-affiliation=>affiliation.toUpperCase()):["OWNER"];if(!normalized.every(value=>isOwnerAffiliation(value))){throw CardError.invalidParam("role",INVALID_AFFILIATION)}return normalized};var buildSearchFilter=(repos=[],owners=[])=>{
-const repoFilter=Array.isArray(repos)&&repos.length>0?repos.map(repo=>`repo:${repo} `).join(""):"";const orgFilter=Array.isArray(owners)&&owners.length>0?owners.map(owner=>`owner:${owner} `).join(""):
-"";return repoFilter+orgFilter};var flexLayout=({items,gap,direction,sizes=[]})=>{if(sizes.some(size=>!Number.isFinite(size))){throw new Error("flexLayout: `sizes` must contain only numbers")}const laidOut=items.filter(Boolean);if(laidOut.
+var parseArray=str=>{if(!str){return[]}return str.split(",")};var clampValue=(number2,min,max)=>Number.isNaN(number2)?min:Math.max(min,Math.min(number2,max));var lowercaseTrim=name=>name.toLowerCase().
+trim();var chunkArray=(arr,perChunk)=>{const chunks=[];for(const[index,item]of arr.entries()){const chunkIndex=Math.floor(index/perChunk);const chunk=chunks[chunkIndex]??[];chunk.push(item);chunks[chunkIndex]=
+chunk}return chunks};var parseEmojis=str=>{if(!str){throw new Error("[parseEmoji]: str argument not provided")}return str.replaceAll(/:(?<shortcode>[\w+-]+):/g,(_match,shortcode)=>getEmoji(shortcode)??
+"")};var isOwnerAffiliation=value=>OWNER_AFFILIATIONS.some(affiliation=>affiliation===value);var parseOwnerAffiliations=affiliations=>{const normalized=affiliations.length>0?affiliations.map(affiliation=>affiliation.
+toUpperCase()):["OWNER"];if(!normalized.every(value=>isOwnerAffiliation(value))){throw CardError.invalidParam("role",INVALID_AFFILIATION)}return normalized};var buildSearchFilter=(repos,owners)=>[...repos.
+map(repo=>`repo:${repo} `),...owners.map(owner=>`owner:${owner} `)].join("");var flexLayout=({items,gap,direction,sizes=[]})=>{if(sizes.some(size=>!Number.isFinite(size))){throw new Error("flexLayout: `sizes` must contain only numbers")}const laidOut=items.filter(Boolean);if(laidOut.
 length===1){return laidOut}let lastSize=0;return laidOut.map((item,i)=>{const offset=lastSize;lastSize+=(sizes[i]??0)+gap;const transform2=offset===0?void 0:direction==="column"?`translate(0, ${offset}\
 )`:`translate(${offset}, 0)`;return el("g",{transform:transform2},item)})};var createLanguageNode=(langName,langColor)=>{if(!isPrefixedHexColor(langColor)){throw new Error(`Invalid language color: "${langColor}\
 "`)}return el("g",{"data-testid":"primary-lang"},el("circle",{"data-testid":"lang-color",cx:0,cy:-5,r:6,fill:langColor}),el("text",{"data-testid":"lang-name",class:"gray",x:15},langName))};var createProgressNode=({
@@ -3216,32 +3257,32 @@ neCount: "${lineCount}"`)}return el("foreignObject",{x,y,width,height},el("div",
 if(!isPrefixedHexColor(color)){throw new Error(`Invalid text color: "${color}"`)}return{color,margin:0,"line-height":1.2,"overflow-wrap":"anywhere","word-break":"break-word",display:"-webkit-box","-we\
 bkit-box-orient":"vertical","-webkit-line-clamp":"var(--lines)","line-clamp":"var(--lines)",overflow:"hidden","text-overflow":"ellipsis","padding-bottom":"0.15em"}};var iconWithLabel=(icon,label,testid,iconSize)=>{
 if(typeof label==="number"&&label<=0){return void 0}if(!Number.isFinite(iconSize)){throw new TypeError(`Invalid iconSize: "${iconSize}"`)}return flexLayout({items:[el("svg",{class:"icon",y:-12,viewBox:"\
-0 0 16 16",version:"1.1",width:iconSize,height:iconSize},icon),el("text",{"data-testid":testid,class:"gray"},String(label))],gap:20})};var createTextNode=({icon,label,value,id,unitSymbol,index,showIcons,
-shiftValuePos,valueAnchorX,bold,labelBold=bold,numberFormat,numberPrecision,link,labelXOffset=25})=>{if(!Number.isFinite(labelXOffset)){throw new TypeError(`Invalid labelXOffset: "${labelXOffset}"`)}if(!Number.
-isFinite(shiftValuePos)){throw new TypeError(`Invalid shiftValuePos: "${shiftValuePos}"`)}if(!Number.isFinite(index)){throw new TypeError(`Invalid index: "${index}"`)}if(valueAnchorX!==void 0&&!Number.
-isFinite(valueAnchorX)){throw new Error(`Invalid valueAnchorX: "${valueAnchorX}"`)}const precision=numberPrecision!==void 0&&Number.isFinite(numberPrecision)?clampValue(numberPrecision,0,2):void 0;const rawValue=numberFormat.
-toLowerCase()==="long"||id==="prs_merged_percentage";const kValue=rawValue||typeof value!=="number"?value:kFormatter(value,precision);const staggerDelay=120+index*40;const boldClass=bold?"bold":"not_b\
-old";const labelBoldClass=labelBold?"bold":"not_bold";const valueX=(showIcons?140:120)+(bold?5:0)+shiftValuePos;const unit=unitSymbol?` ${unitSymbol}`:"";const content=[showIcons&&el("svg",{"data-test\
-id":"icon",class:"icon",viewBox:"0 0 16 16",version:"1.1",width:16,height:16},icon),el("text",{class:`stat ${labelBoldClass}`,x:showIcons?labelXOffset:void 0,y:12.5},`${label}:`),el("text",{class:`sta\
-t ${boldClass}`,x:valueAnchorX??valueX,"text-anchor":valueAnchorX===void 0?void 0:"end",y:12.5,"data-testid":id},`${String(kValue)}${unit}`)];return el("g",{class:"stagger",style:`animation-delay: ${staggerDelay}\
-ms`,transform:"translate(25, 0)"},link?el("a",{href:link},content):content)};var ERROR_CARD_LENGTH=576.5;var UPSTREAM_API_ERRORS=new Set([TRY_AGAIN_LATER,SECONDARY_ERROR_MESSAGES.rate_limited]);var renderError=({
-message,secondaryMessage="",renderOptions={}})=>{const{title_color,text_color,bg_color,border_color,theme="default",show_repo_link=true}=renderOptions;const{titleColor,textColor,bgColor,borderColor}=getCardColors(
-{title_color,text_color,icon_color:"",bg_color,border_color,ring_color:"",theme});const hint=UPSTREAM_API_ERRORS.has(secondaryMessage)||!show_repo_link?"":" file an issue at https://tinyurl.com/github\
--stats";return renderMarkup(el("svg",{width:ERROR_CARD_LENGTH,height:120,viewBox:`0 0 ${ERROR_CARD_LENGTH} 120`,fill:String(bgColor),xmlns:"http://www.w3.org/2000/svg",role:"img","aria-labelledby":"ti\
-tleId descId"},el("title",{id:"titleId"},message),el("desc",{id:"descId"},secondaryMessage),style(rule(".text",{font:"600 16px 'Segoe UI', Ubuntu, Sans-Serif",fill:titleColor}),rule(".small",{font:"60\
-0 12px 'Segoe UI', Ubuntu, Sans-Serif",fill:textColor}),rule(".gray",{fill:"#858585"})),el("rect",{x:.5,y:.5,width:ERROR_CARD_LENGTH-1,height:"99%",rx:8,fill:String(bgColor),stroke:borderColor}),el("t\
-ext",{x:25,y:45,class:"text"},`Something went wrong!${hint}`),el("text",{"data-testid":"message",x:25,y:55,class:"text small"},el("tspan",{x:25,dy:18},message),el("tspan",{x:25,dy:18,class:"gray"},secondaryMessage))))};
-var measureText=(str,fontSize=10)=>{const widths=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,.2733333110809326,.28499999046325686,.39166667461395266,.5900000095367431,.5383333206176758,
-.8183333396911621,.8,.22999999523162842,.30166666507720946,.30166666507720946,.41666665077209475,.6833333492279052,.21666667461395264,.4,.21666667461395264,.3900000095367432,.5383333206176758,.5383333206176758,
-.5383333206176758,.5383333206176758,.5383333206176758,.5383333206176758,.5383333206176758,.5383333206176758,.5383333206176758,.5383333206176758,.21666667461395264,.21666667461395264,.6833333492279052,
-.6833333492279052,.6833333492279052,.4483333110809326,.9550000190734863,.6449999809265137,.5733333110809327,.6183333396911621,.7016666889190674,.5066666603088379,.48833332061767576,.6866666793823242,.7099999904632568,
-.26666667461395266,.35666666030883787,.5800000190734863,.4699999809265137,.8983333587646485,.7483333110809326,.753333330154419,.5599999904632569,.753333330154419,.5983333110809326,.5316666603088379,.5233333110809326,
-.6866666793823242,.621666669845581,.9333333015441895,.5900000095367431,.553333330154419,.5699999809265137,.30166666507720946,.37833333015441895,.30166666507720946,.6833333492279052,.41500000953674315,
+0 0 16 16",version:"1.1",width:iconSize,height:iconSize},icon),el("text",{"data-testid":testid,class:"gray"},String(label))],gap:20})};var NUMBER_FORMATS=["short","long"];var createTextNode=({icon,label,
+value,id,unitSymbol,index,showIcons,shiftValuePos,valueAnchorX,bold,labelBold=bold,numberFormat,numberPrecision,link,labelXOffset=25})=>{if(!Number.isFinite(labelXOffset)){throw new TypeError(`Invalid\
+ labelXOffset: "${labelXOffset}"`)}if(!Number.isFinite(shiftValuePos)){throw new TypeError(`Invalid shiftValuePos: "${shiftValuePos}"`)}if(!Number.isFinite(index)){throw new TypeError(`Invalid index: \
+"${index}"`)}if(valueAnchorX!==void 0&&!Number.isFinite(valueAnchorX)){throw new Error(`Invalid valueAnchorX: "${valueAnchorX}"`)}const precision=numberPrecision!==void 0&&Number.isFinite(numberPrecision)?
+clampValue(numberPrecision,0,2):void 0;const rawValue=numberFormat.toLowerCase()==="long"||id==="prs_merged_percentage";const kValue=rawValue||typeof value!=="number"?value:kFormatter(value,precision);
+const staggerDelay=120+index*40;const boldClass=bold?"bold":"not_bold";const labelBoldClass=labelBold?"bold":"not_bold";const valueX=(showIcons?140:120)+(bold?5:0)+shiftValuePos;const unit=unitSymbol?
+` ${unitSymbol}`:"";const content=[showIcons&&el("svg",{"data-testid":"icon",class:"icon",viewBox:"0 0 16 16",version:"1.1",width:16,height:16},icon),el("text",{class:`stat ${labelBoldClass}`,x:showIcons?
+labelXOffset:void 0,y:12.5},`${label}:`),el("text",{class:`stat ${boldClass}`,x:valueAnchorX??valueX,"text-anchor":valueAnchorX===void 0?void 0:"end",y:12.5,"data-testid":id},`${String(kValue)}${unit}`)];
+return el("g",{class:"stagger",style:`animation-delay: ${staggerDelay}ms`,transform:"translate(25, 0)"},link?el("a",{href:link},content):content)};var ERROR_CARD_LENGTH=576.5;var UPSTREAM_API_ERRORS=new Set(
+[TRY_AGAIN_LATER,SECONDARY_ERROR_MESSAGES.rate_limited]);var renderError=({message,secondaryMessage="",renderOptions={}})=>{const{title_color,text_color,bg_color,border_color,theme="default",show_repo_link=true}=renderOptions;
+const{titleColor,textColor,bgColor,borderColor}=getCardColors({title_color,text_color,icon_color:"",bg_color,border_color,ring_color:"",theme});const hint=UPSTREAM_API_ERRORS.has(secondaryMessage)||!show_repo_link?
+"":" file an issue at https://tinyurl.com/github-stats";return renderMarkup(el("svg",{width:ERROR_CARD_LENGTH,height:120,viewBox:`0 0 ${ERROR_CARD_LENGTH} 120`,fill:String(bgColor),xmlns:"http://www.w\
+3.org/2000/svg",role:"img","aria-labelledby":"title-id desc-id"},el("title",{id:"title-id"},message),el("desc",{id:"desc-id"},secondaryMessage),style(rule(".text",{font:"600 16px 'Segoe UI', Ubuntu, S\
+ans-Serif",fill:titleColor}),rule(".small",{font:"600 12px 'Segoe UI', Ubuntu, Sans-Serif",fill:textColor}),rule(".gray",{fill:"#858585"})),el("rect",{x:.5,y:.5,width:ERROR_CARD_LENGTH-1,height:"99%",
+rx:8,fill:String(bgColor),stroke:borderColor}),el("text",{x:25,y:45,class:"text"},`Something went wrong!${hint}`),el("text",{"data-testid":"message",x:25,y:55,class:"text small"},el("tspan",{x:25,dy:18},
+message),el("tspan",{x:25,dy:18,class:"gray"},secondaryMessage))))};var CHAR_WIDTHS=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,.2733333110809326,.28499999046325686,.39166667461395266,
+.5900000095367431,.5383333206176758,.8183333396911621,.8,.22999999523162842,.30166666507720946,.30166666507720946,.41666665077209475,.6833333492279052,.21666667461395264,.4,.21666667461395264,.3900000095367432,
+.5383333206176758,.5383333206176758,.5383333206176758,.5383333206176758,.5383333206176758,.5383333206176758,.5383333206176758,.5383333206176758,.5383333206176758,.5383333206176758,.21666667461395264,.21666667461395264,
+.6833333492279052,.6833333492279052,.6833333492279052,.4483333110809326,.9550000190734863,.6449999809265137,.5733333110809327,.6183333396911621,.7016666889190674,.5066666603088379,.48833332061767576,.6866666793823242,
+.7099999904632568,.26666667461395266,.35666666030883787,.5800000190734863,.4699999809265137,.8983333587646485,.7483333110809326,.753333330154419,.5599999904632569,.753333330154419,.5983333110809326,.5316666603088379,
+.5233333110809326,.6866666793823242,.621666669845581,.9333333015441895,.5900000095367431,.553333330154419,.5699999809265137,.30166666507720946,.37833333015441895,.30166666507720946,.6833333492279052,.41500000953674315,
 .26833333969116213,.5083333492279053,.5883333206176757,.4616666793823242,.5883333206176757,.5233333110809326,.3133333444595337,.5883333206176757,.5666666507720948,.24166667461395264,.24166667461395264,
 .49666666984558105,.24166667461395264,.8616666793823242,.5666666507720948,.5866666793823242,.5883333206176757,.5883333206176757,.3483333349227905,.425,.33833334445953367,.5666666507720948,.4783333301544189,
-.7233333110809326,.45833334922790525,.4833333492279053,.45166668891906736,.30166666507720946,.24000000953674316,.30166666507720946,.6833333492279052];const avg=.5131403493881227;const cjkRange=/[\u3000-\u9FFF\uFF00-\uFFEF]/;
-return[...str].map(char=>{if(cjkRange.test(char)||char==="\u3000"){return 1}const code=char.codePointAt(0)??0;if(code<widths.length){return widths[code]??avg}return avg}).reduce((cur,acc)=>acc+cur)*fontSize};
-var splitWrappedText=(text,fontSize,maxWidth)=>{if(!text){return[]}const normalizedText=text.replaceAll(/[\t\n\r ]+/g," ");const tokens=normalizedText.match(/\s|[\u3000-\u9FFF\uFF00-\uFFEF]|[^\s\u3000-\u9FFF\uFF00-\uFFEF]+/g);
+.7233333110809326,.45833334922790525,.4833333492279053,.45166668891906736,.30166666507720946,.24000000953674316,.30166666507720946,.6833333492279052];var AVERAGE_CHAR_WIDTH=.5131403493881227;var FULL_WIDTH_PATTERN=/[\u3000-\u9FFF\uFF00-\uFFEF]/;
+var measureText=(str,fontSize=10)=>[...str].map(char=>{if(FULL_WIDTH_PATTERN.test(char)){return 1}return CHAR_WIDTHS[char.codePointAt(0)??0]??AVERAGE_CHAR_WIDTH}).reduce((total,width)=>total+width,0)*
+fontSize;var splitWrappedText=(text,fontSize,maxWidth)=>{if(!text){return[]}const normalizedText=text.replaceAll(/[\t\n\r ]+/g," ");const tokens=normalizedText.match(/\s|[\u3000-\u9FFF\uFF00-\uFFEF]|[^\s\u3000-\u9FFF\uFF00-\uFFEF]+/g);
 if(!tokens){return[]}const takeFittingSegment=(token,availableWidth)=>{const characters=[...token];let segment="";let width=0;for(const character of characters){const characterWidth=measureText(character,
 fontSize);if(segment&&width+characterWidth>availableWidth){break}segment+=character;width+=characterWidth}return{segment,width}};const lines=[""];let currentWidth=0;for(const token of tokens){if(token===
 " "){if(currentWidth===0){continue}lines[lines.length-1]=(lines.at(-1)??"")+token;currentWidth+=measureText(token,fontSize);continue}let remaining=token;while(remaining){const w=measureText(remaining,
@@ -3254,177 +3295,41 @@ slate(-5px, 5px) scale(0)"}),rule("to",{transform:"translate(-5px, 5px) scale(1)
 d-motion: reduce)",rule("*",NO_MOTION))];var buildGradientDef=(id,bgColor)=>{const gradients=bgColor.slice(1);return el("linearGradient",{id,gradientTransform:`rotate(${String(bgColor[0])})`,gradientUnits:"\
 userSpaceOnUse"},gradients.map((grad,index)=>el("stop",{offset:`${index*100/(gradients.length-1)}%`,"stop-color":`#${grad}`})))};var Card=class{width;height;hideBorder;hideTitle;border_radius;colors;title;css;darkCss;paddingX;paddingY;titlePrefixIcon;animations;a11yTitle;a11yDesc;constructor({
 width=100,height=100,border_radius=8,colors={light:getCardColors({}),dark:null},customTitle,defaultTitle="",titlePrefixIcon}){this.width=width;this.height=height;this.hideBorder=false;this.hideTitle=false;
-this.border_radius=Number.parseFloat(String(border_radius));this.colors=colors;this.title=customTitle??defaultTitle;this.css=[];this.darkCss=[];this.paddingX=25;this.paddingY=35;this.titlePrefixIcon=titlePrefixIcon;
+this.border_radius=Number.parseFloat(String(border_radius));this.colors=colors;this.title=customTitle??defaultTitle;this.css=[];this.darkCss=[];this.paddingX=25;this.paddingY=30;this.titlePrefixIcon=titlePrefixIcon;
 this.animations=true;this.a11yTitle="";this.a11yDesc=""}disableAnimations(){this.animations=false}setAccessibilityLabel({title,desc}){this.a11yTitle=title;this.a11yDesc=desc}setCSS({light,dark}){this.
 css=light(this.colors.light);this.darkCss=this.colors.dark?dark(this.colors.dark):[]}setHideBorder(value){this.hideBorder=value}setHideTitle(value){if(value&&!this.hideTitle){this.height-=30}if(!value&&
 this.hideTitle){this.height+=30}this.hideTitle=value}setTitle(text){this.title=text}renderTitle(){return el("g",{"data-testid":"card-title",transform:`translate(${this.paddingX}, ${this.paddingY})`},flexLayout(
-{items:[this.titlePrefixIcon&&el("svg",{class:"icon",x:0,y:-13,viewBox:"0 0 16 16",version:"1.1",width:16,height:16},this.titlePrefixIcon),el("text",{x:0,y:0,class:"header","data-testid":"header"},this.
-title)],gap:25}))}renderGradient(){if(typeof this.colors.light.bgColor==="object"&&!isValidGradient(this.colors.light.bgColor)){throw new Error(`Invalid gradient: ${this.colors.light.bgColor.join(",")}`)}
-if(this.colors.dark&&typeof this.colors.dark.bgColor==="object"&&!isValidGradient(this.colors.dark.bgColor)){throw new Error(`Invalid dark gradient: ${this.colors.dark.bgColor.join(",")}`)}const defs=[
-typeof this.colors.light.bgColor==="object"&&buildGradientDef("gradient",this.colors.light.bgColor),this.colors.dark&&typeof this.colors.dark.bgColor==="object"&&buildGradientDef("gradient-dark",this.
-colors.dark.bgColor)].filter(Boolean);return defs.length===0?void 0:el("defs",{},defs)}renderDarkMediaBlock(){if(!this.colors.dark){return void 0}const bgFill=typeof this.colors.dark.bgColor==="object"?
-"url(#gradient-dark)":this.colors.dark.bgColor;return atRule("@media (prefers-color-scheme: dark)",rule(".header",{fill:this.colors.dark.titleColor}),rule(".card-bg",{fill:bgFill,stroke:this.colors.dark.
-borderColor}),this.darkCss)}render(body){if(!Number.isFinite(this.border_radius)){throw new TypeError(`Invalid border radius: "${this.border_radius}"`)}if(!isPrefixedHexColor(this.colors.light.titleColor)){
-throw new Error(`Invalid title color: "${this.colors.light.titleColor}"`)}if(!isPrefixedHexColor(this.colors.light.borderColor)){throw new Error(`Invalid border color: "${this.colors.light.borderColor}\
-"`)}if(!(typeof this.colors.light.bgColor==="object"?isValidGradient(this.colors.light.bgColor):isPrefixedHexColor(this.colors.light.bgColor))){throw new Error(`Invalid background color: ${String(this.
-colors.light.bgColor)}`)}return renderMarkup(el("svg",{width:this.width,height:this.height,viewBox:`0 0 ${this.width} ${this.height}`,fill:"none",xmlns:"http://www.w3.org/2000/svg",role:"img","aria-la\
-belledby":"titleId descId"},el("title",{id:"titleId"},this.a11yTitle),el("desc",{id:"descId"},this.a11yDesc),style(rule(".header",{font:"600 18px 'Segoe UI', Ubuntu, Sans-Serif",fill:this.colors.light.
-titleColor,animation:"fadeInAnimation 0.8s ease-in-out forwards"}),atRule("@supports(-moz-appearance: auto)",cssComment("Selector detects Firefox"),rule(".header",{"font-size":"15.5px"})),this.css,this.
-renderDarkMediaBlock(),getAnimations(),!this.animations&&rule("*",NO_MOTION)),this.renderGradient(),el("rect",{"data-testid":"card-bg",class:"card-bg",x:.5,y:.5,rx:this.border_radius,height:"99%",stroke:this.
-colors.light.borderColor,width:this.width-1,fill:typeof this.colors.light.bgColor==="object"?"url(#gradient)":this.colors.light.bgColor,"stroke-opacity":this.hideBorder?0:1}),!this.hideTitle&&this.renderTitle(),
-el("g",{"data-testid":"main-card-body",transform:`translate(0, ${this.hideTitle?this.paddingX:this.paddingY+20})`},body)))}};var icons={star:el("path",{"fill-rule":"evenodd",d:"M8 .25a.75.75 0 01.673.418l1.882 3.815 4.21.612a.75.75 0 01.416 1.279l-3.046 2.97.719 4.192a.75.75 0 01-1.088.791L8 12.347l-3.766 1.98a.75.75 0 01-1\
-.088-.79l.72-4.194L.818 6.374a.75.75 0 01.416-1.28l4.21-.611L7.327.668A.75.75 0 018 .25zm0 2.445L6.615 5.5a.75.75 0 01-.564.41l-3.097.45 2.24 2.184a.75.75 0 01.216.664l-.528 3.084 2.769-1.456a.75.75 0\
- 01.698 0l2.77 1.456-.53-3.084a.75.75 0 01.216-.664l2.24-2.183-3.096-.45a.75.75 0 01-.564-.41L8 2.694v.001z"}),commits:el("path",{"fill-rule":"evenodd",d:"M1.643 3.143L.427 1.927A.25.25 0 000 2.104V5.\
-75c0 .138.112.25.25.25h3.646a.25.25 0 00.177-.427L2.715 4.215a6.5 6.5 0 11-1.18 4.458.75.75 0 10-1.493.154 8.001 8.001 0 101.6-5.684zM7.75 4a.75.75 0 01.75.75v2.992l2.028.812a.75.75 0 01-.557 1.392l-2\
-.5-1A.75.75 0 017 8.25v-3.5A.75.75 0 017.75 4z"}),prs:el("path",{"fill-rule":"evenodd",d:"M7.177 3.073L9.573.677A.25.25 0 0110 .854v4.792a.25.25 0 01-.427.177L7.177 3.427a.25.25 0 010-.354zM3.75 2.5a.\
-75.75 0 100 1.5.75.75 0 000-1.5zm-2.25.75a2.25 2.25 0 113 2.122v5.256a2.251 2.251 0 11-1.5 0V5.372A2.25 2.25 0 011.5 3.25zM11 2.5h-1V4h1a1 1 0 011 1v5.628a2.251 2.251 0 101.5 0V5A2.5 2.5 0 0011 2.5zm1\
- 10.25a.75.75 0 111.5 0 .75.75 0 01-1.5 0zM3.75 12a.75.75 0 100 1.5.75.75 0 000-1.5z"}),prs_merged:el("path",{"fill-rule":"evenodd",d:"M5.45 5.154A4.25 4.25 0 0 0 9.25 7.5h1.378a2.251 2.251 0 1 1 0 1.\
-5H9.25A5.734 5.734 0 0 1 5 7.123v3.505a2.25 2.25 0 1 1-1.5 0V5.372a2.25 2.25 0 1 1 1.95-.218ZM4.25 13.5a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm8.5-4.5a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5ZM5 3.25a.75.7\
-5 0 1 0 0 .005V3.25Z"}),prs_merged_percentage:el("path",{"fill-rule":"evenodd",d:"M13.442 2.558a.625.625 0 0 1 0 .884l-10 10a.625.625 0 1 1-.884-.884l10-10a.625.625 0 0 1 .884 0zM4.5 6a1.5 1.5 0 1 1 0\
--3 1.5 1.5 0 0 1 0 3zm0 1a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zm7 6a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm0 1a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"}),issues:el("path",{"fill-rule":"evenodd",d:"M8 1.5a6.\
-5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8zm9 3a1 1 0 11-2 0 1 1 0 012 0zm-.25-6.25a.75.75 0 00-1.5 0v3.5a.75.75 0 001.5 0v-3.5z"}),icon:el("path",{"fill-rule":"evenodd",d:"M2 2.5A2\
-.5 2.5 0 014.5 0h8.75a.75.75 0 01.75.75v12.5a.75.75 0 01-.75.75h-2.5a.75.75 0 110-1.5h1.75v-2h-8a1 1 0 00-.714 1.7.75.75 0 01-1.072 1.05A2.495 2.495 0 012 11.5v-9zm10.5-1V9h-8c-.356 0-.694.074-1 .208V\
-2.5a1 1 0 011-1h8zM5 12.25v3.25a.25.25 0 00.4.2l1.45-1.087a.25.25 0 01.3 0L8.6 15.7a.25.25 0 00.4-.2v-3.25a.25.25 0 00-.25-.25h-3.5a.25.25 0 00-.25.25z"}),contribs:el("path",{"fill-rule":"evenodd",d:"\
-M2 2.5A2.5 2.5 0 014.5 0h8.75a.75.75 0 01.75.75v12.5a.75.75 0 01-.75.75h-2.5a.75.75 0 110-1.5h1.75v-2h-8a1 1 0 00-.714 1.7.75.75 0 01-1.072 1.05A2.495 2.495 0 012 11.5v-9zm10.5-1V9h-8c-.356 0-.694.074\
--1 .208V2.5a1 1 0 011-1h8zM5 12.25v3.25a.25.25 0 00.4.2l1.45-1.087a.25.25 0 01.3 0L8.6 15.7a.25.25 0 00.4-.2v-3.25a.25.25 0 00-.25-.25h-3.5a.25.25 0 00-.25.25z"}),fork:el("path",{"fill-rule":"evenodd",
-d:"M5 3.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm0 2.122a2.25 2.25 0 10-1.5 0v.878A2.25 2.25 0 005.75 8.5h1.5v2.128a2.251 2.251 0 101.5 0V8.5h1.5a2.25 2.25 0 002.25-2.25v-.878a2.25 2.25 0 10-1.5 0v.878a\
-.75.75 0 01-.75.75h-4.5A.75.75 0 015 6.25v-.878zm3.75 7.378a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm3-8.75a.75.75 0 100-1.5.75.75 0 000 1.5z"}),reviews:el("path",{"fill-rule":"evenodd",d:"M8 2c1.981 0 3.6\
-71.992 4.933 2.078 1.27 1.091 2.187 2.345 2.637 3.023a1.62 1.62 0 0 1 0 1.798c-.45.678-1.367 1.932-2.637 3.023C11.67 13.008 9.981 14 8 14c-1.981 0-3.671-.992-4.933-2.078C1.797 10.83.88 9.576.43 8.898a\
-1.62 1.62 0 0 1 0-1.798c.45-.677 1.367-1.931 2.637-3.022C4.33 2.992 6.019 2 8 2ZM1.679 7.932a.12.12 0 0 0 0 .136c.411.622 1.241 1.75 2.366 2.717C5.176 11.758 6.527 12.5 8 12.5c1.473 0 2.825-.742 3.955\
--1.715 1.124-.967 1.954-2.096 2.366-2.717a.12.12 0 0 0 0-.136c-.412-.621-1.242-1.75-2.366-2.717C10.824 4.242 9.473 3.5 8 3.5c-1.473 0-2.825.742-3.955 1.715-1.124.967-1.954 2.096-2.366 2.717ZM8 10a2 2 \
-0 1 1-.001-3.999A2 2 0 0 1 8 10Z"}),discussions_started:el("path",{"fill-rule":"evenodd",d:"M1.75 1h8.5c.966 0 1.75.784 1.75 1.75v5.5A1.75 1.75 0 0 1 10.25 10H7.061l-2.574 2.573A1.458 1.458 0 0 1 2 11\
-.543V10h-.25A1.75 1.75 0 0 1 0 8.25v-5.5C0 1.784.784 1 1.75 1ZM1.5 2.75v5.5c0 .138.112.25.25.25h1a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h3.5a.25.25 0 0 0 .25-.25v-5.5a.25.25 0 0 0-.\
-25-.25h-8.5a.25.25 0 0 0-.25.25Zm13 2a.25.25 0 0 0-.25-.25h-.5a.75.75 0 0 1 0-1.5h.5c.966 0 1.75.784 1.75 1.75v5.5A1.75 1.75 0 0 1 14.25 12H14v1.543a1.458 1.458 0 0 1-2.487 1.03L9.22 12.28a.749.749 0 \
-0 1 .326-1.275.749.749 0 0 1 .734.215l2.22 2.22v-2.19a.75.75 0 0 1 .75-.75h1a.25.25 0 0 0 .25-.25Z"}),discussions_answered:el("path",{"fill-rule":"evenodd",d:"M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.2\
-5a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z"}),comments:el("path",{d:"M1 2.75C1 1.784 1.784 1 2.75 1h10.5c.966 0 1.75.784 \
-1.75 1.75v7.5A1.75 1.75 0 0 1 13.25 12H9.06l-2.573 2.573A1.458 1.458 0 0 1 4 13.543V12H2.75A1.75 1.75 0 0 1 1 10.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.7\
-2-2.72a.749.749 0 0 1 .53-.22h4.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"}),contributions:el("path",{d:"M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0Zm7.25-3.\
-25v2.5h2.5a.75.75 0 0 1 0 1.5h-2.5v2.5a.75.75 0 0 1-1.5 0v-2.5h-2.5a.75.75 0 0 1 0-1.5h2.5v-2.5a.75.75 0 0 1 1.5 0Z"}),gist:el("path",{"fill-rule":"evenodd",d:"M0 1.75C0 .784.784 0 1.75 0h12.5C15.216 \
-0 16 .784 16 1.75v12.5A1.75 1.75 0 0 1 14.25 16H1.75A1.75 1.75 0 0 1 0 14.25Zm1.75-.25a.25.25 0 0 0-.25.25v12.5c0 .138.112.25.25.25h12.5a.25.25 0 0 0 .25-.25V1.75a.25.25 0 0 0-.25-.25Zm7.47 3.97a.75.7\
-5 0 0 1 1.06 0l2 2a.75.75 0 0 1 0 1.06l-2 2a.749.749 0 0 1-1.275-.326.749.749 0 0 1 .215-.734L10.69 8 9.22 6.53a.75.75 0 0 1 0-1.06ZM6.78 6.53 5.31 8l1.47 1.47a.749.749 0 0 1-.326 1.275.749.749 0 0 1-\
-.734-.215l-2-2a.75.75 0 0 1 0-1.06l2-2a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042Z"})};var RANK_TEXT={x:-5,"alignment-baseline":"central","dominant-baseline":"central","text-anchor":"middle"};var rankIcon=(kind,rankLevel,percentile)=>{
-switch(kind){case"github":{return el("svg",{x:-38,y:-30,height:66,width:66,"aria-hidden":"true",viewBox:"0 0 16 16",version:"1.1","data-view-component":"true","data-testid":"github-rank-icon"},el("pat\
-h",{d:"M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 \
-0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.\
-55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"}))}case"percentile":{
-return[el("text",{...RANK_TEXT,y:-12,"data-testid":"percentile-top-header",class:"rank-percentile-header"},"Top"),el("text",{...RANK_TEXT,y:12,"data-testid":"percentile-rank-value",class:"rank-percent\
-ile-text"},`${percentile.toFixed(1)}%`)]}case"default":default:{return el("text",{...RANK_TEXT,y:3,"data-testid":"level-rank-icon"},rankLevel)}}};var languageColors_default={"1C Enterprise":"#814CCC","2-Dimensional Array":"#38761D","4D":"#004289",ABAP:"#E8274B","ABAP CDS":"#555e25","AGS Script":"#B9D9FF",AIDL:"#34EB6B",AL:"#3AA2B5",ALGOL:"#D1E0\
-DB",AMPL:"#E6EFBB",ANTLR:"#9DC3FF","API Blueprint":"#2ACCA8",APL:"#5A8164","ASP.NET":"#9400ff",ATS:"#1ac620",ActionScript:"#882B0F",Ada:"#02f88c","Adblock Filter List":"#800000","Adobe Font Metrics":"\
-#fa0f00",Agda:"#315665",Aiken:"#640ff8",Aleo:"#154BF9",Alloy:"#64C800","Alpine Abuild":"#0D597F","Altium Designer":"#A89663",AngelScript:"#C7D7DC","Answer Set Programming":"#A9CC29","Ant Build System":"\
-#A9157E",Antlers:"#ff269e",ApacheConf:"#d12127",Apex:"#1797c0","Apollo Guidance Computer":"#0B3D91",AppleScript:"#101F1F",Arc:"#aa2afe",AsciiDoc:"#73a0c5",AspectJ:"#a957b0",Assembly:"#6E4C13",Astro:"#\
-ff5a03",Asymptote:"#ff0000",Augeas:"#9CC134",AutoHotkey:"#6594b9",AutoIt:"#1C3552","Avro IDL":"#0040FF",Awk:"#c30e9b",B:"#da7666","B (Formal Method)":"#8aa8c5",B4X:"#00e4ff",BAML:"#a855f7",BASIC:"#ff0\
-000",BBCode:"#CAFF42",BIRD2:"#b6d7e4",BQN:"#2b7067",Ballerina:"#FF5000",Batchfile:"#C1F12E",Beef:"#a52f4e",Berry:"#15A13C",BibTeX:"#778899",Bicep:"#519aba",Bikeshed:"#5562ac",Bison:"#6A463F",BitBake:"\
-#00bce4",Blade:"#f7523f",BlitzBasic:"#00FFAE",BlitzMax:"#cd6400",Blueprint:"#3584E4",Bluespec:"#12223c","Bluespec BH":"#12223c",Boo:"#d4bec1",Boogie:"#c80fa0",Brainfuck:"#2F2530",BrighterScript:"#66AA\
-BB",Brightscript:"#662D91",Browserslist:"#ffd539",Bru:"#F4AA41",BuildStream:"#006bff",C:"#555555","C#":"#7355dd","C++":"#f34b7d",C3:"#2563eb","CAP CDS":"#0092d1",CLIPS:"#00A300",CMake:"#DA3434",COLLADA:"\
-#F1A42B",CQL:"#006091",CSON:"#244776",CSS:"#663399",CSV:"#237346",CUE:"#5886E1",CWeb:"#00007a","Cabal Config":"#483465",Caddyfile:"#22b638",Cadence:"#00ef8b",Cairo:"#ff4a48","Cairo Zero":"#ff4a48",CameLIGO:"\
-#3be133",Cangjie:"#00868B","Cap'n Proto":"#c42727",Carbon:"#222222",Ceylon:"#dfa535",Chapel:"#8dc63f",ChucK:"#3f8000",Circom:"#707575",Cirru:"#ccccff",Clarion:"#db901e",Clarity:"#5546ff","Classic ASP":"\
-#6a40fd",Clean:"#3F85AF",Click:"#E4E6F3",Clojure:"#db5855","Closure Templates":"#0d948f","Cloud Firestore Security Rules":"#FFA000",Clue:"#0009b5",CodeQL:"#140f46",CoffeeScript:"#244776",ColdFusion:"#\
-ed2cd6","ColdFusion CFC":"#ed2cd6","Common Lisp":"#3fb68b","Common Workflow Language":"#B5314C","Component Pascal":"#B0CE4E",Cooklang:"#E15A29",Crystal:"#000100",Csound:"#1a1a1a","Csound Document":"#1\
-a1a1a","Csound Score":"#1a1a1a",Cuda:"#3A4E3A",Curry:"#531242",Cylc:"#00b3fd",Cypher:"#34c0eb",Cython:"#fedf5b",D:"#ba595e",D2:"#526ee8",DM:"#447265",Dafny:"#FFEC25","Darcs Patch":"#8eff23",Dart:"#00B\
-4AB",Daslang:"#d3d3d3",DataWeave:"#003a52","Debian Package Control File":"#D70751",DenizenScript:"#FBEE96",Dhall:"#dfafff","DirectX 3D File":"#aace60",Dockerfile:"#384d54",Dogescript:"#cca760",Dotenv:"\
-#e5d559",Dune:"#89421e",Dylan:"#6c616e",E:"#ccce35",ECL:"#8a1267",ECLiPSe:"#001d9d",EJS:"#a91e50",EQ:"#a78649",Earthly:"#2af0ff",Easybuild:"#069406","Ecere Projects":"#913960",Ecmarkup:"#eb8131",Edge:"\
-#0dffe0",EdgeQL:"#31A7FF",EditorConfig:"#fff1f2",Eiffel:"#4d6977",Elixir:"#6e4a7e",Elm:"#60B5CC",Elvish:"#55BB55","Elvish Transcript":"#55BB55","Emacs Lisp":"#c065db",EmberScript:"#FFF4F3",Erlang:"#B8\
-3998",Euphoria:"#FF790B","F#":"#b845fc","F*":"#572e30","FIGlet Font":"#FFDDBB",FIRRTL:"#2f632f",FLUX:"#88ccff",FPP:"#d37327",Factor:"#636746",Fancy:"#7b9db4",Fantom:"#14253c",Faust:"#c37240",Fennel:"#\
-fff3d7","Filebench WML":"#F6B900",FlatBuffers:"#ed284a",Flix:"#d44a45",Fluent:"#ffcc33",Forth:"#341708",Fortran:"#4d41b1","Fortran Free Form":"#4d41b1",FreeBASIC:"#141AC9",FreeMarker:"#0050b2",Frege:"\
-#00cafe",Futhark:"#5f021f","G-code":"#D08CF2",GAML:"#FFC766",GAMS:"#f49a22",GAP:"#0000cc","GCC Machine Description":"#FFCFAB",GDScript:"#355570",GDShader:"#478CBF",GEDCOM:"#003058",GLSL:"#5686a5",GSC:"\
-#FF6800","Game Maker Language":"#71b417","Gemfile.lock":"#701516",Gemini:"#ff6900","Genero 4gl":"#63408e","Genero per":"#d8df39",Genie:"#fb855d",Genshi:"#951531","Gentoo Ebuild":"#9400ff","Gentoo Ecla\
-ss":"#9400ff","Gerber Image":"#d20b00",Gherkin:"#5B2063","Git Attributes":"#F44D27","Git Commit":"#F44D27","Git Config":"#F44D27","Git Revision List":"#F44D27",Gleam:"#ffaff3","Glimmer JS":"#F5835F","\
-Glimmer TS":"#3178c6",Glyph:"#c1ac7f",Gno:"#226c57",Gnuplot:"#f0a9f0",Go:"#00ADD8","Go Checksums":"#00ADD8","Go Module":"#00ADD8","Go Template":"#00ADD8","Go Workspace":"#00ADD8","Godot Resource":"#35\
-5570",Golo:"#88562A",Gosu:"#82937f",Grace:"#615f8b",Gradle:"#02303a","Gradle Kotlin DSL":"#02303a","Grammatical Framework":"#ff0000",GraphQL:"#e10098","Graphviz (DOT)":"#2596be",Groovy:"#4298b8","Groo\
-vy Server Pages":"#4298b8",GtkRC:"#7fe719",HAProxy:"#106da9",HCL:"#844FBA",HIP:"#4F3A4F",HLSL:"#aace60",HOCON:"#9ff8ee",HTML:"#e34c26","HTML+ECR":"#2e1052","HTML+EEX":"#6e4a7e","HTML+ERB":"#701516","H\
-TML+PHP":"#4f5d95","HTML+Razor":"#512be4",HTTP:"#005C9C",HXML:"#f68712",Hack:"#878787",Haml:"#ece2a9",Handlebars:"#f7931e",Harbour:"#0e60e3",Hare:"#9d7424",Haskell:"#5e5086",Haxe:"#df7900",HiveQL:"#dc\
-e200",HolyC:"#ffefaf","Hosts File":"#308888",Hurl:"#FF0288",Hy:"#7790B2",IDL:"#a3522f","IGOR Pro":"#0000cc","IL Assembly":"#512BD4",INI:"#d1dbe0",ISPC:"#2D68B1",Idris:"#b30000","Ignore List":"#000000",
-"ImHex Pattern Language":"#3a6be0","ImageJ Macro":"#99AAFF",Imba:"#16cec6","Inno Setup":"#264b99",Io:"#a9188d",Ioke:"#078193",Isabelle:"#FEFE00","Isabelle ROOT":"#FEFE00",J:"#9EEDFF","JAR Manifest":"#\
-b07219",JASS:"#FF0303",JCL:"#d90e09",JFlex:"#DBCA00",JSON:"#292929","JSON with Comments":"#292929",JSON5:"#267CB9",JSONLD:"#0c479c",JSONiq:"#40d47e",Jac:"#FC792D",Jai:"#ab8b4b",Janet:"#0886a5",Jasmin:"\
-#d03600",Java:"#b07219","Java Properties":"#2A6277","Java Server Pages":"#2A6277","Java Template Engine":"#2A6277",JavaScript:"#f1e05a","JavaScript+ERB":"#f1e05a","Jest Snapshot":"#15c213","JetBrains \
-MPS":"#21D789",Jinja:"#a52a22",Jison:"#56b3cb","Jison Lex":"#56b3cb",Jolie:"#843179",Jsonnet:"#0064bd",Julia:"#a270ba","Julia REPL":"#a270ba","Jupyter Notebook":"#DA5B0B",Just:"#384d54",KCL:"#7ABABF",
-KDL:"#ffb3b3",KFramework:"#4195c5",KRL:"#28430A","Kaitai Struct":"#773b37",KakouneScript:"#6f8042",KerboScript:"#41adf0","KiCad Layout":"#2f4aab","KiCad Legacy Layout":"#2f4aab","KiCad Schematic":"#2f\
-4aab","KoLmafia ASH":"#B9D9B9",Koka:"#215166",Kotlin:"#A97BFF",LFE:"#4C3023",LLVM:"#185619",LOLCODE:"#cc9900",LSL:"#3d9970",LabVIEW:"#fede06",Lambdapi:"#8027a3",Langium:"#2c8c87",Lark:"#2980B9",Lasso:"\
-#999999",Latte:"#f2a542",Leo:"#C4FFC2",Less:"#1d365d",Lex:"#DBCA00",LigoLANG:"#0e74ff",LilyPond:"#9ccc7c",Liquid:"#67b8de",Liquidsoap:"#990066","Literate Agda":"#315665","Literate CoffeeScript":"#2447\
-76","Literate Haskell":"#5e5086","LiveCode Script":"#0c5ba5",LiveScript:"#499886",Lobster:"#f95428",Logtalk:"#295b9a",LookML:"#652B81",Lua:"#000080",Luau:"#00A2FF",M3U:"#179C7D",MATLAB:"#e16737",MAXScript:"\
-#00a6a6",MDX:"#fcb32c",MLIR:"#5EC8DB",MQL4:"#62A8D6",MQL5:"#4A76B8",MTML:"#b7e1f4",Macaulay2:"#d8ffff",Makefile:"#427819",Mako:"#7e858d",Markdown:"#083fa1",Marko:"#42bff2",Mask:"#f97732","Mathematical\
- Programming System":"#0530ad",Max:"#c4a79c",MeTTa:"#6a5acd",Mercury:"#ff2b2b",Mermaid:"#ff3670",Meson:"#007800",Metal:"#8f14e9",MiniScript:"#4B4A56",MiniYAML:"#ff1111",MiniZinc:"#06a9e6",Mint:"#02b04\
-6",Mirah:"#c7a938",Modelica:"#de1d31","Modula-2":"#10253f","Modula-3":"#223388",Mojo:"#ff4c1f","Monkey C":"#8D6747",MoonBit:"#b92381",MoonScript:"#ff4585",Motoko:"#fbb03b","Motorola 68K Assembly":"#00\
-5daa",Move:"#4a137a",Mustache:"#724b3b",NCL:"#28431f",NMODL:"#00356B","NPM Config":"#cb3837",NWScript:"#111522",Nasal:"#1d2c4e",Nearley:"#990000",Nemerle:"#3d3c6e",NetLinx:"#0aa0ff","NetLinx+ERB":"#74\
-7faa",NetLogo:"#ff6375",NewLisp:"#87AED7",Nextflow:"#3ac486",Nginx:"#009639",Nickel:"#E0C3FC",Nim:"#ffc200",Nit:"#009917",Nix:"#7e7eff",Noir:"#2f1f49",Nu:"#c9df40",NumPy:"#9C8AF9",Nunjucks:"#3d8137",Nushell:"\
-#4E9906","OASv2-json":"#85ea2d","OASv2-yaml":"#85ea2d","OASv3-json":"#85ea2d","OASv3-yaml":"#85ea2d",OCaml:"#ef7a08","OMNeT++ MSG":"#a0e0a0","OMNeT++ NED":"#08607c",ObjectScript:"#424893","Objective-C":"\
-#438eff","Objective-C++":"#6866fb","Objective-J":"#ff0c5a",Odin:"#60AFFE",Omgrofl:"#cabbff",Opal:"#f7ede0","Open Policy Agent":"#7d9199","OpenAPI Specification v2":"#85ea2d","OpenAPI Specification v3":"\
-#85ea2d",OpenCL:"#ed2e2d","OpenEdge ABL":"#5ce600",OpenQASM:"#AA70FF",OpenSCAD:"#e5cd45","Option List":"#476732",Org:"#77aa99",OverPy:"#78b355",OverpassQL:"#cce2aa",Oxygene:"#cdd0e3",Oz:"#fab738",P4:"\
-#7055b5",PDDL:"#0d00ff","PEG.js":"#234d6b",PHP:"#4F5D95",PLSQL:"#dad8d8",PLpgSQL:"#336790","POV-Ray SDL":"#6bac65",Pact:"#F7A8B8",Pan:"#cc0000",Papyrus:"#6600cc",Parrot:"#f3ca0a",Pascal:"#E3F171",Pawn:"\
-#dbb284",Pep8:"#C76F5B",Perl:"#0298c3",PicoLisp:"#6067af",PigLatin:"#fcd7de",Pike:"#005390","Pip Requirements":"#FFD343",Pkl:"#6b9543",PlantUML:"#fbbd16",PogoScript:"#d80074",Polar:"#ae81ff",Portugol:"\
-#f8bd00",PostCSS:"#dc3a0c",PostScript:"#da291c","Power Query":"#d38e0d",PowerBuilder:"#8f0f8d",PowerShell:"#012456",Praat:"#c8506d",Prisma:"#0c344b","Pro*C":"#bb8368",Processing:"#0096D8",Procfile:"#3\
-B2F63",Prolog:"#74283c",Promela:"#de0000","Propeller Spin":"#7fa2a7",Pug:"#a86454",Puppet:"#302B6D",PureBasic:"#5a6986",PureScript:"#1D222D",Pyret:"#ee1e10",Python:"#3572A5","Python console":"#3572A5",
-"Python traceback":"#3572A5","Q#":"#fed659",QML:"#44a51c","Qt Script":"#00b841",Quake:"#882233",QuakeC:"#975777","Quartus Simulation IP":"#58C42E",QuickBASIC:"#008080",Quint:"#9d6ce5",R:"#198CE7",RAML:"\
-#77d9fb",RAScript:"#2C97FA",RBS:"#701516",RDoc:"#701516",REXX:"#d90e09",RMarkdown:"#198ce7",RON:"#a62c00","ROS Interface":"#22314e",RPGLE:"#2BDE21",RUNOFF:"#665a4e",Racket:"#3c5caa",Ragel:"#9d5200",Raku:"\
-#0000fb",Rascal:"#fffaa0",ReScript:"#ed5051",Reason:"#ff5847",ReasonLIGO:"#ff5847",Rebol:"#358a5b","Record Jar":"#0673ba",Red:"#f50000",Redscript:"#f44336","Regular Expression":"#009a00","Ren'Py":"#ff\
-7f7f",Rez:"#FFDAB3",Rhai:"#FBA63B",Ring:"#2D54CB",Riot:"#A71E49",RobotFramework:"#00c0b5",Roc:"#7c38f5","Rocq Prover":"#d0b68c",Roff:"#ecdebe","Roff Manpage":"#ecdebe",Rouge:"#cc0088","RouterOS Script":"\
-#DE3941",Ruby:"#701516",Rust:"#dea584",SAS:"#B34936",SCSS:"#c6538c",SIP:"#4E8D83",SPARQL:"#0C4597",SQF:"#3F3F3F",SQL:"#e38c00",SQLPL:"#e38c00","SRecode Template":"#348a34",STL:"#373b5e",SVG:"#ff9900",
-Sail:"#259dd5",Salt:"#57bcad",Sass:"#a53b70",Scala:"#c22d40",Scaml:"#bd181a",Scenic:"#fdc700",Scheme:"#1e4aec",Scilab:"#ca0f21",Self:"#0579aa",ShaderLab:"#222c37",Shell:"#89e051","ShellCheck Config":"\
-#cecfcb",Shen:"#120F14","Simple File Verification":"#C9BFED",Singularity:"#64E6AD",Slang:"#1fbec9",Slash:"#007eff",Slice:"#003fa2",Slim:"#2b2b2b",Slint:"#2379F4",SmPL:"#c94949",Smalltalk:"#596706",Smarty:"\
-#f0c040",Smithy:"#c44536",Snakemake:"#419179",Solidity:"#AA6746",SourcePawn:"#f69e1d","SpiceDB Schema":"#a5318a",Squirrel:"#800000",Stan:"#b2011d","Standard ML":"#dc566d",Starlark:"#76d275",Stata:"#1a\
-5f91",StringTemplate:"#3fb34f",Stylus:"#ff6347","SubRip Text":"#9e0101",SugarSS:"#2fcc9f",SuperCollider:"#46390b",SurrealQL:"#ff00a0","Survex data":"#ffcc99",Svelte:"#ff3e00",Sway:"#00F58C",Sweave:"#1\
-98ce7",Swift:"#F05138",SystemVerilog:"#DAE1C2","TI Program":"#A0AA87","TL-Verilog":"#C40023",TLA:"#4b0079",TMDL:"#f0c913",TOML:"#9c4221",TSQL:"#e38c00",TSV:"#237346",TSX:"#3178c6",TXL:"#0178b8",Tact:"\
-#48b5ff",Talon:"#333333",Tcl:"#e4cc98",TeX:"#3D6117",Teal:"#00B1BC",Terra:"#00004c","Terraform Template":"#7b42bb",TextGrid:"#c8506d","TextMate Properties":"#df66e4",Textile:"#ffe7ac",Thrift:"#D12127",
-Toit:"#c2c9fb",Tolk:"#30A1F5","Tor Config":"#59316b","Tree-sitter Query":"#8ea64c",Turing:"#cf142b",Twig:"#c1d026",TypeScript:"#3178c6",TypeSpec:"#4A3665",Typst:"#239dad","Unified Parallel C":"#4e3617",
-"Unity3D Asset":"#222c37",Uno:"#9933cc",UnrealScript:"#a54c4d","Untyped Plutus Core":"#36adbd",UrWeb:"#ccccee",V:"#4f87c4",VBA:"#867db1",VBScript:"#15dcdc",VCL:"#148AA8",VHDL:"#adb2cb",Vala:"#a56de2",
-"Valve Data Format":"#f26025","Velocity Template Language":"#507cff",Vento:"#ff0080",Verilog:"#b2b7f8",Verse:"#518ef8","Vespa Schema Definition":"#61D790","Vim Help File":"#199f4b","Vim Snippet":"#199\
-f4b","Vim script":"#199f4b","Visual Basic .NET":"#945db7","Visual Basic 6.0":"#2c6353",Volt:"#1F1F1F",Vue:"#41b883",Vyper:"#9F4CF2",WDL:"#42f1f4",WGSL:"#1a5e9a","Web Ontology Language":"#5b70bd",WebAssembly:"\
-#04133b","WebAssembly Interface Type":"#6250e7",Whiley:"#d5c397",Wikitext:"#fc5757","Windows Registry Entries":"#52d5ff","Witcher Script":"#ff0000","Wolfram Language":"#dd1100",Wollok:"#a23738","World\
- of Warcraft Addon Data":"#f7e43f",Wren:"#383838",X10:"#4B6BEF",XC:"#99DA07",XML:"#0060ac","XML Property List":"#0060ac",XQuery:"#5232e7",XSLT:"#EB8CEB",Xmake:"#22a079",Xojo:"#81bd41",Xonsh:"#285EEF",
-Xtend:"#24255d",YAML:"#cb171e",YARA:"#220000",YASnippet:"#32AB90",Yacc:"#4B6C4B",Yul:"#794932",ZAP:"#0d665e",ZIL:"#dc75e5",ZenScript:"#00BCD1",Zephir:"#118f9e",Zig:"#ec915c",Zimpl:"#d67711",Zmodel:"#f\
-f7100",crontab:"#ead7ac",eC:"#913960",fish:"#4aae47",hoon:"#00b171",iCalendar:"#ec564c",jq:"#c7254e",kvlang:"#1da6e0","mIRC Script":"#3d57c3",mcfunction:"#E22837",mdsvex:"#5f9ea0",mupad:"#244963",nanorc:"\
-#2d004d",nesC:"#94B0C7",ooc:"#b0b77e","pkg-config":"#2b5e82",q:"#0040cd",reStructuredText:"#141414",sed:"#64b970",templ:"#66D0DD",ucode:"#00b8d4",vCard:"#ee2647",wisp:"#7582D1",xBase:"#403a40"};var DEFAULT_LANG_COLOR="#858585";var languageColors=languageColors_default;var getLanguageColor=name=>languageColors[name]??DEFAULT_LANG_COLOR;var ICON_SIZE=16;var CARD_DEFAULT_WIDTH=400;var X_OFFSET=25;var HEADER_MAX_LENGTH=35;var DESCRIPTION_BOX_WIDTH=CARD_DEFAULT_WIDTH-2*X_OFFSET;var DESCRIPTION_FONT_SIZE=13;var DESCRIPTION_LINE_HEIGHT_PX=16;
-var DESCRIPTION_MAX_LINES=10;var renderGistCard=(gistData,options={})=>{const{name,nameWithOwner,description,language,starsCount,forksCount}=gistData;const{theme="default_repocard",border_radius,show_owner=false,
-browser_rendering=false,hide_border=false}=options;const{lightColors,darkColors}=getLightDarkColors({...options,theme});const desc=parseEmojis(description||"No description provided");let descriptionLines;
-let descriptionSvg;if(browser_rendering){descriptionLines=countWrappedLines(desc,DESCRIPTION_FONT_SIZE,DESCRIPTION_BOX_WIDTH,DESCRIPTION_MAX_LINES);descriptionSvg=wrappedTextNode({text:desc,x:X_OFFSET,
-y:-3,width:DESCRIPTION_BOX_WIDTH,height:descriptionLines*DESCRIPTION_LINE_HEIGHT_PX+10,lineCount:descriptionLines,className:"description",testId:"description-text"})}else{const linesLimit=10;const multiLineDescription=wrapTextMultiline(
-desc,DESCRIPTION_BOX_WIDTH,DESCRIPTION_FONT_SIZE,linesLimit);descriptionLines=multiLineDescription.length;descriptionSvg=el("text",{class:"description",x:X_OFFSET,y:-5},multiLineDescription.map(line=>el(
-"tspan",{dy:"1.2em",x:X_OFFSET},line)))}const lineHeight=descriptionLines>3?12:10;const height=(descriptionLines>1?120:110)+descriptionLines*lineHeight;const totalStars=kFormatter(starsCount);const totalForks=kFormatter(
-forksCount);const svgStars=iconWithLabel(icons.star,totalStars,"starsCount",ICON_SIZE);const svgForks=iconWithLabel(icons.fork,totalForks,"forksCount",ICON_SIZE);const languageName=language||"Unspecif\
-ied";const languageColor=getLanguageColor(languageName);const svgLanguage=createLanguageNode(languageName,languageColor);const starAndForkCount=flexLayout({items:[svgLanguage,svgStars,svgForks],sizes:[
-measureText(languageName,12),ICON_SIZE+measureText(`${totalStars}`,12),ICON_SIZE+measureText(`${totalForks}`,12)],gap:25});const header=show_owner?nameWithOwner:name;const card=new Card({defaultTitle:header.
-length>HEADER_MAX_LENGTH?`${header.slice(0,HEADER_MAX_LENGTH)}...`:header,titlePrefixIcon:icons.gist,width:CARD_DEFAULT_WIDTH,height,border_radius,colors:{light:lightColors,dark:darkColors}});card.setCSS(
-{light:({textColor,iconColor})=>[rule(".description",{font:`400 ${DESCRIPTION_FONT_SIZE}px 'Segoe UI', Ubuntu, Sans-Serif`,fill:textColor,...browser_rendering?wrappedTextStyles(textColor):{}}),rule(".\
-gray",{font:"400 12px 'Segoe UI', Ubuntu, Sans-Serif",fill:textColor}),rule(".icon",{fill:iconColor})],dark:({textColor,iconColor})=>[rule(".description",{fill:textColor,...browser_rendering?wrappedTextStyles(
-textColor):{}}),rule(".gray",{fill:textColor}),rule(".icon",{fill:iconColor})]});card.setHideBorder(hide_border);card.setAccessibilityLabel({title:card.title,desc:`${desc}. Language: ${languageName}, \
-Stars: ${totalStars}, Forks: ${totalForks}`});return card.render([descriptionSvg,el("g",{transform:`translate(30, ${height-75})`},starAndForkCount)])};var GITHUB_GRAPHQL_API="https://api.github.com/graphql";var defaultFetch=(input,init)=>fetch(input,init);var httpRequest=async(fetchImpl,url,init)=>{const response=await fetchImpl(url,init);const body=await response.
-text();let data;try{data=JSON.parse(body)}catch{data=body}return{status:response.status,statusText:response.statusText,data}};var createGraphQLFetcher=(document,scheme)=>(variables,token,{fetch:fetch2})=>httpRequest(
-fetch2,GITHUB_GRAPHQL_API,{method:"POST",headers:{Authorization:`${scheme} ${token}`,"Content-Type":"application/json"},body:JSON.stringify({query:document.text,variables})});var logger={log:console.log,error:console.error};function getRandomInt(max){return Math.floor(Math.random()*max)}var retryer=async(fetcher5,variables,config2)=>{const PATs=config2.pats;if(PATs.length===0){throw new CardError("No GitHub API tokens fo\
-und",{code:"no_tokens"})}const startPAT=getRandomInt(PATs.length);for(let retries=0;retries<PATs.length;retries+=1){const currentPAT=PATs[(startPAT+retries)%PATs.length];if(!currentPAT){continue}const response=await fetcher5(
-variables,currentPAT.value,{fetch:config2.fetch,retries});const{errors}=response.data;const errorType=errors?.[0]?.type;const errorMsg=errors?.[0]?.message??"";const isRateLimited=!!errors&&errorType===
-"RATE_LIMITED"||/rate limit/i.test(errorMsg);if(isRateLimited){logger.log(`${currentPAT.name} Failed due to rate limiting`);continue}const{message}=response.data;const isBadCredential=message==="Bad c\
-redentials";const isAccountSuspended=message==="Sorry. Your account was suspended.";if(isBadCredential||isAccountSuspended){logger.log(`${currentPAT.name} Failed due to bad credentials`);continue}return response}
-throw new CardError("Downtime due to GitHub API rate limiting",{code:"rate_limited"})};var graphqlDocument=text=>({text});var GistInfoDocument=graphqlDocument(`
-query gistInfo($gistName: String!) {
-  viewer {
-    gist(name: $gistName) {
-      description
-      owner {
-        login
-      }
-      stargazerCount
-      forks {
-        totalCount
-      }
-      files {
-        ...GistFileInfo
-      }
-    }
-  }
-}
-fragment GistFileInfo on GistFile {
-  name
-  language {
-    name
-  }
-  size
-}`);var fetcher=createGraphQLFetcher(GistInfoDocument,"token");var calculatePrimaryLanguage=files=>{const languages={};for(const file of files){if(file.language){languages[file.language.name]=(languages[file.
-language.name]??0)+(file.size??0)}}let primaryLanguage=null;let maxSize=-1;for(const[language,size]of Object.entries(languages)){if(size>maxSize){maxSize=size;primaryLanguage=language}}return primaryLanguage};
-var fetchGist=async({id},config2)=>{if(!id){throw CardError.missingParam(["id"],"/api/gist?id=GIST_ID")}const res=await retryer(fetcher,{gistName:id},config2);if(res.data.errors){throw new CardError(res.
-data.errors[0]?.message??"Could not fetch gist.",{code:"upstream"})}const{gist:gist2}=res.data.data.viewer;if(!gist2){throw new CardError("Gist not found",{code:"not_found",secondaryMessage:GIST_NOT_FOUND})}
-const firstFile=gist2.files?.[0];if(!firstFile?.name){throw new CardError("Gist has no files",{code:"not_found"})}return{name:firstFile.name,nameWithOwner:`${gist2.owner?.login??""}/${firstFile.name}`,
-description:gist2.description,language:calculatePrimaryLanguage(gist2.files?.filter(file=>!!file)??[]),starsCount:gist2.stargazerCount,forksCount:gist2.forks.totalCount}};var errorResult=(err,renderOptions)=>{const error2=CardError.from(err);return{status:"error",retryable:error2.retryable,error:{code:error2.code,message:error2.message,secondaryMessage:error2.secondaryMessage,
-param:error2.param},content:renderError({message:error2.message,secondaryMessage:error2.secondaryMessage,renderOptions:{...renderOptions,show_repo_link:error2.code!=="missing_param"}})}};var statCardLocales=({name,apostrophe})=>({"statcard.title":{en:`${name}'${apostrophe} GitHub Stats`,ar:`${name} \u0625\u062D\u0635\u0627\u0626\u064A\u0627\u062A \u062C\u064A\u062A \u0647\u0627\u0628`,
+{items:[this.titlePrefixIcon&&el("svg",{class:"title-icon",x:0,y:-13,viewBox:"0 0 16 16",version:"1.1",width:16,height:16},this.titlePrefixIcon),el("text",{x:0,y:0,class:"header","data-testid":"header"},
+this.title)],gap:25}),el("rect",{"data-testid":"title-accent",class:"title-accent",x:0,y:ACCENT.y,width:ACCENT.width,height:ACCENT.height,rx:ACCENT.height/2}))}get bodyOffset(){return this.hideTitle?this.
+paddingX:this.paddingY+25}renderTitleBand(){const height=this.bodyOffset-TITLE_BAND.gap;const innerWidth=this.width-1;const r=Math.min(this.border_radius,height,innerWidth/2);return el("path",{"data-t\
+estid":"title-band",class:"title-band",d:`M0.5 ${.5+r}a${r} ${r} 0 0 1 ${r} ${-r}h${innerWidth-2*r}a${r} ${r} 0 0 1 ${r} ${r}v${height-r-.5}h${-innerWidth}z`})}renderGradient(){if(typeof this.colors.light.
+bgColor==="object"&&!isValidGradient(this.colors.light.bgColor)){throw new Error(`Invalid gradient: ${this.colors.light.bgColor.join(",")}`)}if(this.colors.dark&&typeof this.colors.dark.bgColor==="obj\
+ect"&&!isValidGradient(this.colors.dark.bgColor)){throw new Error(`Invalid dark gradient: ${this.colors.dark.bgColor.join(",")}`)}const defs=[typeof this.colors.light.bgColor==="object"&&buildGradientDef(
+"gradient",this.colors.light.bgColor),this.colors.dark&&typeof this.colors.dark.bgColor==="object"&&buildGradientDef("gradient-dark",this.colors.dark.bgColor)].filter(Boolean);return defs.length===0?void 0:
+el("defs",{},defs)}renderDarkMediaBlock(){if(!this.colors.dark){return void 0}const bgFill=typeof this.colors.dark.bgColor==="object"?"url(#gradient-dark)":this.colors.dark.bgColor;return atRule("@med\
+ia (prefers-color-scheme: dark)",rule(".header",{fill:this.colors.dark.titleColor}),rule(".title-icon",{fill:this.colors.dark.iconColor}),rule(".title-accent",{fill:this.colors.dark.iconColor}),rule("\
+.title-band",{fill:this.colors.dark.titleColor}),rule(".card-bg",{fill:bgFill,stroke:this.colors.dark.borderColor}),this.darkCss)}render(body){if(!Number.isFinite(this.border_radius)){throw new TypeError(
+`Invalid border radius: "${this.border_radius}"`)}if(!isPrefixedHexColor(this.colors.light.titleColor)){throw new Error(`Invalid title color: "${this.colors.light.titleColor}"`)}if(!isPrefixedHexColor(
+this.colors.light.borderColor)){throw new Error(`Invalid border color: "${this.colors.light.borderColor}"`)}if(!(typeof this.colors.light.bgColor==="object"?isValidGradient(this.colors.light.bgColor):
+isPrefixedHexColor(this.colors.light.bgColor))){throw new Error(`Invalid background color: ${String(this.colors.light.bgColor)}`)}return renderMarkup(el("svg",{width:this.width,height:this.height,viewBox:`\
+0 0 ${this.width} ${this.height}`,fill:"none",xmlns:"http://www.w3.org/2000/svg",role:"img","aria-labelledby":"title-id desc-id"},el("title",{id:"title-id"},this.a11yTitle),el("desc",{id:"desc-id"},this.
+a11yDesc),style(rule(".header",{font:font("semibold","title"),fill:this.colors.light.titleColor,animation:"fadeInAnimation 0.8s ease-in-out forwards"}),cssComment("The icon reads against the title rat\
+her than with it, so it keeps its own color."),rule(".title-icon",{fill:this.colors.light.iconColor,animation:"fadeInAnimation 0.8s ease-in-out forwards"}),rule(".title-accent",{fill:this.colors.light.
+iconColor,animation:"fadeInAnimation 0.8s ease-in-out forwards"}),rule(".title-band",{fill:this.colors.light.titleColor,opacity:TITLE_BAND.opacity}),firefoxFontSize([".header"],TITLE_FIREFOX_SIZE),this.
+css,this.renderDarkMediaBlock(),getAnimations(),!this.animations&&rule("*",NO_MOTION)),this.renderGradient(),el("rect",{"data-testid":"card-bg",class:"card-bg",x:.5,y:.5,rx:this.border_radius,height:"\
+99%",stroke:this.colors.light.borderColor,width:this.width-1,fill:typeof this.colors.light.bgColor==="object"?"url(#gradient)":this.colors.light.bgColor,"stroke-opacity":this.hideBorder?0:1}),!this.hideTitle&&
+this.renderTitleBand(),!this.hideTitle&&this.renderTitle(),el("g",{"data-testid":"main-card-body",transform:`translate(0, ${this.bodyOffset})`},body)))}};var RANGE_DATE_PATTERN=/^(?<year>\d{4})(?:-(?<month>\d{2})(?:-(?<day>\d{2}))?)?$/;var toGitHubDateTime=date2=>`${date2.toISOString().slice(0,19)}Z`;var getGitHubYearRange=year=>({from:new Date(Date.UTC(
+year,0,1)),to:new Date(Date.UTC(year,11,31,23,59,59))});var getWidestRange=()=>({from:getGitHubYearRange(GITHUB_EPOCH_YEAR).from,to:getGitHubYearRange(new Date().getUTCFullYear()).to});var toRange=(from,to)=>{
+const widest=getWidestRange();return{from:from??widest.from,to:to??widest.to}};var parseRangeDate=(value,end)=>{const match=RANGE_DATE_PATTERN.exec(value);if(!match){return void 0}const{year:yearText,
+month:monthText,day:dayText}=match.groups??{};const year=Number(yearText);const month=monthText===void 0?1:Number(monthText);const day=dayText===void 0?1:Number(dayText);const start=new Date(Date.UTC(
+year,month-1,day));if(start.getUTCMonth()+1!==month||start.getUTCDate()!==day){return void 0}if(end==="from"){return start}const nextUnit=dayText!==void 0?Date.UTC(year,month-1,day+1):monthText!==void 0?
+Date.UTC(year,month,1):Date.UTC(year+1,0,1);return new Date(nextUnit-1e3)};var toYearRanges=({from,to})=>{const ranges=[];for(let year=from.getUTCFullYear();year<=to.getUTCFullYear();year+=1){const yearRange=getGitHubYearRange(
+year);const start=from>yearRange.from?from:yearRange.from;const end=to<yearRange.to?to:yearRange.to;if(start<=end){ranges.push({from:start,to:end})}}return ranges};var formatYears=(first,last)=>first===
+last?`${first}`:`${first}\u2013${last}`;var formatRange=({from,to})=>{const firstYear=from.getUTCFullYear();const lastYear=to.getUTCFullYear();const wholeYears=from.getTime()===getGitHubYearRange(firstYear).
+from.getTime()&&to.getTime()===getGitHubYearRange(lastYear).to.getTime();if(!wholeYears){return`${from.toISOString().slice(0,10)} \u2013 ${to.toISOString().slice(0,10)}`}return formatYears(firstYear,lastYear)};
+var toContributionRanges=(contributionYears,range)=>{const contributed=new Set(contributionYears);return toYearRanges(range).filter(year=>contributed.has(year.from.getUTCFullYear()))};var FALLBACK_LOCALE="en";var I18n=class{locale;translations;constructor({locale,translations}){this.locale=locale||FALLBACK_LOCALE;this.translations=translations}t(str){const translation=this.translations[str];
+if(!translation){throw new Error(`${str} Translation string not found`)}const localized=translation[this.locale]??translation[FALLBACK_LOCALE];if(!localized){throw new Error(`'${str}' translation not \
+found for locale '${this.locale}'`)}return localized}};var statCardLocales=({name,apostrophe})=>({"statcard.title":{en:`${name}'${apostrophe} GitHub Stats`,ar:`${name} \u0625\u062D\u0635\u0627\u0626\u064A\u0627\u062A \u062C\u064A\u062A \u0647\u0627\u0628`,
 az:`${name}'${apostrophe} Hesab\u0131n\u0131n GitHub Statistikas\u0131`,ca:`Estad\xEDstiques de GitHub de ${name}`,cn:`${name} \u7684 GitHub \u7EDF\u8BA1\u6570\u636E`,"zh-tw":`${name} \u7684 GitHub \u7D71\u8A08\u8CC7\u6599`,
 cs:`GitHub statistiky u\u017Eivatele ${name}`,de:`${name+apostrophe} GitHub-Statistiken`,sw:`GitHub Stats za ${name}`,ur:`${name} \u06A9\u06D2 \u06AF\u0679 \u06C1\u0628 \u06A9\u06D2 \u0627\u0639\u062F\u0627\u062F \u0648 \u0634\u0645\u0627\u0631`,
 bg:`GitHub \u0441\u0442\u0430\u0442\u0438\u0441\u0442\u0438\u043A\u0430 \u043D\u0430 \u043F\u043E\u0442\u0440\u0435\u0431\u0438\u0442\u0435\u043B ${name}`,bn:`${name} \u098F\u09B0 GitHub \u09AA\u09B0\u09BF\u09B8\u0982\u0996\u09CD\u09AF\u09BE\u09A8`,
@@ -3509,7 +3414,7 @@ my:"\u1021\u1000\u1030\u1021\u100A\u102E\u1015\u1031\u1038\u1001\u1032\u1037\u10
 esz\u0142ym roku)",uz:"Hissa qo\u02BBshgan (o'tgan yili)",vi:"\u0110\xE3 \u0110\xF3ng G\xF3p (n\u0103m ngo\xE1i)",se:"Bidragit till (f\xF6rra \xE5ret)",he:"\u05EA\u05E8\u05DD \u05DC... (\u05E9\u05E0\u05D4 \u05E9\u05E2\u05D1\u05E8\u05D4)",
 fil:"Nag-ambag sa (nakaraang taon)",th:"\u0E21\u0E35\u0E2A\u0E48\u0E27\u0E19\u0E23\u0E48\u0E27\u0E21\u0E43\u0E19 (\u0E1B\u0E35\u0E17\u0E35\u0E48\u0E41\u0E25\u0E49\u0E27)",sr:"\u0414\u043E\u043F\u0440\u0438\u043D\u043E\u0441\u0438 (\u043F\u0440\u043E\u0448\u043B\u0430 \u0433\u043E\u0434\u0438\u043D\u0430)",
 "sr-latn":"Doprinosi (pro\u0161la godina)",no:"Bidro til (i fjor)",be:"\u0423\u043A\u043B\u0430\u0434 (\u0437\u0430 \u043C\u0456\u043D\u0443\u043B\u044B \u0433\u043E\u0434)"},"statcard.all-time-contri\
-bs":{en:"Contributed to (all time)"},"statcard.reviews":{en:"Total PRs Reviewed",ar:"\u0637\u0644\u0628\u0627\u062A \u0627\u0644\u0633\u062D\u0628 \u0627\u0644\u062A\u064A \u062A\u0645 \u0645\u0631\u0627\u062C\u0639\u062A\u0647\u0627",
+bs":{en:"Contributed to (all time)"},"statcard.rank":{en:"Rank"},"statcard.reviews":{en:"Total PRs Reviewed",ar:"\u0637\u0644\u0628\u0627\u062A \u0627\u0644\u0633\u062D\u0628 \u0627\u0644\u062A\u064A \u062A\u0645 \u0645\u0631\u0627\u062C\u0639\u062A\u0647\u0627",
 az:"N\u0259z\u0259rd\u0259n Ke\xE7iril\u0259n \xDCmumi PR",ca:"Total de PRs revisats",cn:"\u5BA1\u67E5\u7684 PR \u603B\u6570","zh-tw":"\u5BE9\u6838\u7684 PR \u7E3D\u8A08",cs:"Celkov\xFD po\u010Det PR",
 de:"Insgesamt \xFCberpr\xFCfte PRs",sw:"Idadi ya PRs zilizopitiliwa upya",ur:"\u06A9\u0644 \u067E\u06CC \u0622\u0631\u0632 \u06A9\u0627 \u062C\u0627\u0626\u0632\u06C1 \u0644\u06CC\u0627",bg:"\u0420\u0430\u0437\u0433\u043B\u0435\u0434\u0430\u043D\
 \u0438 \u0437\u0430\u044F\u0432\u043A\u0438 \u0437\u0430 \u0438\u0437\u0442\u0435\u0433\u043B\u044F\u043D\u0435",bn:"\u09B8\u09B0\u09CD\u09AC\u09AE\u09CB\u099F \u09AA\u09C1\u09A8\u09B0\u09BE\u09B2\u09CB\u099A\u09A8\u09BE \u0995\u09B0\u09BE PR",
@@ -3587,19 +3492,20 @@ el:"\u03A0\u03BF\u03C3\u03BF\u03C3\u03C4\u03CC \u03A3\u03C5\u03B3\u03C7\u03C9\u0
 zdesi",pl:"Procent po\u0142\u0105czonych PR",uz:"Birlangan PR-lar foizi",vi:"T\u1EF7 L\u1EC7 PR \u0110\xE3 H\u1EE3p Nh\u1EA5t",se:"Procent av sammanfogade PR",he:"\u05D0\u05D7\u05D5\u05D6 \u05D4\u05BEPRs \u05E9\u05E9\u05D5\u05DC\u05D1\u05D5",
 fil:"Porsyento ng mga PR na Pinagsama",th:"\u0E40\u0E1B\u0E2D\u0E23\u0E4C\u0E40\u0E0B\u0E47\u0E19\u0E15\u0E4C PR \u0E17\u0E35\u0E48\u0E16\u0E39\u0E01 Merged \u0E41\u0E25\u0E49\u0E27\u0E17\u0E31\u0E49\u0E07\u0E2B\u0E21\u0E14",
 sr:"\u041F\u0440\u043E\u0446\u0435\u043D\u0430\u0442 \u0441\u043F\u043E\u0458\u0435\u043D\u0438\u0445 PR-\u043E\u0432\u0430","sr-latn":"Procenat spojenih PR-ova",no:"Prosentandel sammensl\xE5tte PR",be:"\
-\u0410\u0434\u0441\u043E\u0442\u0430\u043A \u0430\u0431'\u044F\u0434\u043D\u0430\u043D\u044B\u0445 PR"}});var repoCardLocales={"repocard.template":{en:"Template",ar:"\u0642\u0627\u0644\u0628",az:"\u015Eabl\
-on",bg:"\u0428\u0430\u0431\u043B\u043E\u043D",bn:"\u099F\u09C7\u09AE\u09AA\u09CD\u09B2\u09C7\u099F",ca:"Plantilla",cn:"\u6A21\u677F","zh-tw":"\u6A21\u677F",cs:"\u0160ablona",de:"Vorlage",sw:"Kigezo",ur:"\
-\u0633\u0627\u0646\u0686\u06C1",es:"Plantilla",fa:"\u0627\u0644\u06AF\u0648",fi:"Malli",fr:"Mod\xE8le",hi:"\u0916\u093E\u0915\u093E",sa:"\u092A\u094D\u0930\u093E\u0930\u0942\u092A\u092E\u094D",hu:"Sab\
-lon",it:"Template",ja:"\u30C6\u30F3\u30D7\u30EC\u30FC\u30C8",kr:"\uD15C\uD50C\uB9BF",nl:"Sjabloon","pt-pt":"Modelo","pt-br":"Modelo",np:"\u091F\u0947\u092E\u094D\u092A\u0932\u0947\u091F",el:"\u03A0\u03C1\u03CC\u03C4\u03C5\u03C0\u03BF",
-ro:"\u0218ablon",ru:"\u0428\u0430\u0431\u043B\u043E\u043D","uk-ua":"\u0428\u0430\u0431\u043B\u043E\u043D",id:"Pola",ml:"\u0D1F\u0D46\u0D02\u0D2A\u0D4D\u0D32\u0D47\u0D31\u0D4D\u0D31\u0D4D",my:"\u1015\u102F\u1036\u1005\u1036",
-ta:`\u0B9F\u0BC6\u0BAE\u0BCD\u0BAA\u0BCD\u0BB3\u0BC7\u0B9F\u0BCD`,sk:"\u0160abl\xF3na",tr:"\u015Eablon",pl:"Szablony",uz:"Shablon",vi:"M\u1EABu",se:"Mall",he:"\u05EA\u05D1\u05E0\u05D9\u05EA",fil:"Sule\
-ras",th:"\u0E40\u0E17\u0E21\u0E40\u0E1E\u0E25\u0E15",sr:"\u0428\u0430\u0431\u043B\u043E\u043D","sr-latn":"\u0160ablon",no:"Mal",be:"\u0428\u0430\u0431\u043B\u043E\u043D"},"repocard.archived":{en:"Arch\
-ived",ar:"\u0645\u064F\u0624\u0631\u0634\u0641",az:"Arxiv",bg:"\u0410\u0440\u0445\u0438\u0432\u0438\u0440\u0430\u043D\u0438",bn:"\u0986\u09B0\u09CD\u0995\u09BE\u0987\u09AD\u09A1",ca:"Arxivats",cn:"\u5DF2\u5F52\u6863",
-"zh-tw":"\u5DF2\u5C01\u5B58",cs:"Archivov\xE1no",de:"Archiviert",sw:"Hifadhiwa kwenye kumbukumbu",ur:"\u0645\u062D\u0641\u0648\u0638 \u0634\u062F\u06C1",es:"Archivados",fa:"\u0628\u0627\u06CC\u06AF\u0627\u0646\u06CC\u200C\u0634\u062F\u0647",
-fi:"Arkistoitu",fr:"Archiv\xE9",hi:"\u0938\u0902\u0917\u094D\u0930\u0939\u0940\u0924",sa:"\u0938\u0902\u0917\u0943\u0939\u0940\u0924\u092E\u094D",hu:"Archiv\xE1lt",it:"Archiviata",ja:"\u30A2\u30FC\u30AB\u30A4\u30D6\u6E08\u307F",
-kr:"\uBCF4\uAD00\uB428",nl:"Gearchiveerd","pt-pt":"Arquivados","pt-br":"Arquivados",np:"\u0905\u092D\u093F\u0932\u0947\u0916 \u0930\u093E\u0916\u093F\u092F\u094B",el:"\u0391\u03C1\u03C7\u03B5\u03B9\u03BF\u03B8\u03B5\u03C4\u03B7\u03BC\u03AD\u03BD\u03B1",
-ro:"Arhivat",ru:"\u0410\u0440\u0445\u0438\u0432\u0438\u0440\u043E\u0432\u0430\u043D","uk-ua":"\u0410\u0440\u0445\u0438\u0432\u043E\u0432\u0430\u043D\u0438\u0439",id:"Arsip",ml:"\u0D36\u0D47\u0D16\u0D30\u0D3F\u0D1A\u0D4D\u0D1A\u0D24\u0D4D",
-my:"\u101E\u102D\u102F\u101C\u103E\u1031\u102C\u1004\u103A\u1015\u103C\u102E\u1038",ta:`\u0B95\u0BBE\u0BAA\u0BCD\u0BAA\u0B95\u0BAA\u0BCD\u0BAA\u0B9F\u0BC1\u0BA4\u0BCD\u0BA4\u0BAA\u0BCD\u0BAA\u0B9F\u0BCD\u0B9F\u0BA4\u0BC1`,
+\u0410\u0434\u0441\u043E\u0442\u0430\u043A \u0430\u0431'\u044F\u0434\u043D\u0430\u043D\u044B\u0445 PR"}});var repoCardLocales={"repocard.no-description":{en:"No description provided"},"repocard.unspec\
+ified-language":{en:"Unspecified"},"repocard.template":{en:"Template",ar:"\u0642\u0627\u0644\u0628",az:"\u015Eablon",bg:"\u0428\u0430\u0431\u043B\u043E\u043D",bn:"\u099F\u09C7\u09AE\u09AA\u09CD\u09B2\u09C7\u099F",
+ca:"Plantilla",cn:"\u6A21\u677F","zh-tw":"\u6A21\u677F",cs:"\u0160ablona",de:"Vorlage",sw:"Kigezo",ur:"\u0633\u0627\u0646\u0686\u06C1",es:"Plantilla",fa:"\u0627\u0644\u06AF\u0648",fi:"Malli",fr:"Mod\xE8l\
+e",hi:"\u0916\u093E\u0915\u093E",sa:"\u092A\u094D\u0930\u093E\u0930\u0942\u092A\u092E\u094D",hu:"Sablon",it:"Template",ja:"\u30C6\u30F3\u30D7\u30EC\u30FC\u30C8",kr:"\uD15C\uD50C\uB9BF",nl:"Sjabloon","\
+pt-pt":"Modelo","pt-br":"Modelo",np:"\u091F\u0947\u092E\u094D\u092A\u0932\u0947\u091F",el:"\u03A0\u03C1\u03CC\u03C4\u03C5\u03C0\u03BF",ro:"\u0218ablon",ru:"\u0428\u0430\u0431\u043B\u043E\u043D","uk-ua":"\
+\u0428\u0430\u0431\u043B\u043E\u043D",id:"Pola",ml:"\u0D1F\u0D46\u0D02\u0D2A\u0D4D\u0D32\u0D47\u0D31\u0D4D\u0D31\u0D4D",my:"\u1015\u102F\u1036\u1005\u1036",ta:`\u0B9F\u0BC6\u0BAE\u0BCD\u0BAA\u0BCD\u0BB3\u0BC7\u0B9F\u0BCD`,
+sk:"\u0160abl\xF3na",tr:"\u015Eablon",pl:"Szablony",uz:"Shablon",vi:"M\u1EABu",se:"Mall",he:"\u05EA\u05D1\u05E0\u05D9\u05EA",fil:"Suleras",th:"\u0E40\u0E17\u0E21\u0E40\u0E1E\u0E25\u0E15",sr:"\u0428\u0430\u0431\u043B\u043E\u043D",
+"sr-latn":"\u0160ablon",no:"Mal",be:"\u0428\u0430\u0431\u043B\u043E\u043D"},"repocard.archived":{en:"Archived",ar:"\u0645\u064F\u0624\u0631\u0634\u0641",az:"Arxiv",bg:"\u0410\u0440\u0445\u0438\u0432\u0438\u0440\u0430\u043D\u0438",
+bn:"\u0986\u09B0\u09CD\u0995\u09BE\u0987\u09AD\u09A1",ca:"Arxivats",cn:"\u5DF2\u5F52\u6863","zh-tw":"\u5DF2\u5C01\u5B58",cs:"Archivov\xE1no",de:"Archiviert",sw:"Hifadhiwa kwenye kumbukumbu",ur:"\u0645\u062D\u0641\u0648\u0638 \
+\u0634\u062F\u06C1",es:"Archivados",fa:"\u0628\u0627\u06CC\u06AF\u0627\u0646\u06CC\u200C\u0634\u062F\u0647",fi:"Arkistoitu",fr:"Archiv\xE9",hi:"\u0938\u0902\u0917\u094D\u0930\u0939\u0940\u0924",sa:"\u0938\u0902\
+\u0917\u0943\u0939\u0940\u0924\u092E\u094D",hu:"Archiv\xE1lt",it:"Archiviata",ja:"\u30A2\u30FC\u30AB\u30A4\u30D6\u6E08\u307F",kr:"\uBCF4\uAD00\uB428",nl:"Gearchiveerd","pt-pt":"Arquivados","pt-br":"Ar\
+quivados",np:"\u0905\u092D\u093F\u0932\u0947\u0916 \u0930\u093E\u0916\u093F\u092F\u094B",el:"\u0391\u03C1\u03C7\u03B5\u03B9\u03BF\u03B8\u03B5\u03C4\u03B7\u03BC\u03AD\u03BD\u03B1",ro:"Arhivat",ru:"\u0410\u0440\u0445\u0438\
+\u0432\u0438\u0440\u043E\u0432\u0430\u043D","uk-ua":"\u0410\u0440\u0445\u0438\u0432\u043E\u0432\u0430\u043D\u0438\u0439",id:"Arsip",ml:"\u0D36\u0D47\u0D16\u0D30\u0D3F\u0D1A\u0D4D\u0D1A\u0D24\u0D4D",my:"\
+\u101E\u102D\u102F\u101C\u103E\u1031\u102C\u1004\u103A\u1015\u103C\u102E\u1038",ta:`\u0B95\u0BBE\u0BAA\u0BCD\u0BAA\u0B95\u0BAA\u0BCD\u0BAA\u0B9F\u0BC1\u0BA4\u0BCD\u0BA4\u0BAA\u0BCD\u0BAA\u0B9F\u0BCD\u0B9F\u0BA4\u0BC1`,
 sk:"Archivovan\xE9",tr:"Ar\u015Fiv",pl:"Zarchiwizowano",uz:"Arxivlangan",vi:"\u0110\xE3 L\u01B0u Tr\u1EEF",se:"Arkiverade",he:"\u05D2\u05E0\u05D5\u05D6",fil:"Naka-arkibo",th:"\u0E40\u0E01\u0E47\u0E1A\u0E16\u0E32\u0E27\u0E23",
 sr:"\u0410\u0440\u0445\u0438\u0432\u0438\u0440\u0430\u043D\u043E","sr-latn":"Arhivirano",no:"Arkivert",be:"\u0410\u0440\u0445\u0456\u0432\u0430\u0432\u0430\u043D\u044B"},"repocard.prs-authored":{en:"m\
 y created PRs","zh-tw":"\u6211\u6240\u5275\u5EFA\u7684\u62C9\u53D6\u8ACB\u6C42"},"repocard.prs-commented":{en:"my commented PRs","zh-tw":"\u6211\u6240\u53C3\u8207\u7684\u62C9\u53D6\u8ACB\u6C42"},"repo\
@@ -3729,56 +3635,280 @@ vitesi olmad\u0131",pl:"Brak aktywno\u015Bci w tym tygodniu",uz:"Bu hafta faol b
 \u05D9\u05DC\u05D5\u05EA \u05EA\u05DB\u05E0\u05D5\u05EA\u05D9\u05EA \u05D4\u05E9\u05D1\u05D5\u05E2",fil:"Walang aktibidad sa pag-code ngayong linggo",th:"\u0E44\u0E21\u0E48\u0E21\u0E35\u0E01\u0E34\u0E08\u0E01\u0E23\u0E23\u0E21\u0E01\u0E32\u0E23\u0E40\u0E02\u0E35\u0E22\u0E19\u0E42\u0E04\u0E49\u0E14\u0E43\u0E19\u0E2A\u0E31\u0E1B\u0E14\u0E32\u0E2B\u0E4C\u0E19\u0E35\u0E49",
 sr:"\u0422\u043E\u043A\u043E\u043C \u043E\u0432\u0435 \u043D\u0435\u0434\u0435\u0459\u0435 \u043D\u0438\u0458\u0435 \u0431\u0438\u043B\u043E \u043D\u0438\u043A\u0430\u043A\u0432\u0438\u0445 \u0430\u043A\u0442\u0438\u0432\u043D\u043E\u0441\u0442\u0438",
 "sr-latn":"Tokom ove nedelje nije bilo nikakvih aktivnosti",no:"Ingen kodeaktivitet denne uken",be:"\u041D\u0430 \u0433\u044D\u0442\u044B\u043C \u0442\u044B\u0434\u043D\u0456 \u043D\u0435 \u0431\u044B\u043B\u043E \u0430\u043A\u0442\u044B\u045E\u043D\u0430\u0441\u0446\u0456"}};
-var availableLocales=Object.keys(repoCardLocales["repocard.archived"]);var isLocaleAvailable=locale=>availableLocales.includes(locale.toLowerCase());var rawParam=optional(string2());var SAFE_PATTERN=/^[-\w/.,]+$/;var REJECTION_MESSAGES={number:param=>`Invalid number input for parameter "${param}"`,year:param=>`Invalid number input for parameter "${param}\
-"`,unsafe:param=>`Parameter "${param}" contains unsafe characters`,username:param=>`Invalid username input for parameter "${param}"`,locale:()=>"Locale not found",enum:param=>`Incorrect ${param} input`,
-color:param=>`Invalid color input for parameter "${param}"`};var rejects=(kind,passes)=>refine(value=>typeof value!=="string"||passes(value),{error:issue3=>REJECTION_MESSAGES[kind](String(issue3.path?.[0]??
-""))});var booleanParam=pipe(rawParam,transform(value=>parseBoolean(value)));var listParam=pipe(rawParam,transform(parseArray));var numberParam=pipe(rawParam.check(rejects("number",value=>Number.isFinite(
-Number.parseFloat(value)))),transform(value=>value===void 0?void 0:Number.parseFloat(value)));var looseIntParam=pipe(rawParam,transform(value=>value===void 0?void 0:Number.parseInt(value,10)));var yearParam=pipe(
-rawParam.check(rejects("year",value=>/^\d{4}$/.test(value))),transform(value=>value===void 0?void 0:Number(value)));var safeParam=rawParam.check(rejects("unsafe",value=>!value||SAFE_PATTERN.test(value)));
-var usernameParam=rawParam.check(rejects("username",value=>!value||GITHUB_USERNAME_PATTERN.test(value)));var safeListParam=pipe(safeParam,transform(parseArray));var localeParam=pipe(rawParam.check(rejects(
-"locale",value=>!value||isLocaleAvailable(value))),transform(value=>value?.toLowerCase()));var enumParam=values=>rawParam.check(rejects("enum",value=>values.includes(value)));var colorParamsSchema=object(
-Object.fromEntries(COLOR_PARAM_KEYS.map(key=>[key,THEME_PARAM_KEYS.includes(key)?rawParam:rawParam.check(rejects("color",isValidColorInput))])));var toCardError=error2=>{const[issue3]=error2.issues;return CardError.
-invalidParam(String(issue3?.path[0]??""),issue3?.message??"Invalid input")};var parseParams=(schema,query)=>{const result=safeParse(schema,query);if(!result.success){throw toCardError(result.error)}return result.
-data};var parseColorParams=query=>parseParams(colorParamsSchema,query);var gistQuery=object({id:safeParam,border_radius:numberParam,show_owner:booleanParam,browser_rendering:booleanParam,hide_border:booleanParam});var gist=async(query,config2)=>{let colors;try{colors=parseColorParams(
-query)}catch(error2){return errorResult(error2)}try{const{id,border_radius,show_owner,browser_rendering,hide_border}=parseParams(gistQuery,query);const gistData=await fetchGist({id},config2);return{status:"\
-success",content:renderGistCard(gistData,{...colors,border_radius,show_owner,browser_rendering,hide_border})}}catch(error2){return errorResult(error2,colors)}};var FALLBACK_LOCALE="en";var I18n=class{locale;translations;constructor({locale,translations}){this.locale=locale||FALLBACK_LOCALE;this.translations=translations}t(str){const translation=this.translations[str];
-if(!translation){throw new Error(`${str} Translation string not found`)}const localized=translation[this.locale];if(!localized){throw new Error(`'${str}' translation not found for locale '${this.locale}\
-'`)}return localized}};var ICON_SIZE2=16;var CARD_DEFAULT_WIDTH2=400;var X_OFFSET2=25;var DESCRIPTION_FONT_SIZE2=13;var DESCRIPTION_LINE_HEIGHT_PX2=16;var DESCRIPTION_MAX_LINES2=3;var getBadgeSVG=(label,xOffset=0)=>{if(!Number.
-isFinite(xOffset)){throw new TypeError(`Invalid xOffset: "${xOffset}"`)}return el("g",{"data-testid":"badge",class:"badge",transform:`translate(${320+xOffset}, -18)`},el("rect",{"stroke-width":1,width:70,
-height:20,x:-12,y:-14,ry:10,rx:10}),el("text",{x:23,y:-5,"alignment-baseline":"central","dominant-baseline":"central","text-anchor":"middle"},label))};var renderRepoCard=(repo,options={})=>{const{name,
-nameWithOwner,description,primaryLanguage,isArchived,isTemplate,stargazerCount,forkCount,totalPRsAuthored,totalPRsCommented,totalPRsReviewed,totalIssuesAuthored,totalIssuesCommented}=repo;const{hide_border=false,
-card_width_input,show_owner=false,browser_rendering=false,show=[],show_icons=true,number_format="short",text_bold=false,line_height=22,username,theme="default_repocard",border_radius,locale,description_lines_count}=options;
-const card_width=card_width_input&&!Number.isNaN(card_width_input)?card_width_input:show.length>=2?CARD_DEFAULT_WIDTH2+30:CARD_DEFAULT_WIDTH2;const i18n=new I18n({locale,translations:repoCardLocales});
-const repoFilter=encodeURIComponent(buildSearchFilter([nameWithOwner],[]));const encodedUsername=encodeURIComponent(username??"");const STATS={};if(show.includes("prs_authored")){STATS["prs_authored"]=
-{icon:icons.prs,label:i18n.t("repocard.prs-authored"),value:totalPRsAuthored,id:"prs_authored",link:`https://github.com/search?q=${repoFilter}author%3A${encodedUsername}&amp;type=pullrequests`}}if(show.
-includes("prs_commented")){STATS["prs_commented"]={icon:icons.comments,label:i18n.t("repocard.prs-commented"),value:totalPRsCommented,id:"prs_commented",link:`https://github.com/search?q=${repoFilter}\
-commenter%3A${encodedUsername}+-author%3A${encodedUsername}&amp;type=pullrequests`}}if(show.includes("prs_reviewed")){STATS["prs_reviewed"]={icon:icons.reviews,label:i18n.t("repocard.prs-reviewed"),value:totalPRsReviewed,
-id:"prs_reviewed",link:`https://github.com/search?q=${repoFilter}reviewed-by%3A${encodedUsername}+-author%3A${encodedUsername}&amp;type=pullrequests`}}if(show.includes("issues_authored")){STATS["issue\
-s_authored"]={icon:icons.issues,label:i18n.t("repocard.issues-authored"),value:totalIssuesAuthored,id:"issues_authored",link:`https://github.com/search?q=${repoFilter}author%3A${encodedUsername}&amp;t\
-ype=issues`}}if(show.includes("issues_commented")){STATS["issues_commented"]={icon:icons.discussions_started,label:i18n.t("repocard.issues-commented"),value:totalIssuesCommented,id:"issues_commented",
-link:`https://github.com/search?q=${repoFilter}commenter%3A${encodedUsername}+-author%3A${encodedUsername}&amp;type=issues`}}const statItems=Object.values(STATS).map((stat2,index)=>createTextNode({icon:stat2.
-icon,label:stat2.label,value:stat2.value??0,id:stat2.id,unitSymbol:stat2.unitSymbol,index,showIcons:show_icons,shiftValuePos:14.01,bold:text_bold,numberFormat:number_format,link:stat2.link,labelXOffset:23}));
-const extraLHeight=Number.parseInt(String(line_height),10);const lineHeight=10;const header=show_owner?nameWithOwner:name;const langName=primaryLanguage?.name||"Unspecified";const langColor=primaryLanguage?.
-color||"#333";const desc=parseEmojis(description||"No description provided");const descriptionBoxWidth=card_width-2*X_OFFSET2;let descriptionLinesCount;let descriptionSvg;if(browser_rendering){descriptionLinesCount=
-description_lines_count?clampValue(description_lines_count,1,DESCRIPTION_MAX_LINES2):countWrappedLines(desc,DESCRIPTION_FONT_SIZE2,descriptionBoxWidth,DESCRIPTION_MAX_LINES2);descriptionSvg=wrappedTextNode(
-{text:desc,x:X_OFFSET2,y:-3,width:descriptionBoxWidth,height:descriptionLinesCount*DESCRIPTION_LINE_HEIGHT_PX2+10,lineCount:descriptionLinesCount,className:"description",testId:"description-text"})}else{
-const descriptionMaxLines=description_lines_count?clampValue(description_lines_count,1,DESCRIPTION_MAX_LINES2):DESCRIPTION_MAX_LINES2;const multiLineDescription=wrapTextMultiline(desc,descriptionBoxWidth,
-DESCRIPTION_FONT_SIZE2,descriptionMaxLines);descriptionLinesCount=description_lines_count?clampValue(description_lines_count,1,DESCRIPTION_MAX_LINES2):multiLineDescription.length;descriptionSvg=el("te\
-xt",{class:"description",x:X_OFFSET2,y:-5},multiLineDescription.map(line=>el("tspan",{dy:"1.2em",x:X_OFFSET2},line)))}const extraHeight=Object.keys(STATS).length>0?-7+(Math.ceil(statItems.length/2)+1)*
-extraLHeight:0;const height=(descriptionLinesCount>1?120:110)+descriptionLinesCount*lineHeight+extraHeight;const{lightColors,darkColors}=getLightDarkColors({...options,theme});const svgLanguage=primaryLanguage?
-createLanguageNode(langName,langColor):void 0;const totalStars=kFormatter(stargazerCount);const totalForks=kFormatter(forkCount);const svgStars=iconWithLabel(icons.star,totalStars,"stargazers",ICON_SIZE2);
-const svgForks=iconWithLabel(icons.fork,totalForks,"forkcount",ICON_SIZE2);const starAndForkCount=flexLayout({items:[svgLanguage,svgStars,svgForks],sizes:[measureText(langName,12),ICON_SIZE2+measureText(
-`${totalStars}`,12),ICON_SIZE2+measureText(`${totalForks}`,12)],gap:25});const extraRows=[];for(let i=0;i<statItems.length;i+=2){extraRows.push(flexLayout({items:statItems.slice(i,i+2),gap:210,direction:"\
-row"}))}const extraItems=el("svg",{x:0,y:0},el("g",{transform:`translate(-3, ${height-52-extraHeight})`},flexLayout({items:extraRows,gap:extraLHeight,direction:"column"})));const card=new Card({defaultTitle:header.
-length>35?`${header.slice(0,35)}...`:header,titlePrefixIcon:icons.contribs,width:card_width,height,border_radius,colors:{light:lightColors,dark:darkColors}});card.disableAnimations();card.setHideBorder(
-hide_border);card.setHideTitle(false);card.setCSS({light:({textColor,iconColor})=>[rule(".description",{font:`400 ${DESCRIPTION_FONT_SIZE2}px 'Segoe UI', Ubuntu, Sans-Serif`,fill:textColor,...browser_rendering?
-wrappedTextStyles(textColor):{}}),rule(".gray",{font:"400 12px 'Segoe UI', Ubuntu, Sans-Serif",fill:textColor}),rule(".badge",{font:"600 11px 'Segoe UI', Ubuntu, Sans-Serif"}),rule(".badge rect",{opacity:.2,
-stroke:textColor}),rule(".badge text",{fill:textColor}),rule(".stat",{font:"400 12px 'Segoe UI', Ubuntu, Sans-Serif",fill:textColor}),rule(".stagger",{opacity:0,animation:"fadeInAnimation 0.3s ease-in\
--out forwards"}),rule(".not_bold",{"font-weight":400}),rule(".bold",{"font-weight":700}),rule(".icon",{fill:iconColor,display:"block"})],dark:({textColor,iconColor})=>[rule(".description",{fill:textColor,
-...browser_rendering?wrappedTextStyles(textColor):{}}),rule(".gray",{fill:textColor}),rule(".badge rect",{stroke:textColor}),rule(".badge text",{fill:textColor}),rule(".stat",{fill:textColor}),rule(".\
-icon",{fill:iconColor})]});const extraStatLabels=Object.values(STATS).map(stat2=>`${stat2.label}: ${stat2.value??0}`).join(", ");card.setAccessibilityLabel({title:card.title,desc:[`${desc}.`,primaryLanguage?
-langName:"",extraStatLabels].filter(Boolean).join(", ")});return card.render([isTemplate?getBadgeSVG(i18n.t("repocard.template"),card_width-CARD_DEFAULT_WIDTH2):isArchived?getBadgeSVG(i18n.t("repocard\
-.archived"),card_width-CARD_DEFAULT_WIDTH2):void 0,descriptionSvg,el("g",{transform:`translate(30, ${height-75-extraHeight})`},starAndForkCount),extraItems])};var GetRepoDocument=graphqlDocument(`
+var gistCardLocales={"gistcard.no-description":{en:"No description provided"},"gistcard.unspecified-language":{en:"Unspecified"},"gistcard.language":{en:"Language"},"gistcard.stars":{en:"Stars"},"gist\
+card.forks":{en:"Forks"}};var contributedToCardLocales=({login,shown,totalRepos})=>{const repoWord=totalRepos===1?"repository":"repositories";return{"contributedtocard.title":{en:`Repositories ${login}\
+ contributed to`},"contributedtocard.title-unnamed":{en:"Repositories contributed to"},"contributedtocard.no-contributions":{en:"No contributions found"},"contributedtocard.footer-all":{en:`${totalRepos}\
+ ${repoWord}`},"contributedtocard.footer-top":{en:`top ${shown} of ${totalRepos} ${repoWord}`},"contributedtocard.contributions":{en:"contributions"},"contributedtocard.years":{en:"years"}}};var availableLocales=Object.
+keys(repoCardLocales["repocard.archived"]);var isLocaleAvailable=locale=>availableLocales.includes(locale.toLowerCase());var CARD_DEFAULT_WIDTH=CARD_WIDTH.wide;var MIN_CARD_WIDTH=340;var CARD_PADDING=25;var TITLE_FONT_SIZE=FONT_SIZE.title;var TITLE_ICON_COLUMN=25;var NAME_FONT_SIZE=FONT_SIZE.meta;var COUNT_WIDTH=46;var BAR_WIDTH=130;
+var COLUMN_GAP=12;var FIRST_ROW_Y=10;var ROW_HEIGHT=38;var ROW_HEIGHT_NO_YEARS=24;var YEAR_STRIP_Y=8;var YEAR_MARK_SIZE=7;var YEAR_MARK_GAP=3;var FOOTER_GAP=12;var BODY_OFFSET_Y=55;var BOTTOM_PADDING=18;
+var defaultTitleFor=(i18n,contentWidth)=>{const named=i18n.t("contributedtocard.title");return measureText(named,TITLE_FONT_SIZE)<=contentWidth?named:i18n.t("contributedtocard.title-unnamed")};var truncateName=(name,maxWidth)=>{
+if(measureText(name,NAME_FONT_SIZE)<=maxWidth){return name}let trimmed=name;while(trimmed.length>1&&measureText(`${trimmed}\u2026`,NAME_FONT_SIZE)>maxWidth){trimmed=trimmed.slice(0,-1)}return`${trimmed}\
+\u2026`};var createYearStrip=(repoYears,years,columnWidth)=>{const contributed=new Set(repoYears);const step=Math.min(YEAR_MARK_SIZE+YEAR_MARK_GAP,Math.floor(columnWidth/years.length));const size=Math.
+max(step-YEAR_MARK_GAP,3);return el("g",{"data-testid":"year-strip",transform:`translate(0, ${YEAR_STRIP_Y})`},years.map((year,index)=>el("rect",{"data-testid":contributed.has(year)?"year-on":"year-of\
+f",class:contributed.has(year)?"year-on":"year-off",x:index*step,y:0,width:size,height:size,rx:1,ry:1})))};var createRepoRow=({repo,index,maxContributions,years,nameWidth,contentWidth,rowHeight})=>el(
+"g",{class:"stagger",style:`animation-delay: ${450+index*150}ms`,transform:`translate(0, ${FIRST_ROW_Y+index*rowHeight})`},el("text",{class:"repo-name","data-testid":"repo-name",x:0,y:0},truncateName(
+repo.nameWithOwner,nameWidth)),createProgressNode({x:nameWidth+COLUMN_GAP,y:-9,width:BAR_WIDTH,progress:repo.contributions/maxContributions*100,delay:450+index*150}),el("text",{class:"count","data-tes\
+tid":"repo-contributions",x:contentWidth,y:0,"text-anchor":"end"},kFormatter(repo.contributions)),years.length>0&&createYearStrip(repo.years,years,nameWidth));var footerText=({i18n,shown,totalRepos,years})=>{
+const parts=[i18n.t(shown<totalRepos?"contributedtocard.footer-top":"contributedtocard.footer-all")];const[firstYear]=years;const lastYear=years.at(-1);if(firstYear!==void 0&&lastYear!==void 0){parts.
+push(formatYears(firstYear,lastYear))}return parts.join(" \xB7 ")};var renderContributedToCard=(data,options={})=>{const{locale,hide_title=false,hide_border=false,card_width,custom_title,disable_animations=false,
+hide_years=false,border_radius,theme="default"}=options;const{login,repos,totalRepos}=data;const years=hide_years?[]:data.years;const width=card_width&&!Number.isNaN(card_width)?clampValue(card_width,
+MIN_CARD_WIDTH,Number.MAX_SAFE_INTEGER):CARD_DEFAULT_WIDTH;const contentWidth=width-2*CARD_PADDING;const nameWidth=contentWidth-COUNT_WIDTH-BAR_WIDTH-2*COLUMN_GAP;const rowHeight=years.length>0?ROW_HEIGHT:
+ROW_HEIGHT_NO_YEARS;const maxContributions=Math.max(...repos.map(repo=>repo.contributions),1);const rows=repos.map((repo,index)=>createRepoRow({repo,index,maxContributions,years,nameWidth,contentWidth,
+rowHeight}));const i18n=new I18n({locale,translations:contributedToCardLocales({login,shown:repos.length,totalRepos})});const footer=footerText({i18n,shown:repos.length,totalRepos,years});const footerY=FIRST_ROW_Y+
+Math.max(repos.length,1)*rowHeight+FOOTER_GAP;const height=BODY_OFFSET_Y+footerY+BOTTOM_PADDING;const{lightColors,darkColors}=getLightDarkColors({...options,theme});const card=new Card({customTitle:custom_title,
+defaultTitle:defaultTitleFor(i18n,contentWidth-TITLE_ICON_COLUMN),titlePrefixIcon:CARD_ICON.contributedTo,width,height,border_radius,colors:{light:lightColors,dark:darkColors}});if(disable_animations){
+card.disableAnimations()}card.setHideBorder(hide_border);card.setHideTitle(hide_title);card.setCSS({light:({textColor,titleColor,iconColor,progBarBgColor})=>[atRule("@keyframes growWidthAnimation",rule(
+"from",{width:0}),rule("to",{width:"100%"})),rule(".repo-name",{font:font("regular","meta"),fill:textColor}),rule(".count",{font:font("semibold","meta"),fill:textColor,"font-variant-numeric":"tabular-\
+nums"}),rule(".footer",{font:font("regular","micro"),fill:textColor,opacity:.7}),firefoxFontSize([".repo-name",".count"],"small"),rule(".year-on",{fill:titleColor}),rule(".year-off",{fill:textColor,opacity:.25}),
+rule(".progress-background",{fill:progBarBgColor}),rule(".lang-progress",{fill:titleColor,animation:"growWidthAnimation 0.6s ease-in-out forwards"}),rule(".stagger",{opacity:0,animation:"fadeInAnimati\
+on 0.3s ease-in-out forwards"}),rule(".icon",{fill:iconColor,display:"block"})],dark:({textColor,titleColor,iconColor,progBarBgColor})=>[rule(".repo-name",{fill:textColor}),rule(".count",{fill:textColor}),
+rule(".footer",{fill:textColor}),rule(".year-on",{fill:titleColor}),rule(".year-off",{fill:textColor,opacity:.25}),rule(".progress-background",{fill:progBarBgColor}),rule(".lang-progress",{fill:titleColor}),
+rule(".icon",{fill:iconColor})]});card.setAccessibilityLabel({title:card.title,desc:[...repos.map(repo=>{const inYears=hide_years?"":`, ${i18n.t("contributedtocard.years")}: ${repo.years.join(", ")}`;
+return`${repo.nameWithOwner}: ${repo.contributions} ${i18n.t("contributedtocard.contributions")}${inYears}`}),footer].join("; ")});return card.render(el("g",{"data-testid":"contributed-to-body",transform:`\
+translate(${CARD_PADDING}, 0)`},repos.length===0?el("text",{class:"repo-name","data-testid":"no-repos",x:0,y:FIRST_ROW_Y},i18n.t("contributedtocard.no-contributions")):rows,el("text",{class:"footer","\
+data-testid":"footer",x:0,y:footerY},footer)))};var GITHUB_GRAPHQL_API="https://api.github.com/graphql";var defaultFetch=(input,init)=>fetch(input,init);var httpRequest=async(fetchImpl,url,init)=>{const response=await fetchImpl(url,init);const body=await response.
+text();let data;try{data=JSON.parse(body)}catch{data=body}return{status:response.status,statusText:response.statusText,data}};var createGraphQLFetcher=(document,scheme)=>(variables,token,{fetch:fetch2})=>httpRequest(
+fetch2,GITHUB_GRAPHQL_API,{method:"POST",headers:{Authorization:`${scheme} ${token}`,"Content-Type":"application/json"},body:JSON.stringify({query:document.text,variables})});var logger={log:console.log,error:console.error};function getRandomInt(max){return Math.floor(Math.random()*max)}var retryer=async(fetcher5,variables,config2)=>{const PATs=config2.pats;if(PATs.length===0){throw new CardError("No GitHub API tokens fo\
+und",{code:"no_tokens"})}const startPAT=getRandomInt(PATs.length);for(let retries=0;retries<PATs.length;retries+=1){const currentPAT=PATs[(startPAT+retries)%PATs.length];if(!currentPAT){continue}const response=await fetcher5(
+variables,currentPAT.value,{fetch:config2.fetch,retries});const{errors}=response.data;const errorType=errors?.[0]?.type;const errorMsg=errors?.[0]?.message??"";const isRateLimited=!!errors&&errorType===
+"RATE_LIMITED"||/rate limit/i.test(errorMsg);if(isRateLimited){logger.log(`${currentPAT.name} Failed due to rate limiting`);continue}const{message}=response.data;const isBadCredential=message==="Bad c\
+redentials";const isAccountSuspended=message==="Sorry. Your account was suspended.";if(isBadCredential||isAccountSuspended){logger.log(`${currentPAT.name} Failed due to bad credentials`);continue}return response}
+throw new CardError("Downtime due to GitHub API rate limiting",{code:"rate_limited"})};var graphqlDocument=text=>({text});var UserContributionYearsDocument=graphqlDocument(`
+query userContributionYears($login: String!) {
+  user(login: $login) {
+    login
+    contributionsCollection {
+      contributionYears
+    }
+  }
+}`);var contributionsCollectionOf=({from,to})=>`contributionsCollection(from: "${toGitHubDateTime(from)}", to: "${toGitHubDateTime(to)}")`;var aliasedRanges=(ranges,fragment)=>ranges.map((range,index)=>`r\
+ange_${index}: ${contributionsCollectionOf(range)} { ...${fragment} }`).join("\n");var MAX_REPOSITORIES_LIMIT=100;var buildReposContributedToDocument=(ranges,includeOwnRepos)=>{const ownRepoField=includeOwnRepos?`repositoryContributions(first: $maxRepositories) {
+    nodes {
+      repository {
+        nameWithOwner
+      }
+    }
+  }`:"";return graphqlDocument(`
+query userReposContributedTo($login: String!, $maxRepositories: Int!) {
+  user(login: $login) {
+    ${aliasedRanges(ranges,"RangeContributionsByRepo")}
+  }
+}
+fragment RangeContributionsByRepo on ContributionsCollection {
+  commitContributionsByRepository(maxRepositories: $maxRepositories) {
+    repository {
+      nameWithOwner
+    }
+    contributions {
+      totalCount
+    }
+  }
+  issueContributionsByRepository(maxRepositories: $maxRepositories) {
+    repository {
+      nameWithOwner
+    }
+    contributions {
+      totalCount
+    }
+  }
+  pullRequestContributionsByRepository(maxRepositories: $maxRepositories) {
+    repository {
+      nameWithOwner
+    }
+    contributions {
+      totalCount
+    }
+  }
+  ${ownRepoField}
+}`)};var graphqlError=(errors,statusText,fallback)=>{logger.error(errors);const[firstError]=errors;if(firstError?.type==="NOT_FOUND"){return new CardError(firstError.message||"Could not fetch user.",{code:"\
+not_found",secondaryMessage:USER_NOT_FOUND})}const message=firstError?.message;return message?new CardError(wrapTextMultiline(message,525,12)[0]??"",{code:"upstream",secondaryMessage:statusText}):new CardError(
+fallback,{code:"upstream"})};var MS_PER_DAY=24*60*60*1e3;var MAX_RANGES_PER_REQUEST=100;var REPOS_CONTRIBUTED_TO_ERROR="Something went wrong while trying to retrieve the repository contributions data using the GraphQL API.";var DEFAULT_REPOS_COUNT=5;
+var MAX_REPOS_COUNT=20;var CONTRIBUTION_YEARS_ERROR="Something went wrong while trying to retrieve the contribution years using the GraphQL API.";var yearsFetcher=createGraphQLFetcher(UserContributionYearsDocument,
+"bearer");var fetchReposContributedTo=async(canonicalUsername,ranges,includeOwnRepos,config2)=>{const repos=new Map;let pending=ranges;while(pending.length>0){const nextPending=[];for(const chunk of chunkArray(
+pending,MAX_RANGES_PER_REQUEST)){const chunkFetcher=createGraphQLFetcher(buildReposContributedToDocument(chunk,includeOwnRepos),"bearer");const res=await retryer(chunkFetcher,{login:canonicalUsername,
+maxRepositories:MAX_REPOSITORIES_LIMIT},config2);if(res.data.errors){throw graphqlError(res.data.errors,res.statusText,REPOS_CONTRIBUTED_TO_ERROR)}const{user}=res.data.data;if(!user){throw new CardError(
+REPOS_CONTRIBUTED_TO_ERROR,{code:"upstream"})}for(const[index,range]of chunk.entries()){const rangeResponse=user[`range_${index}`];if(!rangeResponse){throw new CardError(REPOS_CONTRIBUTED_TO_ERROR,{code:"\
+upstream"})}const counted=[rangeResponse.commitContributionsByRepository,rangeResponse.issueContributionsByRepository,rangeResponse.pullRequestContributionsByRepository];const created=(rangeResponse.repositoryContributions?.
+nodes??[]).filter(node=>node!==null).map(node=>({repository:node.repository,contributions:{totalCount:1}}));const lists=[...counted,created];const isSaturated=lists.some(list=>list.length>=MAX_REPOSITORIES_LIMIT);
+const rangeDays=Math.round((range.to.getTime()-range.from.getTime())/MS_PER_DAY);if(isSaturated&&rangeDays>=2){const mid=new Date(range.from.getTime()+Math.floor(rangeDays/2)*MS_PER_DAY);nextPending.push(
+{from:range.from,to:new Date(mid.getTime()-1e3)},{from:mid,to:range.to});continue}if(isSaturated){logger.log(`Range ${range.from.toISOString()} - ${range.to.toISOString()} is saturated but cannot be s\
+plit further.`)}const year=range.from.getUTCFullYear();for(const{repository,contributions}of lists.flat()){const name=repository.nameWithOwner;if(!includeOwnRepos&&name.startsWith(`${canonicalUsername}\
+/`)){continue}const existing=repos.get(name);if(existing){existing.contributions+=contributions.totalCount;existing.years.add(year)}else{repos.set(name,{contributions:contributions.totalCount,years:new Set(
+[year])})}}}}const saturatedCount=nextPending.length/2;if(saturatedCount>0){logger.log(`found ${saturatedCount} saturated ranges, splitting and retrying...`)}pending=nextPending}return repos};var excludes=entries=>{
+const excluded=new Set(entries.map(entry=>entry.toLowerCase()));return nameWithOwner=>{const lowered=nameWithOwner.toLowerCase();return excluded.has(lowered)||excluded.has(lowered.slice(lowered.indexOf(
+"/")+1))}};var fetchContributedTo=async({username,include_own_repos=false,repos_count,exclude_repo=[],from,to},config2)=>{if(!username){throw CardError.missingParam(["username"])}const count=repos_count!==
+void 0&&Number.isFinite(repos_count)?clampValue(repos_count,1,MAX_REPOS_COUNT):DEFAULT_REPOS_COUNT;const res=await retryer(yearsFetcher,{login:username},config2);if(res.data.errors){throw graphqlError(
+res.data.errors,res.statusText,CONTRIBUTION_YEARS_ERROR)}const{user}=res.data.data;if(!user){throw new CardError("Could not fetch user.",{code:"not_found",secondaryMessage:USER_NOT_FOUND})}const ranges=toContributionRanges(
+user.contributionsCollection.contributionYears,toRange(from,to));const years=ranges.map(range=>range.from.getUTCFullYear());const found=await fetchReposContributedTo(user.login,ranges,include_own_repos,
+config2);const isExcluded=excludes([...exclude_repo,...config2.excludeRepositories]);const kept=[...found].filter(([nameWithOwner])=>!isExcluded(nameWithOwner));const ranked=kept.map(([nameWithOwner,{
+contributions,years:repoYears}])=>({nameWithOwner,contributions,years:[...repoYears].toSorted((a,b)=>a-b)})).toSorted((a,b)=>b.contributions-a.contributions);return{login:user.login,repos:ranked.slice(
+0,count),totalRepos:kept.length,years}};var errorResult=(err,renderOptions)=>{const error2=CardError.from(err);return{status:"error",retryable:error2.retryable,error:{code:error2.code,message:error2.message,secondaryMessage:error2.secondaryMessage,
+param:error2.param},content:renderError({message:error2.message,secondaryMessage:error2.secondaryMessage,renderOptions:{...renderOptions,show_repo_link:error2.code!=="missing_param"}})}};var rawParam=optional(string2());var SAFE_PATTERN=/^[-\w/.,]+$/;var REJECTION_MESSAGES={number:param=>`Invalid number input for parameter "${param}"`,date:param=>`Invalid date input for parameter "${param}\
+"`,out_of_range:param=>`Out of range date for parameter "${param}"`,inverted_range:()=>'Range "from" is after "to"',unsafe:param=>`Parameter "${param}" contains unsafe characters`,username:param=>`Inv\
+alid username input for parameter "${param}"`,locale:()=>"Locale not found",enum:param=>`Incorrect ${param} input`,color:param=>`Invalid color input for parameter "${param}"`};var rejects=(kind,passes)=>refine(
+value=>typeof value!=="string"||passes(value),{error:issue3=>REJECTION_MESSAGES[kind](String(issue3.path?.[0]??""))});var booleanParam=pipe(rawParam,transform(value=>parseBoolean(value)));var listParam=pipe(
+rawParam,transform(parseArray));var numberParam=pipe(rawParam.check(rejects("number",value=>Number.isFinite(Number.parseFloat(value)))),transform(value=>value===void 0?void 0:Number.parseFloat(value)));
+var looseIntParam=pipe(rawParam,transform(value=>value===void 0?void 0:Number.parseInt(value,10)));var rangeParam=end=>{const parse2=value=>parseRangeDate(value,end);return pipe(rawParam.check(rejects(
+"date",value=>parse2(value)!==void 0)).check(rejects("out_of_range",value=>{const date2=parse2(value);const widest=getWidestRange();return date2===void 0||date2>=widest.from&&date2<=widest.to})),transform(
+value=>value===void 0?void 0:parse2(value)))};var fromParam=rangeParam("from");var toParam=rangeParam("to");var ORDERED_RANGE=refine(({from,to})=>from===void 0||to===void 0||from<=to,{error:REJECTION_MESSAGES.
+inverted_range("from"),path:["from"]});var safeParam=rawParam.check(rejects("unsafe",value=>!value||SAFE_PATTERN.test(value)));var usernameParam=rawParam.check(rejects("username",value=>!value||GITHUB_USERNAME_PATTERN.
+test(value)));var safeListParam=pipe(safeParam,transform(parseArray));var localeParam=pipe(rawParam.check(rejects("locale",value=>!value||isLocaleAvailable(value))),transform(value=>value?.toLowerCase()));
+var enumParam=values=>rawParam.check(rejects("enum",value=>values.includes(value)));var colorParamsSchema=object(Object.fromEntries(COLOR_PARAM_KEYS.map(key=>[key,THEME_PARAM_KEYS.includes(key)?rawParam:
+rawParam.check(rejects("color",isValidColorInput))])));var toCardError=error2=>{const[issue3]=error2.issues;return CardError.invalidParam(String(issue3?.path[0]??""),issue3?.message??"Invalid input")};
+var parseParams=(schema,query)=>{const result=safeParse(schema,query);if(!result.success){throw toCardError(result.error)}return result.data};var parseColorParams=query=>parseParams(colorParamsSchema,
+query);var cardHandler=(schema,render)=>async(query,config2)=>{let colors;try{colors=parseColorParams(query)}catch(error2){return errorResult(error2)}try{return{status:"success",content:await render(parseParams(
+schema,query),colors,config2)}}catch(error2){return errorResult(error2,colors)}};var contributedToQuery=object({username:usernameParam,locale:localeParam,repos_count:looseIntParam,include_own_repos:booleanParam,exclude_repo:safeListParam,from:fromParam,to:toParam,hide_years:booleanParam,
+hide_title:booleanParam,hide_border:booleanParam,card_width:looseIntParam,custom_title:rawParam,border_radius:numberParam,disable_animations:booleanParam}).check(ORDERED_RANGE);var contributedTo=cardHandler(
+contributedToQuery,async({username,locale,repos_count,include_own_repos,exclude_repo,from,to,hide_years,hide_title,hide_border,card_width,custom_title,border_radius,disable_animations},colors,config2)=>{
+const data=await fetchContributedTo({username,include_own_repos,repos_count,exclude_repo,from,to},config2);return renderContributedToCard(data,{...colors,locale,hide_years,hide_title,hide_border,card_width,
+custom_title,border_radius,disable_animations})});var languageColors_default={"1C Enterprise":"#814CCC","2-Dimensional Array":"#38761D","4D":"#004289",ABAP:"#E8274B","ABAP CDS":"#555e25","AGS Script":"#B9D9FF",AIDL:"#34EB6B",AL:"#3AA2B5",ALGOL:"#D1E0\
+DB",AMPL:"#E6EFBB",ANTLR:"#9DC3FF","API Blueprint":"#2ACCA8",APL:"#5A8164","ASP.NET":"#9400ff",ATS:"#1ac620",ActionScript:"#882B0F",Ada:"#02f88c","Adblock Filter List":"#800000","Adobe Font Metrics":"\
+#fa0f00",Agda:"#315665",Aiken:"#640ff8",Aleo:"#154BF9",Alloy:"#64C800","Alpine Abuild":"#0D597F","Altium Designer":"#A89663",AngelScript:"#C7D7DC","Answer Set Programming":"#A9CC29","Ant Build System":"\
+#A9157E",Antlers:"#ff269e",ApacheConf:"#d12127",Apex:"#1797c0","Apollo Guidance Computer":"#0B3D91",AppleScript:"#101F1F",Arc:"#aa2afe",AsciiDoc:"#73a0c5",AspectJ:"#a957b0",Assembly:"#6E4C13",Astro:"#\
+ff5a03",Asymptote:"#ff0000",Augeas:"#9CC134",AutoHotkey:"#6594b9",AutoIt:"#1C3552","Avro IDL":"#0040FF",Awk:"#c30e9b",B:"#da7666","B (Formal Method)":"#8aa8c5",B4X:"#00e4ff",BAML:"#a855f7",BASIC:"#ff0\
+000",BBCode:"#CAFF42",BIRD2:"#b6d7e4",BQN:"#2b7067",Ballerina:"#FF5000",Batchfile:"#C1F12E",Beef:"#a52f4e",Berry:"#15A13C",BibTeX:"#778899",Bicep:"#519aba",Bikeshed:"#5562ac",Bison:"#6A463F",BitBake:"\
+#00bce4",Blade:"#f7523f",BlitzBasic:"#00FFAE",BlitzMax:"#cd6400",Blueprint:"#3584E4",Bluespec:"#12223c","Bluespec BH":"#12223c",Boo:"#d4bec1",Boogie:"#c80fa0",Brainfuck:"#2F2530",BrighterScript:"#66AA\
+BB",Brightscript:"#662D91",Browserslist:"#ffd539",Bru:"#F4AA41",BuildStream:"#006bff",C:"#555555","C#":"#7355dd","C++":"#f34b7d",C3:"#2563eb","CAP CDS":"#0092d1",CLIPS:"#00A300",CMake:"#DA3434",COLLADA:"\
+#F1A42B",CQL:"#006091",CSON:"#244776",CSS:"#663399",CSV:"#237346",CUE:"#5886E1",CWeb:"#00007a","Cabal Config":"#483465",Caddyfile:"#22b638",Cadence:"#00ef8b",Cairo:"#ff4a48","Cairo Zero":"#ff4a48",CameLIGO:"\
+#3be133",Cangjie:"#00868B","Cap'n Proto":"#c42727",Carbon:"#222222",Ceylon:"#dfa535",Chapel:"#8dc63f",ChucK:"#3f8000",Circom:"#707575",Cirru:"#ccccff",Clarion:"#db901e",Clarity:"#5546ff","Classic ASP":"\
+#6a40fd",Clean:"#3F85AF",Click:"#E4E6F3",Clojure:"#db5855","Closure Templates":"#0d948f","Cloud Firestore Security Rules":"#FFA000",Clue:"#0009b5",CodeQL:"#140f46",CoffeeScript:"#244776",ColdFusion:"#\
+ed2cd6","ColdFusion CFC":"#ed2cd6","Common Lisp":"#3fb68b","Common Workflow Language":"#B5314C","Component Pascal":"#B0CE4E",Cooklang:"#E15A29",Crystal:"#000100",Csound:"#1a1a1a","Csound Document":"#1\
+a1a1a","Csound Score":"#1a1a1a",Cuda:"#3A4E3A",Curry:"#531242",Cylc:"#00b3fd",Cypher:"#34c0eb",Cython:"#fedf5b",D:"#ba595e",D2:"#526ee8",DM:"#447265",Dafny:"#FFEC25","Darcs Patch":"#8eff23",Dart:"#00B\
+4AB",Daslang:"#d3d3d3",DataWeave:"#003a52","Debian Package Control File":"#D70751",DenizenScript:"#FBEE96",Dhall:"#dfafff","DirectX 3D File":"#aace60",Dockerfile:"#384d54",Dogescript:"#cca760",Dotenv:"\
+#e5d559",Dune:"#89421e",Dylan:"#6c616e",E:"#ccce35",ECL:"#8a1267",ECLiPSe:"#001d9d",EJS:"#a91e50",EQ:"#a78649",Earthly:"#2af0ff",Easybuild:"#069406","Ecere Projects":"#913960",Ecmarkup:"#eb8131",Edge:"\
+#0dffe0",EdgeQL:"#31A7FF",EditorConfig:"#fff1f2",Eiffel:"#4d6977",Elixir:"#6e4a7e",Elm:"#60B5CC",Elvish:"#55BB55","Elvish Transcript":"#55BB55","Emacs Lisp":"#c065db",EmberScript:"#FFF4F3",Erlang:"#B8\
+3998",Euphoria:"#FF790B","F#":"#b845fc","F*":"#572e30","FIGlet Font":"#FFDDBB",FIRRTL:"#2f632f",FLUX:"#88ccff",FPP:"#d37327",Factor:"#636746",Fancy:"#7b9db4",Fantom:"#14253c",Faust:"#c37240",Fennel:"#\
+fff3d7","Filebench WML":"#F6B900",FlatBuffers:"#ed284a",Flix:"#d44a45",Fluent:"#ffcc33",Forth:"#341708",Fortran:"#4d41b1","Fortran Free Form":"#4d41b1",FreeBASIC:"#141AC9",FreeMarker:"#0050b2",Frege:"\
+#00cafe",Futhark:"#5f021f","G-code":"#D08CF2",GAML:"#FFC766",GAMS:"#f49a22",GAP:"#0000cc","GCC Machine Description":"#FFCFAB",GDScript:"#355570",GDShader:"#478CBF",GEDCOM:"#003058",GLSL:"#5686a5",GSC:"\
+#FF6800","Game Maker Language":"#71b417","Gemfile.lock":"#701516",Gemini:"#ff6900","Genero 4gl":"#63408e","Genero per":"#d8df39",Genie:"#fb855d",Genshi:"#951531","Gentoo Ebuild":"#9400ff","Gentoo Ecla\
+ss":"#9400ff","Gerber Image":"#d20b00",Gherkin:"#5B2063","Git Attributes":"#F44D27","Git Commit":"#F44D27","Git Config":"#F44D27","Git Revision List":"#F44D27",Gleam:"#ffaff3","Glimmer JS":"#F5835F","\
+Glimmer TS":"#3178c6",Glyph:"#c1ac7f",Gno:"#226c57",Gnuplot:"#f0a9f0",Go:"#00ADD8","Go Checksums":"#00ADD8","Go Module":"#00ADD8","Go Template":"#00ADD8","Go Workspace":"#00ADD8","Godot Resource":"#35\
+5570",Golo:"#88562A",Gosu:"#82937f",Grace:"#615f8b",Gradle:"#02303a","Gradle Kotlin DSL":"#02303a","Grammatical Framework":"#ff0000",GraphQL:"#e10098","Graphviz (DOT)":"#2596be",Groovy:"#4298b8","Groo\
+vy Server Pages":"#4298b8",GtkRC:"#7fe719",HAProxy:"#106da9",HCL:"#844FBA",HIP:"#4F3A4F",HLSL:"#aace60",HOCON:"#9ff8ee",HTML:"#e34c26","HTML+ECR":"#2e1052","HTML+EEX":"#6e4a7e","HTML+ERB":"#701516","H\
+TML+PHP":"#4f5d95","HTML+Razor":"#512be4",HTTP:"#005C9C",HXML:"#f68712",Hack:"#878787",Haml:"#ece2a9",Handlebars:"#f7931e",Harbour:"#0e60e3",Hare:"#9d7424",Haskell:"#5e5086",Haxe:"#df7900",HiveQL:"#dc\
+e200",HolyC:"#ffefaf","Hosts File":"#308888",Hurl:"#FF0288",Hy:"#7790B2",IDL:"#a3522f","IGOR Pro":"#0000cc","IL Assembly":"#512BD4",INI:"#d1dbe0",ISPC:"#2D68B1",Idris:"#b30000","Ignore List":"#000000",
+"ImHex Pattern Language":"#3a6be0","ImageJ Macro":"#99AAFF",Imba:"#16cec6","Inno Setup":"#264b99",Io:"#a9188d",Ioke:"#078193",Isabelle:"#FEFE00","Isabelle ROOT":"#FEFE00",J:"#9EEDFF","JAR Manifest":"#\
+b07219",JASS:"#FF0303",JCL:"#d90e09",JFlex:"#DBCA00",JSON:"#292929","JSON with Comments":"#292929",JSON5:"#267CB9",JSONLD:"#0c479c",JSONiq:"#40d47e",Jac:"#FC792D",Jai:"#ab8b4b",Janet:"#0886a5",Jasmin:"\
+#d03600",Java:"#b07219","Java Properties":"#2A6277","Java Server Pages":"#2A6277","Java Template Engine":"#2A6277",JavaScript:"#f1e05a","JavaScript+ERB":"#f1e05a","Jest Snapshot":"#15c213","JetBrains \
+MPS":"#21D789",Jinja:"#a52a22",Jison:"#56b3cb","Jison Lex":"#56b3cb",Jolie:"#843179",Jsonnet:"#0064bd",Julia:"#a270ba","Julia REPL":"#a270ba","Jupyter Notebook":"#DA5B0B",Just:"#384d54",KCL:"#7ABABF",
+KDL:"#ffb3b3",KFramework:"#4195c5",KRL:"#28430A","Kaitai Struct":"#773b37",KakouneScript:"#6f8042",KerboScript:"#41adf0","KiCad Layout":"#2f4aab","KiCad Legacy Layout":"#2f4aab","KiCad Schematic":"#2f\
+4aab","KoLmafia ASH":"#B9D9B9",Koka:"#215166",Kotlin:"#A97BFF",LFE:"#4C3023",LLVM:"#185619",LOLCODE:"#cc9900",LSL:"#3d9970",LabVIEW:"#fede06",Lambdapi:"#8027a3",Langium:"#2c8c87",Lark:"#2980B9",Lasso:"\
+#999999",Latte:"#f2a542",Leo:"#C4FFC2",Less:"#1d365d",Lex:"#DBCA00",LigoLANG:"#0e74ff",LilyPond:"#9ccc7c",Liquid:"#67b8de",Liquidsoap:"#990066","Literate Agda":"#315665","Literate CoffeeScript":"#2447\
+76","Literate Haskell":"#5e5086","LiveCode Script":"#0c5ba5",LiveScript:"#499886",Lobster:"#f95428",Logtalk:"#295b9a",LookML:"#652B81",Lua:"#000080",Luau:"#00A2FF",M3U:"#179C7D",MATLAB:"#e16737",MAXScript:"\
+#00a6a6",MDX:"#fcb32c",MLIR:"#5EC8DB",MQL4:"#62A8D6",MQL5:"#4A76B8",MTML:"#b7e1f4",Macaulay2:"#d8ffff",Makefile:"#427819",Mako:"#7e858d",Markdown:"#083fa1",Marko:"#42bff2",Mask:"#f97732","Mathematical\
+ Programming System":"#0530ad",Max:"#c4a79c",MeTTa:"#6a5acd",Mercury:"#ff2b2b",Mermaid:"#ff3670",Meson:"#007800",Metal:"#8f14e9",MiniScript:"#4B4A56",MiniYAML:"#ff1111",MiniZinc:"#06a9e6",Mint:"#02b04\
+6",Mirah:"#c7a938",Modelica:"#de1d31","Modula-2":"#10253f","Modula-3":"#223388",Mojo:"#ff4c1f","Monkey C":"#8D6747",MoonBit:"#b92381",MoonScript:"#ff4585",Motoko:"#fbb03b","Motorola 68K Assembly":"#00\
+5daa",Move:"#4a137a",Mustache:"#724b3b",NCL:"#28431f",NMODL:"#00356B","NPM Config":"#cb3837",NWScript:"#111522",Nasal:"#1d2c4e",Nearley:"#990000",Nemerle:"#3d3c6e",NetLinx:"#0aa0ff","NetLinx+ERB":"#74\
+7faa",NetLogo:"#ff6375",NewLisp:"#87AED7",Nextflow:"#3ac486",Nginx:"#009639",Nickel:"#E0C3FC",Nim:"#ffc200",Nit:"#009917",Nix:"#7e7eff",Noir:"#2f1f49",Nu:"#c9df40",NumPy:"#9C8AF9",Nunjucks:"#3d8137",Nushell:"\
+#4E9906","OASv2-json":"#85ea2d","OASv2-yaml":"#85ea2d","OASv3-json":"#85ea2d","OASv3-yaml":"#85ea2d",OCaml:"#ef7a08","OMNeT++ MSG":"#a0e0a0","OMNeT++ NED":"#08607c",ObjectScript:"#424893","Objective-C":"\
+#438eff","Objective-C++":"#6866fb","Objective-J":"#ff0c5a",Odin:"#60AFFE",Omgrofl:"#cabbff",Opal:"#f7ede0","Open Policy Agent":"#7d9199","OpenAPI Specification v2":"#85ea2d","OpenAPI Specification v3":"\
+#85ea2d",OpenCL:"#ed2e2d","OpenEdge ABL":"#5ce600",OpenQASM:"#AA70FF",OpenSCAD:"#e5cd45","Option List":"#476732",Org:"#77aa99",OverPy:"#78b355",OverpassQL:"#cce2aa",Oxygene:"#cdd0e3",Oz:"#fab738",P4:"\
+#7055b5",PDDL:"#0d00ff","PEG.js":"#234d6b",PHP:"#4F5D95",PLSQL:"#dad8d8",PLpgSQL:"#336790","POV-Ray SDL":"#6bac65",Pact:"#F7A8B8",Pan:"#cc0000",Papyrus:"#6600cc",Parrot:"#f3ca0a",Pascal:"#E3F171",Pawn:"\
+#dbb284",Pep8:"#C76F5B",Perl:"#0298c3",PicoLisp:"#6067af",PigLatin:"#fcd7de",Pike:"#005390","Pip Requirements":"#FFD343",Pkl:"#6b9543",PlantUML:"#fbbd16",PogoScript:"#d80074",Polar:"#ae81ff",Portugol:"\
+#f8bd00",PostCSS:"#dc3a0c",PostScript:"#da291c","Power Query":"#d38e0d",PowerBuilder:"#8f0f8d",PowerShell:"#012456",Praat:"#c8506d",Prisma:"#0c344b","Pro*C":"#bb8368",Processing:"#0096D8",Procfile:"#3\
+B2F63",Prolog:"#74283c",Promela:"#de0000","Propeller Spin":"#7fa2a7",Pug:"#a86454",Puppet:"#302B6D",PureBasic:"#5a6986",PureScript:"#1D222D",Pyret:"#ee1e10",Python:"#3572A5","Python console":"#3572A5",
+"Python traceback":"#3572A5","Q#":"#fed659",QML:"#44a51c","Qt Script":"#00b841",Quake:"#882233",QuakeC:"#975777","Quartus Simulation IP":"#58C42E",QuickBASIC:"#008080",Quint:"#9d6ce5",R:"#198CE7",RAML:"\
+#77d9fb",RAScript:"#2C97FA",RBS:"#701516",RDoc:"#701516",REXX:"#d90e09",RMarkdown:"#198ce7",RON:"#a62c00","ROS Interface":"#22314e",RPGLE:"#2BDE21",RUNOFF:"#665a4e",Racket:"#3c5caa",Ragel:"#9d5200",Raku:"\
+#0000fb",Rascal:"#fffaa0",ReScript:"#ed5051",Reason:"#ff5847",ReasonLIGO:"#ff5847",Rebol:"#358a5b","Record Jar":"#0673ba",Red:"#f50000",Redscript:"#f44336","Regular Expression":"#009a00","Ren'Py":"#ff\
+7f7f",Rez:"#FFDAB3",Rhai:"#FBA63B",Ring:"#2D54CB",Riot:"#A71E49",RobotFramework:"#00c0b5",Roc:"#7c38f5","Rocq Prover":"#d0b68c",Roff:"#ecdebe","Roff Manpage":"#ecdebe",Rouge:"#cc0088","RouterOS Script":"\
+#DE3941",Ruby:"#701516",Rust:"#dea584",SAS:"#B34936",SCSS:"#c6538c",SIP:"#4E8D83",SPARQL:"#0C4597",SQF:"#3F3F3F",SQL:"#e38c00",SQLPL:"#e38c00","SRecode Template":"#348a34",STL:"#373b5e",SVG:"#ff9900",
+Sail:"#259dd5",Salt:"#57bcad",Sass:"#a53b70",Scala:"#c22d40",Scaml:"#bd181a",Scenic:"#fdc700",Scheme:"#1e4aec",Scilab:"#ca0f21",Self:"#0579aa",ShaderLab:"#222c37",Shell:"#89e051","ShellCheck Config":"\
+#cecfcb",Shen:"#120F14","Simple File Verification":"#C9BFED",Singularity:"#64E6AD",Slang:"#1fbec9",Slash:"#007eff",Slice:"#003fa2",Slim:"#2b2b2b",Slint:"#2379F4",SmPL:"#c94949",Smalltalk:"#596706",Smarty:"\
+#f0c040",Smithy:"#c44536",Snakemake:"#419179",Solidity:"#AA6746",SourcePawn:"#f69e1d","SpiceDB Schema":"#a5318a",Squirrel:"#800000",Stan:"#b2011d","Standard ML":"#dc566d",Starlark:"#76d275",Stata:"#1a\
+5f91",StringTemplate:"#3fb34f",Stylus:"#ff6347","SubRip Text":"#9e0101",SugarSS:"#2fcc9f",SuperCollider:"#46390b",SurrealQL:"#ff00a0","Survex data":"#ffcc99",Svelte:"#ff3e00",Sway:"#00F58C",Sweave:"#1\
+98ce7",Swift:"#F05138",SystemVerilog:"#DAE1C2","TI Program":"#A0AA87","TL-Verilog":"#C40023",TLA:"#4b0079",TMDL:"#f0c913",TOML:"#9c4221",TSQL:"#e38c00",TSV:"#237346",TSX:"#3178c6",TXL:"#0178b8",Tact:"\
+#48b5ff",Talon:"#333333",Tcl:"#e4cc98",TeX:"#3D6117",Teal:"#00B1BC",Terra:"#00004c","Terraform Template":"#7b42bb",TextGrid:"#c8506d","TextMate Properties":"#df66e4",Textile:"#ffe7ac",Thrift:"#D12127",
+Toit:"#c2c9fb",Tolk:"#30A1F5","Tor Config":"#59316b","Tree-sitter Query":"#8ea64c",Turing:"#cf142b",Twig:"#c1d026",TypeScript:"#3178c6",TypeSpec:"#4A3665",Typst:"#239dad","Unified Parallel C":"#4e3617",
+"Unity3D Asset":"#222c37",Uno:"#9933cc",UnrealScript:"#a54c4d","Untyped Plutus Core":"#36adbd",UrWeb:"#ccccee",V:"#4f87c4",VBA:"#867db1",VBScript:"#15dcdc",VCL:"#148AA8",VHDL:"#adb2cb",Vala:"#a56de2",
+"Valve Data Format":"#f26025","Velocity Template Language":"#507cff",Vento:"#ff0080",Verilog:"#b2b7f8",Verse:"#518ef8","Vespa Schema Definition":"#61D790","Vim Help File":"#199f4b","Vim Snippet":"#199\
+f4b","Vim script":"#199f4b","Visual Basic .NET":"#945db7","Visual Basic 6.0":"#2c6353",Volt:"#1F1F1F",Vue:"#41b883",Vyper:"#9F4CF2",WDL:"#42f1f4",WGSL:"#1a5e9a","Web Ontology Language":"#5b70bd",WebAssembly:"\
+#04133b","WebAssembly Interface Type":"#6250e7",Whiley:"#d5c397",Wikitext:"#fc5757","Windows Registry Entries":"#52d5ff","Witcher Script":"#ff0000","Wolfram Language":"#dd1100",Wollok:"#a23738","World\
+ of Warcraft Addon Data":"#f7e43f",Wren:"#383838",X10:"#4B6BEF",XC:"#99DA07",XML:"#0060ac","XML Property List":"#0060ac",XQuery:"#5232e7",XSLT:"#EB8CEB",Xmake:"#22a079",Xojo:"#81bd41",Xonsh:"#285EEF",
+Xtend:"#24255d",YAML:"#cb171e",YARA:"#220000",YASnippet:"#32AB90",Yacc:"#4B6C4B",Yul:"#794932",ZAP:"#0d665e",ZIL:"#dc75e5",ZenScript:"#00BCD1",Zephir:"#118f9e",Zig:"#ec915c",Zimpl:"#d67711",Zmodel:"#f\
+f7100",crontab:"#ead7ac",eC:"#913960",fish:"#4aae47",hoon:"#00b171",iCalendar:"#ec564c",jq:"#c7254e",kvlang:"#1da6e0","mIRC Script":"#3d57c3",mcfunction:"#E22837",mdsvex:"#5f9ea0",mupad:"#244963",nanorc:"\
+#2d004d",nesC:"#94B0C7",ooc:"#b0b77e","pkg-config":"#2b5e82",q:"#0040cd",reStructuredText:"#141414",sed:"#64b970",templ:"#66D0DD",ucode:"#00b8d4",vCard:"#ee2647",wisp:"#7582D1",xBase:"#403a40"};var DEFAULT_LANG_COLOR="#858585";var languageColors=languageColors_default;var getLanguageColor=name=>languageColors[name]??DEFAULT_LANG_COLOR;var ICON_SIZE=16;var CARD_DEFAULT_WIDTH2=CARD_WIDTH.standard;var X_OFFSET=25;var HEADER_MAX_LENGTH=35;var DESCRIPTION_BOX_WIDTH=CARD_DEFAULT_WIDTH2-2*X_OFFSET;var DESCRIPTION_FONT_SIZE=FONT_SIZE.meta;
+var DESCRIPTION_LINE_HEIGHT_PX=16;var DESCRIPTION_MAX_LINES=10;var renderGistCard=(gistData,options={})=>{const{name,nameWithOwner,description,language,starsCount,forksCount}=gistData;const{locale,theme="\
+default_repocard",border_radius,show_owner=false,browser_rendering=false,hide_border=false}=options;const{lightColors,darkColors}=getLightDarkColors({...options,theme});const i18n=new I18n({locale,translations:gistCardLocales});
+const desc=parseEmojis(description||i18n.t("gistcard.no-description"));let descriptionLines;let descriptionSvg;if(browser_rendering){descriptionLines=countWrappedLines(desc,DESCRIPTION_FONT_SIZE,DESCRIPTION_BOX_WIDTH,
+DESCRIPTION_MAX_LINES);descriptionSvg=wrappedTextNode({text:desc,x:X_OFFSET,y:-3,width:DESCRIPTION_BOX_WIDTH,height:descriptionLines*DESCRIPTION_LINE_HEIGHT_PX+10,lineCount:descriptionLines,className:"\
+description",testId:"description-text"})}else{const linesLimit=10;const multiLineDescription=wrapTextMultiline(desc,DESCRIPTION_BOX_WIDTH,DESCRIPTION_FONT_SIZE,linesLimit);descriptionLines=multiLineDescription.
+length;descriptionSvg=el("text",{class:"description",x:X_OFFSET,y:-5},multiLineDescription.map(line=>el("tspan",{dy:"1.2em",x:X_OFFSET},line)))}const lineHeight=descriptionLines>3?12:10;const height=(descriptionLines>
+1?120:110)+descriptionLines*lineHeight;const totalStars=kFormatter(starsCount);const totalForks=kFormatter(forksCount);const svgStars=iconWithLabel(icons.star,totalStars,"starsCount",ICON_SIZE);const svgForks=iconWithLabel(
+icons.fork,totalForks,"forksCount",ICON_SIZE);const languageName=language||i18n.t("gistcard.unspecified-language");const languageColor=getLanguageColor(languageName);const svgLanguage=createLanguageNode(
+languageName,languageColor);const starAndForkCount=flexLayout({items:[svgLanguage,svgStars,svgForks],sizes:[measureText(languageName,12),ICON_SIZE+measureText(`${totalStars}`,12),ICON_SIZE+measureText(
+`${totalForks}`,12)],gap:25});const header=show_owner?nameWithOwner:name;const card=new Card({defaultTitle:header.length>HEADER_MAX_LENGTH?`${header.slice(0,HEADER_MAX_LENGTH)}...`:header,titlePrefixIcon:CARD_ICON.
+gist,width:CARD_DEFAULT_WIDTH2,height,border_radius,colors:{light:lightColors,dark:darkColors}});card.setCSS({light:({textColor,iconColor})=>[rule(".description",{font:font("regular","meta"),fill:textColor,
+...browser_rendering?wrappedTextStyles(textColor):{}}),rule(".gray",{font:font("regular","small"),fill:textColor}),rule(".icon",{fill:iconColor})],dark:({textColor,iconColor})=>[rule(".description",{fill:textColor,
+...browser_rendering?wrappedTextStyles(textColor):{}}),rule(".gray",{fill:textColor}),rule(".icon",{fill:iconColor})]});card.setHideBorder(hide_border);card.setAccessibilityLabel({title:card.title,desc:`${desc}\
+. ${i18n.t("gistcard.language")}: ${languageName}, ${i18n.t("gistcard.stars")}: ${totalStars}, ${i18n.t("gistcard.forks")}: ${totalForks}`});return card.render([descriptionSvg,el("g",{transform:`trans\
+late(30, ${height-75})`},starAndForkCount)])};var GistInfoDocument=graphqlDocument(`
+query gistInfo($gistName: String!) {
+  viewer {
+    gist(name: $gistName) {
+      description
+      owner {
+        login
+      }
+      stargazerCount
+      forks {
+        totalCount
+      }
+      files {
+        ...GistFileInfo
+      }
+    }
+  }
+}
+fragment GistFileInfo on GistFile {
+  name
+  language {
+    name
+  }
+  size
+}`);var fetcher=createGraphQLFetcher(GistInfoDocument,"token");var calculatePrimaryLanguage=files=>{const languages={};for(const file of files){if(file.language){languages[file.language.name]=(languages[file.
+language.name]??0)+(file.size??0)}}let primaryLanguage=null;let maxSize=-1;for(const[language,size]of Object.entries(languages)){if(size>maxSize){maxSize=size;primaryLanguage=language}}return primaryLanguage};
+var fetchGist=async({id},config2)=>{if(!id){throw CardError.missingParam(["id"],"/api/gist?id=GIST_ID")}const res=await retryer(fetcher,{gistName:id},config2);if(res.data.errors){throw new CardError(res.
+data.errors[0]?.message??"Could not fetch gist.",{code:"upstream"})}const{gist:gist2}=res.data.data.viewer;if(!gist2){throw new CardError("Gist not found",{code:"not_found",secondaryMessage:GIST_NOT_FOUND})}
+const firstFile=gist2.files?.[0];if(!firstFile?.name){throw new CardError("Gist has no files",{code:"not_found"})}return{name:firstFile.name,nameWithOwner:`${gist2.owner?.login??""}/${firstFile.name}`,
+description:gist2.description,language:calculatePrimaryLanguage(gist2.files?.filter(file=>!!file)??[]),starsCount:gist2.stargazerCount,forksCount:gist2.forks.totalCount}};var gistQuery=object({id:safeParam,locale:localeParam,border_radius:numberParam,show_owner:booleanParam,browser_rendering:booleanParam,hide_border:booleanParam});var gist=cardHandler(gistQuery,async({
+id,locale,border_radius,show_owner,browser_rendering,hide_border},colors,config2)=>{const gistData=await fetchGist({id},config2);return renderGistCard(gistData,{...colors,locale,border_radius,show_owner,
+browser_rendering,hide_border})});var ICON_SIZE2=16;var CARD_DEFAULT_WIDTH3=CARD_WIDTH.standard;var X_OFFSET2=25;var DESCRIPTION_FONT_SIZE2=FONT_SIZE.meta;var DESCRIPTION_LINE_HEIGHT_PX2=16;var DESCRIPTION_MAX_LINES2=3;var REPO_SHOW_STATS=[
+"prs_authored","prs_commented","prs_reviewed","issues_authored","issues_commented"];var getBadgeSVG=(label,xOffset=0)=>{if(!Number.isFinite(xOffset)){throw new TypeError(`Invalid xOffset: "${xOffset}"`)}
+return el("g",{"data-testid":"badge",class:"badge",transform:`translate(${320+xOffset}, -18)`},el("rect",{"stroke-width":1,width:70,height:20,x:-12,y:-14,ry:10,rx:10}),el("text",{x:23,y:-5,"alignment-\
+baseline":"central","dominant-baseline":"central","text-anchor":"middle"},label))};var renderCard=(repo,options={})=>{const{name,nameWithOwner,description,primaryLanguage,isArchived,isTemplate,stargazerCount,
+forkCount,totalPRsAuthored,totalPRsCommented,totalPRsReviewed,totalIssuesAuthored,totalIssuesCommented}=repo;const{hide_border=false,card_width_input,show_owner=false,browser_rendering=false,show=[],show_icons=true,
+number_format="short",text_bold=false,line_height=22,username,theme="default_repocard",border_radius,locale,description_lines_count}=options;const card_width=card_width_input&&!Number.isNaN(card_width_input)?
+card_width_input:show.length>=2?CARD_DEFAULT_WIDTH3+30:CARD_DEFAULT_WIDTH3;const i18n=new I18n({locale,translations:repoCardLocales});const shows=stat2=>show.includes(stat2);const repoFilter=encodeURIComponent(
+buildSearchFilter([nameWithOwner],[]));const encodedUsername=encodeURIComponent(username??"");const STATS={};if(shows("prs_authored")){STATS["prs_authored"]={icon:icons.prs,label:i18n.t("repocard.prs-\
+authored"),value:totalPRsAuthored,id:"prs_authored",link:`https://github.com/search?q=${repoFilter}author%3A${encodedUsername}&amp;type=pullrequests`}}if(shows("prs_commented")){STATS["prs_commented"]=
+{icon:icons.comments,label:i18n.t("repocard.prs-commented"),value:totalPRsCommented,id:"prs_commented",link:`https://github.com/search?q=${repoFilter}commenter%3A${encodedUsername}+-author%3A${encodedUsername}\
+&amp;type=pullrequests`}}if(shows("prs_reviewed")){STATS["prs_reviewed"]={icon:icons.reviews,label:i18n.t("repocard.prs-reviewed"),value:totalPRsReviewed,id:"prs_reviewed",link:`https://github.com/sea\
+rch?q=${repoFilter}reviewed-by%3A${encodedUsername}+-author%3A${encodedUsername}&amp;type=pullrequests`}}if(shows("issues_authored")){STATS["issues_authored"]={icon:icons.issues,label:i18n.t("repocard\
+.issues-authored"),value:totalIssuesAuthored,id:"issues_authored",link:`https://github.com/search?q=${repoFilter}author%3A${encodedUsername}&amp;type=issues`}}if(shows("issues_commented")){STATS["issu\
+es_commented"]={icon:icons.discussions_started,label:i18n.t("repocard.issues-commented"),value:totalIssuesCommented,id:"issues_commented",link:`https://github.com/search?q=${repoFilter}commenter%3A${encodedUsername}\
++-author%3A${encodedUsername}&amp;type=issues`}}const statItems=Object.values(STATS).map((stat2,index)=>createTextNode({icon:stat2.icon,label:stat2.label,value:stat2.value??0,id:stat2.id,unitSymbol:stat2.
+unitSymbol,index,showIcons:show_icons,shiftValuePos:14.01,bold:text_bold,numberFormat:number_format,link:stat2.link,labelXOffset:23}));const extraLHeight=Number.parseInt(String(line_height),10);const lineHeight=10;
+const header=show_owner?nameWithOwner:name;const langName=primaryLanguage?.name||i18n.t("repocard.unspecified-language");const langColor=primaryLanguage?.color||"#333";const desc=parseEmojis(description||
+i18n.t("repocard.no-description"));const descriptionBoxWidth=card_width-2*X_OFFSET2;let descriptionLinesCount;let descriptionSvg;if(browser_rendering){descriptionLinesCount=description_lines_count?clampValue(
+description_lines_count,1,DESCRIPTION_MAX_LINES2):countWrappedLines(desc,DESCRIPTION_FONT_SIZE2,descriptionBoxWidth,DESCRIPTION_MAX_LINES2);descriptionSvg=wrappedTextNode({text:desc,x:X_OFFSET2,y:-3,width:descriptionBoxWidth,
+height:descriptionLinesCount*DESCRIPTION_LINE_HEIGHT_PX2+10,lineCount:descriptionLinesCount,className:"description",testId:"description-text"})}else{const descriptionMaxLines=description_lines_count?clampValue(
+description_lines_count,1,DESCRIPTION_MAX_LINES2):DESCRIPTION_MAX_LINES2;const multiLineDescription=wrapTextMultiline(desc,descriptionBoxWidth,DESCRIPTION_FONT_SIZE2,descriptionMaxLines);descriptionLinesCount=
+description_lines_count?clampValue(description_lines_count,1,DESCRIPTION_MAX_LINES2):multiLineDescription.length;descriptionSvg=el("text",{class:"description",x:X_OFFSET2,y:-5},multiLineDescription.map(
+line=>el("tspan",{dy:"1.2em",x:X_OFFSET2},line)))}const extraHeight=Object.keys(STATS).length>0?-7+(Math.ceil(statItems.length/2)+1)*extraLHeight:0;const height=(descriptionLinesCount>1?120:110)+descriptionLinesCount*
+lineHeight+extraHeight;const{lightColors,darkColors}=getLightDarkColors({...options,theme});const svgLanguage=primaryLanguage?createLanguageNode(langName,langColor):void 0;const totalStars=kFormatter(
+stargazerCount);const totalForks=kFormatter(forkCount);const svgStars=iconWithLabel(icons.star,totalStars,"stargazers",ICON_SIZE2);const svgForks=iconWithLabel(icons.fork,totalForks,"forkcount",ICON_SIZE2);
+const starAndForkCount=flexLayout({items:[svgLanguage,svgStars,svgForks],sizes:[measureText(langName,12),ICON_SIZE2+measureText(`${totalStars}`,12),ICON_SIZE2+measureText(`${totalForks}`,12)],gap:25});
+const extraRows=[];for(let i=0;i<statItems.length;i+=2){extraRows.push(flexLayout({items:statItems.slice(i,i+2),gap:210,direction:"row"}))}const extraItems=el("svg",{x:0,y:0},el("g",{transform:`transl\
+ate(-3, ${height-52-extraHeight})`},flexLayout({items:extraRows,gap:extraLHeight,direction:"column"})));const card=new Card({defaultTitle:header.length>35?`${header.slice(0,35)}...`:header,titlePrefixIcon:CARD_ICON.
+repo,width:card_width,height,border_radius,colors:{light:lightColors,dark:darkColors}});card.disableAnimations();card.setHideBorder(hide_border);card.setHideTitle(false);card.setCSS({light:({textColor,
+iconColor})=>[rule(".description",{font:font("regular","meta"),fill:textColor,...browser_rendering?wrappedTextStyles(textColor):{}}),rule(".gray",{font:font("regular","small"),fill:textColor}),rule(".\
+badge",{font:font("semibold","micro")}),rule(".badge rect",{opacity:.2,stroke:textColor}),rule(".badge text",{fill:textColor}),rule(".stat",{font:font("regular","small"),fill:textColor}),rule(".stagge\
+r",{opacity:0,animation:"fadeInAnimation 0.3s ease-in-out forwards"}),rule(".not_bold",{"font-weight":FONT_WEIGHT.regular}),rule(".bold",{"font-weight":FONT_WEIGHT.semibold}),rule(".icon",{fill:iconColor,
+display:"block"})],dark:({textColor,iconColor})=>[rule(".description",{fill:textColor,...browser_rendering?wrappedTextStyles(textColor):{}}),rule(".gray",{fill:textColor}),rule(".badge rect",{stroke:textColor}),
+rule(".badge text",{fill:textColor}),rule(".stat",{fill:textColor}),rule(".icon",{fill:iconColor})]});const extraStatLabels=Object.values(STATS).map(stat2=>`${stat2.label}: ${stat2.value??0}`).join(",\
+ ");card.setAccessibilityLabel({title:card.title,desc:[`${desc}.`,primaryLanguage?langName:"",extraStatLabels].filter(Boolean).join(", ")});return card.render([isTemplate?getBadgeSVG(i18n.t("repocard.\
+template"),card_width-CARD_DEFAULT_WIDTH3):isArchived?getBadgeSVG(i18n.t("repocard.archived"),card_width-CARD_DEFAULT_WIDTH3):void 0,descriptionSvg,el("g",{transform:`translate(30, ${height-75-extraHeight}\
+)`},starAndForkCount),extraItems])};var renderRepoCard=Object.assign(renderCard,{OPTIONS:{show:REPO_SHOW_STATS,number_format:NUMBER_FORMATS}});var GetRepoDocument=graphqlDocument(`
 query getRepo($login: String!, $repo: String!) {
   user(login: $login) {
     repository(name: $repo) {
@@ -3810,18 +3940,18 @@ fragment RepoInfo on Repository {
 const FOLLOWERS_MEDIAN=10;const FOLLOWERS_WEIGHT=1;const TOTAL_WEIGHT=COMMITS_WEIGHT+PRS_WEIGHT+ISSUES_WEIGHT+REVIEWS_WEIGHT+STARS_WEIGHT+FOLLOWERS_WEIGHT;const THRESHOLDS=[1,12.5,25,37.5,50,62.5,75,87.5,
 100];const LEVELS=["S","A+","A","A-","B+","B","B-","C+","C"];const rank=1-(COMMITS_WEIGHT*exponential_cdf(commits/COMMITS_MEDIAN)+PRS_WEIGHT*exponential_cdf(prs/PRS_MEDIAN)+ISSUES_WEIGHT*exponential_cdf(
 issues/ISSUES_MEDIAN)+REVIEWS_WEIGHT*exponential_cdf(reviews/REVIEWS_MEDIAN)+STARS_WEIGHT*log_normal_cdf(stars/STARS_MEDIAN)+FOLLOWERS_WEIGHT*log_normal_cdf(followers/FOLLOWERS_MEDIAN))/TOTAL_WEIGHT;const level=LEVELS[THRESHOLDS.
-findIndex(t=>rank*100<=t)];if(level===void 0){throw new Error("Unable to determine rank level")}return{level,percentile:rank*100}}var toGitHubDateTime=date2=>`${date2.toISOString().slice(0,19)}Z`;var getGitHubYearRange=year=>({from:new Date(Date.UTC(year,0,1)),to:new Date(Date.UTC(year,11,31,23,59,59))});var buildContributionsDocument=years=>{const yearFields=years.map(year=>{const{from,to}=getGitHubYearRange(year);return`year_${year}: contributionsCollection(from: "${toGitHubDateTime(from)}", to: "${toGitHubDateTime(
-to)}") { ...YearContributions }`}).join("\n");return graphqlDocument(`
+findIndex(t=>rank*100<=t)];if(level===void 0){throw new Error("Unable to determine rank level")}return{level,percentile:rank*100}}var buildContributionsDocument=ranges=>graphqlDocument(`
 query userContributions($login: String!) {
   user(login: $login) {
-    ${yearFields}
+    ${aliasedRanges(ranges,"RangeContributions")}
   }
 }
-fragment YearContributions on ContributionsCollection {
+fragment RangeContributions on ContributionsCollection {
+  totalCommitContributions
   contributionCalendar {
     totalContributions
   }
-}`)};var UserReposDocument=graphqlDocument(`
+}`);var UserReposDocument=graphqlDocument(`
 query userRepos($login: String!, $after: String, $ownerAffiliations: [RepositoryAffiliation]) {
   user(login: $login) {
     ...RepoStars
@@ -3848,12 +3978,12 @@ fragment RepoNode on Repository {
   name
   stargazerCount
 }`);var UserInfoDocument=graphqlDocument(`
-query userInfo($login: String!, $after: String, $includeMergedPullRequests: Boolean!, $includeDiscussions: Boolean!, $includeDiscussionsAnswers: Boolean!, $startTime: DateTime = null, $ownerAffiliatio\
-ns: [RepositoryAffiliation], $includeUserRepositories: Boolean!) {
+query userInfo($login: String!, $after: String, $includeMergedPullRequests: Boolean!, $includeDiscussions: Boolean!, $includeDiscussionsAnswers: Boolean!, $startTime: DateTime = null, $endTime: DateTi\
+me = null, $ownerAffiliations: [RepositoryAffiliation], $includeUserRepositories: Boolean!) {
   user(login: $login) {
     name
     login
-    commits: contributionsCollection(from: $startTime) {
+    commits: contributionsCollection(from: $startTime, to: $endTime) {
       totalCommitContributions
     }
     reviews: contributionsCollection {
@@ -3913,87 +4043,44 @@ fragment RepoStars on User {
 fragment RepoNode on Repository {
   name
   stargazerCount
-}`);var MAX_REPOSITORIES_LIMIT=100;var buildReposContributedToDocument=(ranges,includeOwnRepos)=>{const rangeFields=ranges.map(({from,to},index)=>`range_${index}: contributionsCollection(from: "${toGitHubDateTime(
-from)}", to: "${toGitHubDateTime(to)}") { ...RangeContributionsByRepo }`).join("\n");const ownRepoField=includeOwnRepos?`repositoryContributions(first: $maxRepositories) {
-    nodes {
-      repository {
-        nameWithOwner
-      }
-    }
-  }`:"";return graphqlDocument(`
-query userReposContributedTo($login: String!, $maxRepositories: Int!) {
-  user(login: $login) {
-    ${rangeFields}
-  }
-}
-fragment RangeContributionsByRepo on ContributionsCollection {
-  commitContributionsByRepository(maxRepositories: $maxRepositories) {
-    repository {
-      nameWithOwner
-    }
-  }
-  issueContributionsByRepository(maxRepositories: $maxRepositories) {
-    repository {
-      nameWithOwner
-    }
-  }
-  pullRequestContributionsByRepository(maxRepositories: $maxRepositories) {
-    repository {
-      nameWithOwner
-    }
-  }
-  ${ownRepoField}
-}`)};var fetcher2=createGraphQLFetcher(UserInfoDocument,"bearer");var reposFetcher=createGraphQLFetcher(UserReposDocument,"bearer");var statsFetcher=async({username,includeMergedPullRequests,includeDiscussions,
-includeDiscussionsAnswers,startTime,ownerAffiliations,includeUserRepositories},config2)=>{let stats2=await retryer(fetcher2,{login:username,after:null,includeMergedPullRequests,includeDiscussions,includeDiscussionsAnswers,
-startTime,ownerAffiliations,includeUserRepositories},config2);if(stats2.data.errors){return stats2}const pageLimit=config2.fetchMultiPageStars;const extraRepoNodes=[];let pageRepositories=stats2.data.
-data.user?.repositories;let previousCursor=null;let fetchedPages=1;while(fetchedPages<pageLimit&&!pageRepositories?.nodes?.some(node=>node?.stargazerCount===0)&&pageRepositories?.pageInfo.hasNextPage){
-const after=pageRepositories.pageInfo.endCursor;if(after===null||after===previousCursor){break}previousCursor=after;const page=await retryer(reposFetcher,{login:username,after,ownerAffiliations},config2);
-if(page.data.errors){return{data:{...stats2.data,errors:page.data.errors},statusText:page.statusText}}pageRepositories=page.data.data.user?.repositories;extraRepoNodes.push(...pageRepositories?.nodes??
-[]);fetchedPages+=1}if(extraRepoNodes.length>0){stats2=structuredClone({data:stats2.data,statusText:stats2.statusText});stats2.data.data.user?.repositories.nodes?.push(...extraRepoNodes)}return stats2};
-var fetchTotalItems=(variables,token,{fetch:fetch2})=>{const type=String(variables["type"]);const filter=String(variables["filter"]);const repo=variables["repo"];const owner=variables["owner"];return httpRequest(
-fetch2,`https://api.github.com/search/${type}?per_page=1&q=${buildSearchFilter(repo,owner).replaceAll(" ","+")}${filter}`,{method:"GET",headers:{"Content-Type":"application/json",Accept:"application/v\
-nd.github.cloak-preview",Authorization:`token ${token}`}})};var totalItemsFetcher=async({username,repo,owner,type,filter},config2)=>{if(!GITHUB_USERNAME_PATTERN.test(username)){logger.log("Invalid use\
-rname provided.");throw new CardError("Invalid username provided.",{code:"invalid_param",param:"username"})}let res;try{res=await retryer(fetchTotalItems,{login:username,repo,owner,type,filter},config2)}catch(error2){
-logger.log(error2);throw error2}const totalCount=res.data.total_count;if(typeof totalCount!=="number"||Number.isNaN(totalCount)){logger.error(`GitHub error: ${JSON.stringify(res.data)}`);throw new CardError(
-"Could not fetch data from GitHub REST API.",{code:"upstream"})}return totalCount};var fetchRepoUserStats=async({username,repo=[],owner=[],include_prs_authored=false,include_prs_commented=false,include_prs_reviewed=false,
-include_issues_authored=false,include_issues_commented=false},config2)=>{const stats2={};if(include_prs_authored){stats2.totalPRsAuthored=await totalItemsFetcher({username,repo,owner,type:"issues",filter:`\
-author:${username}+type:pr`},config2)}if(include_prs_commented){stats2.totalPRsCommented=await totalItemsFetcher({username,repo,owner,type:"issues",filter:`commenter:${username}+-author:${username}+ty\
-pe:pr`},config2)}if(include_prs_reviewed){stats2.totalPRsReviewed=await totalItemsFetcher({username,repo,owner,type:"issues",filter:`reviewed-by:${username}+-author:${username}+type:pr`},config2)}if(include_issues_authored){
-stats2.totalIssuesAuthored=await totalItemsFetcher({username,repo,owner,type:"issues",filter:`author:${username}+type:issue`},config2)}if(include_issues_commented){stats2.totalIssuesCommented=await totalItemsFetcher(
-{username,repo,owner,type:"issues",filter:`commenter:${username}+-author:${username}+type:issue`},config2)}return stats2};var graphqlError=(errors,statusText,fallback)=>{logger.error(errors);const message=errors[0]?.
-message;return message?new CardError(wrapTextMultiline(message,525,12)[0]??"",{code:"upstream",secondaryMessage:statusText}):new CardError(fallback,{code:"upstream"})};var fetchTotalContributions=async(username,years,config2)=>{
-if(years.length===0){return 0}const contributionsFetcher=createGraphQLFetcher(buildContributionsDocument(years),"bearer");const contribRes=await retryer(contributionsFetcher,{login:username},config2);
-if(contribRes.data.errors){throw graphqlError(contribRes.data.errors,contribRes.statusText,"Something went wrong while trying to retrieve the contributions data using the GraphQL API.")}const{user}=contribRes.
-data.data;if(!user){return 0}let total=0;for(const year of years){const yearBlock=user[`year_${year}`];if(yearBlock?.contributionCalendar.totalContributions){total+=yearBlock.contributionCalendar.totalContributions}}
-return total};var MS_PER_DAY=24*60*60*1e3;var MAX_RANGES_PER_REQUEST=100;var REPOS_CONTRIBUTED_TO_ERROR="Something went wrong while trying to retrieve the repository contributions data using the Graph\
-QL API.";var fetchAllTimeReposContributedTo=async(canonicalUsername,years,includeOwnRepos,config2)=>{const repos=new Set;let pending=years.map(year=>getGitHubYearRange(year));while(pending.length>0){const nextPending=[];
-for(const chunk of chunkArray(pending,MAX_RANGES_PER_REQUEST)){const chunkFetcher=createGraphQLFetcher(buildReposContributedToDocument(chunk,includeOwnRepos),"bearer");const res=await retryer(chunkFetcher,
-{login:canonicalUsername,maxRepositories:MAX_REPOSITORIES_LIMIT},config2);if(res.data.errors){throw graphqlError(res.data.errors,res.statusText,REPOS_CONTRIBUTED_TO_ERROR)}const{user}=res.data.data;if(!user){
-throw new CardError(REPOS_CONTRIBUTED_TO_ERROR,{code:"upstream"})}for(const[index,range]of chunk.entries()){const rangeResponse=user[`range_${index}`];if(!rangeResponse){throw new CardError(REPOS_CONTRIBUTED_TO_ERROR,
-{code:"upstream"})}const lists=[rangeResponse.commitContributionsByRepository,rangeResponse.issueContributionsByRepository,rangeResponse.pullRequestContributionsByRepository,(rangeResponse.repositoryContributions?.
-nodes??[]).filter(node=>node!==null)];const isSaturated=lists.some(list=>list.length>=MAX_REPOSITORIES_LIMIT);const rangeDays=Math.round((range.to.getTime()-range.from.getTime())/MS_PER_DAY);if(isSaturated&&
-rangeDays>=2){const mid=new Date(range.from.getTime()+Math.floor(rangeDays/2)*MS_PER_DAY);nextPending.push({from:range.from,to:new Date(mid.getTime()-1e3)},{from:mid,to:range.to});continue}if(isSaturated){
-logger.log(`Range ${range.from.toISOString()} - ${range.to.toISOString()} is saturated but cannot be split further.`)}for(const{repository}of lists.flat()){const name=repository.nameWithOwner;if(includeOwnRepos||
-!name.startsWith(`${canonicalUsername}/`)){repos.add(name)}}}}const saturatedCount=nextPending.length/2;if(saturatedCount>0){logger.log(`found ${saturatedCount} saturated ranges, splitting and retryin\
-g...`)}pending=nextPending}return repos.size};var fetchStats=async({username,include_all_commits=false,exclude_repo=[],include_merged_pull_requests=false,include_discussions=false,include_discussions_answers=false,
-commits_year,repo=[],owner=[],include_prs_authored=false,include_prs_commented=false,include_prs_reviewed=false,include_issues_authored=false,include_issues_commented=false,ownerAffiliations=[],include_contributions=false,
-include_all_time_contribs=false,contribs_include_own_repos=false},config2)=>{if(!username){throw CardError.missingParam(["username"])}const stats2={name:"",totalPRs:0,totalPRsMerged:0,mergedPRsPercentage:0,
-totalReviews:0,totalCommits:0,totalIssues:0,totalStars:0,totalDiscussionsStarted:0,totalDiscussionsAnswered:0,contributedTo:0,allTimeContributedTo:0,totalPRsAuthored:0,totalPRsCommented:0,totalPRsReviewed:0,
-totalIssuesAuthored:0,totalIssuesCommented:0,totalContributions:0,rank:{level:"C",percentile:100}};const affiliations=parseOwnerAffiliations(ownerAffiliations);const res=await statsFetcher({username,includeMergedPullRequests:include_merged_pull_requests,
-includeDiscussions:include_discussions,includeDiscussionsAnswers:include_discussions_answers,startTime:commits_year===void 0?void 0:toGitHubDateTime(getGitHubYearRange(commits_year).from),ownerAffiliations:affiliations,
-includeUserRepositories:contribs_include_own_repos},config2);if(res.data.errors){logger.error(res.data.errors);const[firstError]=res.data.errors;if(firstError?.type==="NOT_FOUND"){throw new CardError(
-firstError.message||"Could not fetch user.",{code:"not_found",secondaryMessage:USER_NOT_FOUND})}if(firstError?.message){throw new CardError(wrapTextMultiline(firstError.message,525,12)[0]??"",{code:"u\
-pstream",secondaryMessage:res.statusText})}throw new CardError("Something went wrong while trying to retrieve the stats data using the GraphQL API.",{code:"upstream"})}const{user}=res.data.data;if(!user){
-throw new CardError("Could not fetch user.",{code:"not_found",secondaryMessage:USER_NOT_FOUND})}stats2.name=user.name||user.login;if(include_all_commits){stats2.totalCommits=await totalItemsFetcher({username,
-repo,owner,type:"commits",filter:`author:${username}`},config2)}else{stats2.totalCommits=user.commits.totalCommitContributions}const repoUserStats=await fetchRepoUserStats({username,repo,owner,include_prs_authored,
-include_prs_commented,include_prs_reviewed,include_issues_authored,include_issues_commented},config2);Object.assign(stats2,repoUserStats);stats2.totalPRs=user.pullRequests.totalCount;if(include_merged_pull_requests){
-const mergedCount=user.mergedPullRequests?.totalCount??0;stats2.totalPRsMerged=mergedCount;stats2.mergedPRsPercentage=mergedCount/user.pullRequests.totalCount*100||0}stats2.totalReviews=user.reviews.totalPullRequestReviewContributions;
-stats2.totalIssues=user.openIssues.totalCount+user.closedIssues.totalCount;if(include_discussions){stats2.totalDiscussionsStarted=user.repositoryDiscussions?.totalCount??0}if(include_discussions_answers){
-stats2.totalDiscussionsAnswered=user.repositoryDiscussionComments?.totalCount??0}stats2.contributedTo=user.repositoriesContributedTo.totalCount;if(include_contributions){stats2.totalContributions=await fetchTotalContributions(
-username,user.contributionsCollection.contributionYears,config2)}if(include_all_time_contribs){stats2.allTimeContributedTo=await fetchAllTimeReposContributedTo(user.login,user.contributionsCollection.
-contributionYears,contribs_include_own_repos,config2)}const allExcludedRepos=[...exclude_repo,...config2.excludeRepositories];const repoToHide=new Set(allExcludedRepos);stats2.totalStars=(user.repositories.
-nodes??[]).filter(data=>!!data&&!repoToHide.has(data.name)).reduce((prev,curr)=>prev+(curr?.stargazerCount??0),0);stats2.rank=calculateRank({all_commits:include_all_commits,commits:stats2.totalCommits,
-prs:stats2.totalPRs,reviews:stats2.totalReviews,issues:stats2.totalIssues,repos:user.repositories.totalCount,stars:stats2.totalStars,followers:user.followers.totalCount});return stats2};var fetcher3=createGraphQLFetcher(GetRepoDocument,"token");var urlExample="/api/pin?username=USERNAME&repo=REPO_NAME";var fetchRepo=async({username,reponame,include_prs_authored=false,include_prs_commented=false,
+}`);var fetcher2=createGraphQLFetcher(UserInfoDocument,"bearer");var reposFetcher=createGraphQLFetcher(UserReposDocument,"bearer");var statsFetcher=async({username,includeMergedPullRequests,includeDiscussions,
+includeDiscussionsAnswers,commitsRange,ownerAffiliations,includeUserRepositories},config2)=>{let stats2=await retryer(fetcher2,{login:username,after:null,includeMergedPullRequests,includeDiscussions,includeDiscussionsAnswers,
+startTime:commitsRange&&toGitHubDateTime(commitsRange.from),endTime:commitsRange&&toGitHubDateTime(commitsRange.to),ownerAffiliations,includeUserRepositories},config2);if(stats2.data.errors){return stats2}
+const pageLimit=config2.fetchMultiPageStars;const extraRepoNodes=[];let pageRepositories=stats2.data.data.user?.repositories;let previousCursor=null;let fetchedPages=1;while(fetchedPages<pageLimit&&!pageRepositories?.
+nodes?.some(node=>node?.stargazerCount===0)&&pageRepositories?.pageInfo.hasNextPage){const after=pageRepositories.pageInfo.endCursor;if(after===null||after===previousCursor){break}previousCursor=after;
+const page=await retryer(reposFetcher,{login:username,after,ownerAffiliations},config2);if(page.data.errors){return{data:{...stats2.data,errors:page.data.errors},statusText:page.statusText}}pageRepositories=
+page.data.data.user?.repositories;extraRepoNodes.push(...pageRepositories?.nodes??[]);fetchedPages+=1}if(extraRepoNodes.length>0){stats2=structuredClone({data:stats2.data,statusText:stats2.statusText});
+stats2.data.data.user?.repositories.nodes?.push(...extraRepoNodes)}return stats2};var fetchTotalItems=({type,filter,repo,owner},token,{fetch:fetch2})=>httpRequest(fetch2,`https://api.github.com/search\
+/${type}?per_page=1&q=${buildSearchFilter(repo,owner).replaceAll(" ","+")}${filter}`,{method:"GET",headers:{"Content-Type":"application/json",Accept:"application/vnd.github.cloak-preview",Authorization:`\
+token ${token}`}});var totalItemsFetcher=async({username,...search},config2)=>{if(!GITHUB_USERNAME_PATTERN.test(username)){logger.log("Invalid username provided.");throw new CardError("Invalid usernam\
+e provided.",{code:"invalid_param",param:"username"})}let res;try{res=await retryer(fetchTotalItems,search,config2)}catch(error2){logger.log(error2);throw error2}const totalCount=res.data.total_count;
+if(typeof totalCount!=="number"||Number.isNaN(totalCount)){logger.error(`GitHub error: ${JSON.stringify(res.data)}`);throw new CardError("Could not fetch data from GitHub REST API.",{code:"upstream"})}
+return totalCount};var REPO_USER_SEARCHES=[["include_prs_authored","totalPRsAuthored",username=>`author:${username}+type:pr`],["include_prs_commented","totalPRsCommented",username=>`commenter:${username}\
++-author:${username}+type:pr`],["include_prs_reviewed","totalPRsReviewed",username=>`reviewed-by:${username}+-author:${username}+type:pr`],["include_issues_authored","totalIssuesAuthored",username=>`a\
+uthor:${username}+type:issue`],["include_issues_commented","totalIssuesCommented",username=>`commenter:${username}+-author:${username}+type:issue`]];var fetchRepoUserStats=async({username,repo=[],owner=[],
+...flags},config2)=>{const stats2={};for(const[flag,stat2,filter]of REPO_USER_SEARCHES){if(flags[flag]){stats2[stat2]=await totalItemsFetcher({username,repo,owner,type:"issues",filter:filter(username)},
+config2)}}return stats2};var sumOverRanges=async(username,ranges,pick2,config2)=>{if(ranges.length===0){return 0}const contributionsFetcher=createGraphQLFetcher(buildContributionsDocument(ranges),"bea\
+rer");const contribRes=await retryer(contributionsFetcher,{login:username},config2);if(contribRes.data.errors){throw graphqlError(contribRes.data.errors,contribRes.statusText,"Something went wrong whi\
+le trying to retrieve the contributions data using the GraphQL API.")}const{user}=contribRes.data.data;if(!user){return 0}let total=0;for(const block of Object.values(user)){total+=pick2(block)}return total};
+var fetchStats=async({username,include_all_commits=false,exclude_repo=[],include_merged_pull_requests=false,include_discussions=false,include_discussions_answers=false,from,to,repo=[],owner=[],include_prs_authored=false,
+include_prs_commented=false,include_prs_reviewed=false,include_issues_authored=false,include_issues_commented=false,ownerAffiliations=[],include_contributions=false,include_all_time_contribs=false,contribs_include_own_repos=false},config2)=>{
+if(!username){throw CardError.missingParam(["username"])}const stats2={name:"",totalPRs:0,totalPRsMerged:0,mergedPRsPercentage:0,totalReviews:0,totalCommits:0,commitsRange:void 0,totalIssues:0,totalStars:0,
+totalDiscussionsStarted:0,totalDiscussionsAnswered:0,contributedTo:0,allTimeContributedTo:0,totalPRsAuthored:0,totalPRsCommented:0,totalPRsReviewed:0,totalIssuesAuthored:0,totalIssuesCommented:0,totalContributions:0,
+rank:{level:"C",percentile:100}};const affiliations=parseOwnerAffiliations(ownerAffiliations);const commitsRange=from===void 0&&to===void 0?void 0:toRange(from,to);const commitsYearRanges=commitsRange?
+toYearRanges(commitsRange):[];const inlineRange=commitsYearRanges.length===1?commitsYearRanges[0]:void 0;const res=await statsFetcher({username,includeMergedPullRequests:include_merged_pull_requests,includeDiscussions:include_discussions,
+includeDiscussionsAnswers:include_discussions_answers,commitsRange:inlineRange,ownerAffiliations:affiliations,includeUserRepositories:contribs_include_own_repos},config2);if(res.data.errors){throw graphqlError(
+res.data.errors,res.statusText,"Something went wrong while trying to retrieve the stats data using the GraphQL API.")}const{user}=res.data.data;if(!user){throw new CardError("Could not fetch user.",{code:"\
+not_found",secondaryMessage:USER_NOT_FOUND})}stats2.name=user.name||user.login;if(include_all_commits){stats2.totalCommits=await totalItemsFetcher({username,repo,owner,type:"commits",filter:`author:${username}`},
+config2)}else{stats2.commitsRange=commitsRange;stats2.totalCommits=commitsRange&&!inlineRange?await sumOverRanges(username,commitsYearRanges,block=>block.totalCommitContributions,config2):user.commits.
+totalCommitContributions}const repoUserStats=await fetchRepoUserStats({username,repo,owner,include_prs_authored,include_prs_commented,include_prs_reviewed,include_issues_authored,include_issues_commented},
+config2);Object.assign(stats2,repoUserStats);stats2.totalPRs=user.pullRequests.totalCount;if(include_merged_pull_requests){const mergedCount=user.mergedPullRequests?.totalCount??0;stats2.totalPRsMerged=
+mergedCount;stats2.mergedPRsPercentage=mergedCount/user.pullRequests.totalCount*100||0}stats2.totalReviews=user.reviews.totalPullRequestReviewContributions;stats2.totalIssues=user.openIssues.totalCount+
+user.closedIssues.totalCount;if(include_discussions){stats2.totalDiscussionsStarted=user.repositoryDiscussions?.totalCount??0}if(include_discussions_answers){stats2.totalDiscussionsAnswered=user.repositoryDiscussionComments?.
+totalCount??0}stats2.contributedTo=user.repositoriesContributedTo.totalCount;const contributionRanges=toContributionRanges(user.contributionsCollection.contributionYears,getWidestRange());if(include_contributions){
+stats2.totalContributions=await sumOverRanges(username,contributionRanges,block=>block.contributionCalendar.totalContributions,config2)}if(include_all_time_contribs){const reposContributedTo=await fetchReposContributedTo(
+user.login,contributionRanges,contribs_include_own_repos,config2);stats2.allTimeContributedTo=reposContributedTo.size}const allExcludedRepos=[...exclude_repo,...config2.excludeRepositories];const repoToHide=new Set(
+allExcludedRepos);stats2.totalStars=(user.repositories.nodes??[]).filter(data=>!!data&&!repoToHide.has(data.name)).reduce((prev,curr)=>prev+(curr?.stargazerCount??0),0);stats2.rank=calculateRank({all_commits:include_all_commits,
+commits:stats2.totalCommits,prs:stats2.totalPRs,reviews:stats2.totalReviews,issues:stats2.totalIssues,repos:user.repositories.totalCount,stars:stats2.totalStars,followers:user.followers.totalCount});return stats2};var fetcher3=createGraphQLFetcher(GetRepoDocument,"token");var urlExample="/api/pin?username=USERNAME&repo=REPO_NAME";var fetchRepo=async({username,reponame,include_prs_authored=false,include_prs_commented=false,
 include_prs_reviewed=false,include_issues_authored=false,include_issues_commented=false},config2)=>{let parsedOwner=username;let repo=reponame;if(repo?.includes("/")){const[ownerFromRepo,nameFromRepo]=repo.
 split("/");parsedOwner=ownerFromRepo??"";repo=nameFromRepo??""}const login=username||parsedOwner;if(!login&&!repo){throw CardError.missingParam(["username","repo"],urlExample)}if(!login){throw CardError.
 missingParam(["username"],urlExample)}if(!repo){throw CardError.missingParam(["repo"],urlExample)}const repoOwner=parsedOwner||login;const res=await retryer(fetcher3,{login:repoOwner,repo},config2);const{
@@ -4003,81 +4090,79 @@ if(!repository||repository.isPrivate){throw new CardError("User Repository Not f
 null&&data.organization){const{repository}=data.organization;if(!repository||repository.isPrivate){throw new CardError("Organization Repository Not found",{code:"not_found",secondaryMessage:REPO_NOT_FOUND})}
 const repoUserStats=await fetchRepoUserStats({username:login,repo:[`${repoOwner}/${repo}`],include_prs_authored,include_prs_commented,include_prs_reviewed,include_issues_authored,include_issues_commented},
 config2);return{...repoUserStats,...repository}}throw new CardError("Unexpected behavior",{code:"upstream"})};var pinQuery=object({username:usernameParam,repo:safeParam,hide_border:booleanParam,card_width:looseIntParam,show_owner:booleanParam,browser_rendering:booleanParam,show:listParam,show_icons:booleanParam,
-number_format:rawParam,text_bold:booleanParam,line_height:rawParam,locale:localeParam,border_radius:numberParam,description_lines_count:looseIntParam});var pin=async(query,config2)=>{let colors;try{colors=
-parseColorParams(query)}catch(error2){return errorResult(error2)}try{const{username,repo,hide_border,card_width,show_owner,browser_rendering,show,show_icons,number_format,text_bold,line_height,locale,
-border_radius,description_lines_count}=parseParams(pinQuery,query);const repoData=await fetchRepo({username,reponame:repo,include_prs_authored:show.includes("prs_authored"),include_prs_commented:show.
-includes("prs_commented"),include_prs_reviewed:show.includes("prs_reviewed"),include_issues_authored:show.includes("issues_authored"),include_issues_commented:show.includes("issues_commented")},config2);
-return{status:"success",content:renderRepoCard(repoData,{...colors,hide_border,border_radius,card_width_input:card_width,show_owner,browser_rendering,show,show_icons,number_format,text_bold,line_height,
-username,locale,description_lines_count})}}catch(error2){return errorResult(error2,colors)}};var CARD_MIN_WIDTH=287;var CARD_DEFAULT_WIDTH3=287;var RANK_CARD_MIN_WIDTH=420;var RANK_CARD_DEFAULT_WIDTH=450;var RANK_ONLY_CARD_MIN_WIDTH=290;var RANK_ONLY_CARD_DEFAULT_WIDTH=290;var STAT_FONT_SIZE=14;
-var CARD_PADDING_X=25;var STAT_ROW_X=25;var RANK_GUTTER=120;var LABEL_X_OFFSET=25;var LABEL_VALUE_GAP=16;var RANK_ICONS=["default","github","percentile"];var LONG_LOCALES=new Set(["az","bg","cs","de",
-"el","es","fil","fi","fr","hu","id","ja","ml","my","nl","pl","pt-br","pt-pt","ru","sr","sr-latn","sw","ta","uk-ua","uz","zh-tw"]);var calculateCircleProgress=value=>{const radius=40;const circumference=Math.
-PI*(radius*2);const clamped=Math.min(Math.max(value,0),100);return(100-clamped)/100*circumference};var getProgressAnimation=({progress})=>atRule("@keyframes rankAnimation",rule("from",{"stroke-dashoff\
-set":calculateCircleProgress(0)}),rule("to",{"stroke-dashoffset":calculateCircleProgress(progress)}));var getStyles=({textColor,iconColor,ringColor,show_icons,progress})=>[rule(".stat",{font:`400 ${STAT_FONT_SIZE}\
-px 'Segoe UI', Ubuntu, "Helvetica Neue", Sans-Serif`,fill:textColor,"font-variant-numeric":"tabular-nums"}),atRule("@supports(-moz-appearance: auto)",cssComment("Selector detects Firefox"),rule(".stat",
-{"font-size":"12px"})),rule(".stagger",{opacity:0,animation:"fadeInAnimation 0.3s ease-in-out forwards"}),rule(".rank-text",{font:"700 22px 'Segoe UI', Ubuntu, Sans-Serif",fill:textColor,animation:"sc\
-aleInAnimation 0.3s ease-in-out forwards"}),rule(".rank-percentile-header",{"font-size":"14px"}),rule(".rank-percentile-text",{"font-size":"16px"}),cssComment("Labels recede so that the values read fi\
-rst."),rule(".not_bold",{"font-weight":400,opacity:.75}),rule(".bold",{"font-weight":600}),rule(".icon",{fill:iconColor,opacity:.75,display:show_icons?"block":"none"}),rule(".rank-circle-rim",{stroke:ringColor,
-fill:"none","stroke-width":4,opacity:.15}),rule(".rank-circle",{stroke:ringColor,"stroke-dasharray":250,fill:"none","stroke-width":4,"stroke-linecap":"round",opacity:1,"transform-origin":"-10px 8px",transform:"\
-rotate(-90deg)",animation:"rankAnimation 0.8s forwards ease-in-out"}),getProgressAnimation({progress})];var getTotalCommitsYearLabel=(include_all_commits,commits_year,i18n)=>include_all_commits?"":commits_year?
-` (${commits_year})`:` (${i18n.t("wakatimecard.lastyear")})`;var renderStatsCard=(stats2,options={},username,repo=[],owner=[])=>{const{name,totalStars,totalCommits,totalIssues,totalPRs,totalPRsMerged,
-mergedPRsPercentage,totalReviews,totalDiscussionsStarted,totalDiscussionsAnswered,contributedTo,allTimeContributedTo,totalPRsAuthored,totalPRsCommented,totalPRsReviewed,totalIssuesAuthored,totalIssuesCommented,
-totalContributions,rank}=stats2;const{hide:hide2=[],show_icons=false,hide_title=false,hide_border=false,card_width,hide_rank=false,include_all_commits=false,commits_year,line_height=25,text_bold=true,
-custom_title,border_radius,number_format="short",number_precision,locale,disable_animations=false,rank_icon="default",show=[]}=options;const lheight=Number.parseInt(String(line_height),10);const{lightColors,
-darkColors}=getLightDarkColors(options);const apostrophe=/s$/i.test(name.trim())?"":"s";const i18n=new I18n({locale,translations:{...statCardLocales({name,apostrophe}),...wakatimeCardLocales}});const STATS={
-stars:{icon:icons.star,label:i18n.t("statcard.totalstars"),value:totalStars,id:"stars"}};if(show.includes("contributions")){STATS["contributions"]={icon:icons.contributions,label:i18n.t("statcard.cont\
-ributions"),value:totalContributions,id:"contributions"}}STATS["commits"]={icon:icons.commits,label:`${i18n.t("statcard.commits")}${getTotalCommitsYearLabel(include_all_commits,commits_year,i18n)}`,value:totalCommits,
-id:"commits"};STATS["prs"]={icon:icons.prs,label:i18n.t("statcard.prs"),value:totalPRs,id:"prs"};if(show.includes("prs_merged")){STATS["prs_merged"]={icon:icons.prs_merged,label:i18n.t("statcard.prs-m\
-erged"),value:totalPRsMerged,id:"prs_merged"}}if(show.includes("prs_merged_percentage")){STATS["prs_merged_percentage"]={icon:icons.prs_merged_percentage,label:i18n.t("statcard.prs-merged-percentage"),
-value:mergedPRsPercentage.toFixed(number_precision!==void 0&&Number.isFinite(number_precision)?clampValue(number_precision,0,2):2),id:"prs_merged_percentage",unitSymbol:"%"}}if(show.includes("reviews")){
-STATS["reviews"]={icon:icons.reviews,label:i18n.t("statcard.reviews"),value:totalReviews,id:"reviews"}}STATS["issues"]={icon:icons.issues,label:i18n.t("statcard.issues"),value:totalIssues,id:"issues"};
-if(show.includes("discussions_started")){STATS["discussions_started"]={icon:icons.discussions_started,label:i18n.t("statcard.discussions-started"),value:totalDiscussionsStarted,id:"discussions_started"}}
-if(show.includes("discussions_answered")){STATS["discussions_answered"]={icon:icons.discussions_answered,label:i18n.t("statcard.discussions-answered"),value:totalDiscussionsAnswered,id:"discussions_an\
-swered"}}const repoFilter=encodeURIComponent(buildSearchFilter(repo,owner));const encodedUsername=encodeURIComponent(username??"");if(show.includes("prs_authored")){STATS["prs_authored"]={icon:icons.prs,
-label:i18n.t("statcard.prs-authored"),value:totalPRsAuthored,id:"prs_authored",link:`https://github.com/search?q=${repoFilter}author%3A${encodedUsername}&amp;type=pullrequests`}}if(show.includes("prs_\
-commented")){STATS["prs_commented"]={icon:icons.comments,label:i18n.t("statcard.prs-commented"),value:totalPRsCommented,id:"prs_commented",link:`https://github.com/search?q=${repoFilter}commenter%3A${encodedUsername}\
-+-author%3A${encodedUsername}&amp;type=pullrequests`}}if(show.includes("prs_reviewed")){STATS["prs_reviewed"]={icon:icons.reviews,label:i18n.t("statcard.prs-reviewed"),value:totalPRsReviewed,id:"prs_r\
-eviewed",link:`https://github.com/search?q=${repoFilter}reviewed-by%3A${encodedUsername}+-author%3A${encodedUsername}&amp;type=pullrequests`}}if(show.includes("issues_authored")){STATS["issues_authore\
-d"]={icon:icons.issues,label:i18n.t("statcard.issues-authored"),value:totalIssuesAuthored,id:"issues_authored",link:`https://github.com/search?q=${repoFilter}author%3A${encodedUsername}&amp;type=issue\
-s`}}if(show.includes("issues_commented")){STATS["issues_commented"]={icon:icons.discussions_started,label:i18n.t("statcard.issues-commented"),value:totalIssuesCommented,id:"issues_commented",link:`htt\
-ps://github.com/search?q=${repoFilter}commenter%3A${encodedUsername}+-author%3A${encodedUsername}&amp;type=issues`}}STATS["contribs"]={icon:icons.contribs,label:i18n.t("statcard.contribs"),value:contributedTo,
-id:"contribs"};if(show.includes("all_time_contribs")){STATS["all_time_contribs"]={icon:icons.contribs,label:i18n.t("statcard.all-time-contribs"),value:allTimeContributedTo,id:"all_time_contribs"}}const isLongLocale=locale?
-LONG_LOCALES.has(locale):false;const visibleStats=Object.entries(STATS).filter(([key])=>!hide2.includes(key));if(visibleStats.length===0&&hide_rank){throw new CardError("Could not render stats card.",
-{code:"invalid_param",secondaryMessage:"Either stats or rank are required."})}const longLabels=visibleStats.some(([,stat2])=>stat2.label.length>18);const height=Math.max(45+(visibleStats.length+1)*lheight,
-hide_rank?0:visibleStats.length>0?150:180);const progress=100-rank.percentile;const calculateTextWidth=()=>measureText(custom_title||(visibleStats.length>0?i18n.t("statcard.title"):i18n.t("statcard.ra\
-nktitle")));const iconWidth=show_icons&&visibleStats.length>0?16+1:0;const minCardWidth=(hide_rank?clampValue(50+calculateTextWidth()*2,CARD_MIN_WIDTH,Infinity):visibleStats.length>0?RANK_CARD_MIN_WIDTH:
-RANK_ONLY_CARD_MIN_WIDTH)+iconWidth;const defaultCardWidth=(hide_rank?CARD_DEFAULT_WIDTH3:visibleStats.length>0?RANK_CARD_DEFAULT_WIDTH:RANK_ONLY_CARD_DEFAULT_WIDTH)+iconWidth;const width=card_width?Number.
-isNaN(card_width)?Math.max(defaultCardWidth,minCardWidth):card_width:Math.max(defaultCardWidth,minCardWidth);const widestLabel=visibleStats.length>0?Math.max(...visibleStats.map(([,stat2])=>measureText(
-`${stat2.label}:`,STAT_FONT_SIZE))):0;const valueAnchorX=Math.round(Math.max(width-CARD_PADDING_X-STAT_ROW_X-(hide_rank?0:RANK_GUTTER),(show_icons?LABEL_X_OFFSET:0)+widestLabel+LABEL_VALUE_GAP));const statItems=visibleStats.
-map(([,stat2],index)=>createTextNode({icon:stat2.icon,label:stat2.label,value:stat2.value,id:stat2.id,unitSymbol:stat2.unitSymbol,index,showIcons:show_icons,shiftValuePos:29.01+(longLabels?50:0)+(isLongLocale?
-50:0),valueAnchorX,bold:text_bold,labelBold:false,numberFormat:number_format,numberPrecision:number_precision,link:stat2.link}));const card=new Card({customTitle:custom_title,defaultTitle:visibleStats.
-length>0?i18n.t("statcard.title"):i18n.t("statcard.ranktitle"),width,height,border_radius,colors:{light:lightColors,dark:darkColors}});card.setHideBorder(hide_border);card.setHideTitle(hide_title);const cardStyles=({
-ringColor,textColor,iconColor})=>getStyles({ringColor,textColor,iconColor,show_icons,progress});card.setCSS({light:cardStyles,dark:cardStyles});if(disable_animations){card.disableAnimations()}const calculateRankXTranslation=()=>{
-if(visibleStats.length>0){const minXTranslation=RANK_CARD_MIN_WIDTH+iconWidth-70;if(width>RANK_CARD_DEFAULT_WIDTH){const xMaxExpansion=minXTranslation+(450-minCardWidth)/2;return xMaxExpansion+width-RANK_CARD_DEFAULT_WIDTH}
-return minXTranslation+(width-minCardWidth)/2}return width/2+20-10};const rankCircle=!hide_rank&&el("g",{"data-testid":"rank-circle",transform:`translate(${calculateRankXTranslation()}, ${height/2-50}\
-)`},el("circle",{class:"rank-circle-rim",cx:-10,cy:8,r:40}),el("circle",{class:"rank-circle",cx:-10,cy:8,r:40}),el("g",{class:"rank-text"},rankIcon(rank_icon,rank.level,rank.percentile)));const labels=visibleStats.
-map(([key,stat2])=>{if(key==="commits"){return`${i18n.t("statcard.commits")} ${getTotalCommitsYearLabel(include_all_commits,commits_year,i18n)} : ${stat2.value}`}return`${stat2.label}: ${stat2.value}`}).
-join(", ");card.setAccessibilityLabel({title:`${card.title}, Rank: ${rank.level}`,desc:labels});return card.render([rankCircle,el("svg",{x:0,y:0},flexLayout({items:statItems,gap:lheight,direction:"col\
-umn"}))])};var statsQuery=object({username:usernameParam,repo:safeListParam,owner:safeListParam,hide:listParam,hide_title:booleanParam,hide_border:booleanParam,card_width:looseIntParam,hide_rank:booleanParam,show_icons:booleanParam,
-include_all_commits:booleanParam,commits_year:yearParam,line_height:rawParam,text_bold:booleanParam,exclude_repo:listParam,custom_title:rawParam,locale:localeParam,disable_animations:booleanParam,border_radius:numberParam,
-number_format:rawParam,role:listParam,number_precision:looseIntParam,rank_icon:enumParam(RANK_ICONS),show:listParam,contribs_include_own_repos:booleanParam});var renderStats=async(query,config2)=>{let colors;
-try{colors=parseColorParams(query)}catch(error2){return errorResult(error2)}try{const{username,repo,owner,hide:hide2,hide_title,hide_border,card_width,hide_rank,show_icons,include_all_commits,commits_year,
-line_height,text_bold,exclude_repo,custom_title,locale,disable_animations,border_radius,number_format,role,number_precision,rank_icon,show,contribs_include_own_repos}=parseParams(statsQuery,query);const repository=repo.
-map(name=>name.includes("/")?name:`${username??""}/${name}`);const stats2=await fetchStats({username,include_all_commits,exclude_repo,include_merged_pull_requests:show.includes("prs_merged")||show.includes(
-"prs_merged_percentage"),include_discussions:show.includes("discussions_started"),include_discussions_answers:show.includes("discussions_answered"),commits_year,repo:repository,owner,include_prs_authored:show.
-includes("prs_authored"),include_prs_commented:show.includes("prs_commented"),include_prs_reviewed:show.includes("prs_reviewed"),include_issues_authored:show.includes("issues_authored"),include_issues_commented:show.
-includes("issues_commented"),ownerAffiliations:role,include_contributions:show.includes("contributions"),include_all_time_contribs:show.includes("all_time_contribs"),contribs_include_own_repos},config2);
-return{status:"success",content:renderStatsCard(stats2,{...colors,hide:hide2,show_icons,hide_title,hide_border,card_width,hide_rank,include_all_commits,commits_year,line_height,text_bold,custom_title,
-border_radius,number_format,number_precision,locale,disable_animations,rank_icon,show},username,repository,owner)}}catch(error2){return errorResult(error2,colors)}};var stats=Object.assign(renderStats,
-{RANK_ICONS});var DEFAULT_CARD_WIDTH=300;var MIN_CARD_WIDTH=280;var CARD_PADDING=25;var COMPACT_LAYOUT_BASE_HEIGHT=90;var MAXIMUM_LANGS_COUNT=20;var NORMAL_LAYOUT_DEFAULT_LANGS_COUNT=5;var COMPACT_LAYOUT_DEFAULT_LANGS_COUNT=6;
-var DONUT_LAYOUT_DEFAULT_LANGS_COUNT=5;var PIE_LAYOUT_DEFAULT_LANGS_COUNT=6;var DONUT_VERTICAL_LAYOUT_DEFAULT_LANGS_COUNT=6;var TOP_LANG_LAYOUTS=["compact","normal","donut","donut-vertical","pie"];var TOP_LANG_STATS_FORMATS=[
-"percentages","bytes"];var getLongestLang=arr=>{let longest={name:"",size:0,color:""};for(const lang of arr){if(lang.name.length>longest.name.length){longest=lang}}return longest};var degreesToRadians=angleInDegrees=>angleInDegrees*
-(Math.PI/180);var polarToCartesian=(centerX,centerY,radius,angleInDegrees)=>{const rads=degreesToRadians(angleInDegrees);return{x:centerX+radius*Math.cos(rads),y:centerY+radius*Math.sin(rads)}};var getCircleLength=radius=>2*Math.PI*radius;var calculateCompactLayoutHeight=totalLangs=>COMPACT_LAYOUT_BASE_HEIGHT+Math.round(totalLangs/2)*25;var calculateNormalLayoutHeight=totalLangs=>45+(totalLangs+
+number_format:rawParam,text_bold:booleanParam,line_height:rawParam,locale:localeParam,border_radius:numberParam,description_lines_count:looseIntParam});var renderPin=cardHandler(pinQuery,async({username,
+repo,hide_border,card_width,show_owner,browser_rendering,show,show_icons,number_format,text_bold,line_height,locale,border_radius,description_lines_count},colors,config2)=>{const repoData=await fetchRepo(
+{username,reponame:repo,include_prs_authored:show.includes("prs_authored"),include_prs_commented:show.includes("prs_commented"),include_prs_reviewed:show.includes("prs_reviewed"),include_issues_authored:show.
+includes("issues_authored"),include_issues_commented:show.includes("issues_commented")},config2);return renderRepoCard(repoData,{...colors,hide_border,border_radius,card_width_input:card_width,show_owner,
+browser_rendering,show,show_icons,number_format,text_bold,line_height,username,locale,description_lines_count})});var pin=Object.assign(renderPin,{OPTIONS:renderRepoCard.OPTIONS});var CARD_MIN_WIDTH=287;var CARD_DEFAULT_WIDTH4=CARD_WIDTH.compact;var RANK_CARD_DEFAULT_WIDTH=CARD_WIDTH.wide;var RANK_ONLY_CARD_DEFAULT_WIDTH=CARD_WIDTH.compact;var STAT_FONT_SIZE=FONT_SIZE.body;var CARD_PADDING_X=25;
+var STAT_ROW_X=25;var RANK_GUTTER=120;var RANK_CIRCLE_CX_OFFSET=10;var LABEL_X_OFFSET=25;var LABEL_VALUE_GAP=16;var RANK_ICONS=["default","github","percentile"];var SHOW_STATS=["contributions","prs_me\
+rged","prs_merged_percentage","reviews","discussions_started","discussions_answered","prs_authored","prs_commented","prs_reviewed","issues_authored","issues_commented","all_time_contribs"];var HIDE_STATS=[
+"stars","commits","prs","issues","contribs"];var LONG_LOCALES=new Set(["az","bg","cs","de","el","es","fil","fi","fr","hu","id","ja","ml","my","nl","pl","pt-br","pt-pt","ru","sr","sr-latn","sw","ta","u\
+k-ua","uz","zh-tw"]);var calculateCircleProgress=value=>{const radius=40;const circumference=Math.PI*(radius*2);const clamped=Math.min(Math.max(value,0),100);return(100-clamped)/100*circumference};var getProgressAnimation=({
+progress})=>atRule("@keyframes rankAnimation",rule("from",{"stroke-dashoffset":calculateCircleProgress(0)}),rule("to",{"stroke-dashoffset":calculateCircleProgress(progress)}));var getStyles=({textColor,
+iconColor,ringColor,show_icons,progress})=>[rule(".stat",{font:font("regular","body"),fill:textColor,"font-variant-numeric":"tabular-nums"}),firefoxFontSize([".stat"],"small"),rule(".stagger",{opacity:0,
+animation:"fadeInAnimation 0.3s ease-in-out forwards"}),rule(".rank-text",{font:font("bold","display"),fill:textColor,animation:"scaleInAnimation 0.3s ease-in-out forwards"}),rule(".rank-percentile-he\
+ader",{"font-size":`${String(FONT_SIZE.body)}px`}),rule(".rank-percentile-text",{"font-size":`${String(FONT_SIZE.lead)}px`}),cssComment("Labels recede so that the values read first."),rule(".not_bold",
+{"font-weight":FONT_WEIGHT.regular,opacity:.75}),rule(".bold",{"font-weight":FONT_WEIGHT.semibold}),rule(".icon",{fill:iconColor,opacity:.75,display:show_icons?"block":"none"}),rule(".rank-circle-rim",
+{stroke:ringColor,fill:"none","stroke-width":4,opacity:.15}),rule(".rank-circle",{stroke:ringColor,"stroke-dasharray":250,fill:"none","stroke-width":4,"stroke-linecap":"round",opacity:1,"transform-ori\
+gin":"-10px 8px",transform:"rotate(-90deg)",animation:"rankAnimation 0.8s forwards ease-in-out"}),getProgressAnimation({progress})];var getTotalCommitsRangeLabel=(include_all_commits,commitsRange,i18n)=>include_all_commits?
+"":commitsRange?` (${formatRange(commitsRange)})`:` (${i18n.t("wakatimecard.lastyear")})`;var renderCard2=(stats2,options={},username,repo=[],owner=[])=>{const{name,totalStars,totalCommits,commitsRange,
+totalIssues,totalPRs,totalPRsMerged,mergedPRsPercentage,totalReviews,totalDiscussionsStarted,totalDiscussionsAnswered,contributedTo:contributedTo2,allTimeContributedTo,totalPRsAuthored,totalPRsCommented,
+totalPRsReviewed,totalIssuesAuthored,totalIssuesCommented,totalContributions,rank}=stats2;const{hide:hide2=[],show_icons=false,hide_title=false,hide_border=false,card_width,hide_rank=false,include_all_commits=false,
+line_height=25,text_bold=true,custom_title,border_radius,number_format="short",number_precision,locale,disable_animations=false,rank_icon="default",show=[]}=options;const lheight=Number.parseInt(String(
+line_height),10);const{lightColors,darkColors}=getLightDarkColors(options);const shows=stat2=>show.includes(stat2);const apostrophe=/s$/i.test(name.trim())?"":"s";const i18n=new I18n({locale,translations:{
+...statCardLocales({name,apostrophe}),...wakatimeCardLocales}});const STATS={stars:{icon:icons.star,label:i18n.t("statcard.totalstars"),value:totalStars,id:"stars"}};if(shows("contributions")){STATS["\
+contributions"]={icon:icons.contributions,label:i18n.t("statcard.contributions"),value:totalContributions,id:"contributions"}}STATS["commits"]={icon:icons.commits,label:`${i18n.t("statcard.commits")}${getTotalCommitsRangeLabel(
+include_all_commits,commitsRange,i18n)}`,value:totalCommits,id:"commits"};STATS["prs"]={icon:icons.prs,label:i18n.t("statcard.prs"),value:totalPRs,id:"prs"};if(shows("prs_merged")){STATS["prs_merged"]=
+{icon:icons.prs_merged,label:i18n.t("statcard.prs-merged"),value:totalPRsMerged,id:"prs_merged"}}if(shows("prs_merged_percentage")){STATS["prs_merged_percentage"]={icon:icons.prs_merged_percentage,label:i18n.
+t("statcard.prs-merged-percentage"),value:mergedPRsPercentage.toFixed(number_precision!==void 0&&Number.isFinite(number_precision)?clampValue(number_precision,0,2):2),id:"prs_merged_percentage",unitSymbol:"\
+%"}}if(shows("reviews")){STATS["reviews"]={icon:icons.reviews,label:i18n.t("statcard.reviews"),value:totalReviews,id:"reviews"}}STATS["issues"]={icon:icons.issues,label:i18n.t("statcard.issues"),value:totalIssues,
+id:"issues"};if(shows("discussions_started")){STATS["discussions_started"]={icon:icons.discussions_started,label:i18n.t("statcard.discussions-started"),value:totalDiscussionsStarted,id:"discussions_st\
+arted"}}if(shows("discussions_answered")){STATS["discussions_answered"]={icon:icons.discussions_answered,label:i18n.t("statcard.discussions-answered"),value:totalDiscussionsAnswered,id:"discussions_an\
+swered"}}const repoFilter=encodeURIComponent(buildSearchFilter(repo,owner));const encodedUsername=encodeURIComponent(username??"");if(shows("prs_authored")){STATS["prs_authored"]={icon:icons.prs,label:i18n.
+t("statcard.prs-authored"),value:totalPRsAuthored,id:"prs_authored",link:`https://github.com/search?q=${repoFilter}author%3A${encodedUsername}&amp;type=pullrequests`}}if(shows("prs_commented")){STATS["\
+prs_commented"]={icon:icons.comments,label:i18n.t("statcard.prs-commented"),value:totalPRsCommented,id:"prs_commented",link:`https://github.com/search?q=${repoFilter}commenter%3A${encodedUsername}+-au\
+thor%3A${encodedUsername}&amp;type=pullrequests`}}if(shows("prs_reviewed")){STATS["prs_reviewed"]={icon:icons.reviews,label:i18n.t("statcard.prs-reviewed"),value:totalPRsReviewed,id:"prs_reviewed",link:`\
+https://github.com/search?q=${repoFilter}reviewed-by%3A${encodedUsername}+-author%3A${encodedUsername}&amp;type=pullrequests`}}if(shows("issues_authored")){STATS["issues_authored"]={icon:icons.issues,
+label:i18n.t("statcard.issues-authored"),value:totalIssuesAuthored,id:"issues_authored",link:`https://github.com/search?q=${repoFilter}author%3A${encodedUsername}&amp;type=issues`}}if(shows("issues_co\
+mmented")){STATS["issues_commented"]={icon:icons.discussions_started,label:i18n.t("statcard.issues-commented"),value:totalIssuesCommented,id:"issues_commented",link:`https://github.com/search?q=${repoFilter}\
+commenter%3A${encodedUsername}+-author%3A${encodedUsername}&amp;type=issues`}}STATS["contribs"]={icon:icons.repo,label:i18n.t("statcard.contribs"),value:contributedTo2,id:"contribs"};if(shows("all_tim\
+e_contribs")){STATS["all_time_contribs"]={icon:icons.repo,label:i18n.t("statcard.all-time-contribs"),value:allTimeContributedTo,id:"all_time_contribs"}}const isLongLocale=locale?LONG_LOCALES.has(locale):
+false;const visibleStats=Object.entries(STATS).filter(([key])=>!hide2.includes(key));if(visibleStats.length===0&&hide_rank){throw new CardError("Could not render stats card.",{code:"invalid_param",secondaryMessage:"\
+Either stats or rank are required."})}const longLabels=visibleStats.some(([,stat2])=>stat2.label.length>18);const height=Math.max(45+(visibleStats.length+1)*lheight,hide_rank?0:visibleStats.length>0?150:
+180);const progress=100-rank.percentile;const calculateTextWidth=()=>measureText(custom_title||(visibleStats.length>0?i18n.t("statcard.title"):i18n.t("statcard.ranktitle")));const iconWidth=show_icons&&
+visibleStats.length>0?16+1:0;const defaultCardWidth=hide_rank?CARD_DEFAULT_WIDTH4:visibleStats.length>0?RANK_CARD_DEFAULT_WIDTH:RANK_ONLY_CARD_DEFAULT_WIDTH;const fittedWidth=hide_rank?Math.max(defaultCardWidth,
+clampValue(50+calculateTextWidth()*2,CARD_MIN_WIDTH,Infinity)+iconWidth):defaultCardWidth;const width=card_width?Number.isNaN(card_width)?fittedWidth:card_width:fittedWidth;const widestLabel=visibleStats.
+length>0?Math.max(...visibleStats.map(([,stat2])=>measureText(`${stat2.label}:`,STAT_FONT_SIZE))):0;const valueAnchorX=Math.round(Math.max(width-CARD_PADDING_X-STAT_ROW_X-(hide_rank?0:RANK_GUTTER),(show_icons?
+LABEL_X_OFFSET:0)+widestLabel+LABEL_VALUE_GAP));const statItems=visibleStats.map(([,stat2],index)=>createTextNode({icon:stat2.icon,label:stat2.label,value:stat2.value,id:stat2.id,unitSymbol:stat2.unitSymbol,
+index,showIcons:show_icons,shiftValuePos:29.01+(longLabels?50:0)+(isLongLocale?50:0),valueAnchorX,bold:text_bold,labelBold:false,numberFormat:number_format,numberPrecision:number_precision,link:stat2.
+link}));const card=new Card({customTitle:custom_title,defaultTitle:visibleStats.length>0?i18n.t("statcard.title"):i18n.t("statcard.ranktitle"),titlePrefixIcon:CARD_ICON.stats,width,height,border_radius,
+colors:{light:lightColors,dark:darkColors}});card.setHideBorder(hide_border);card.setHideTitle(hide_title);const cardStyles=({ringColor,textColor,iconColor})=>getStyles({ringColor,textColor,iconColor,
+show_icons,progress});card.setCSS({light:cardStyles,dark:cardStyles});if(disable_animations){card.disableAnimations()}const calculateRankXTranslation=()=>visibleStats.length>0?width-CARD_PADDING_X-RANK_GUTTER/
+2+RANK_CIRCLE_CX_OFFSET:width/2+20-10;const rankCircle=!hide_rank&&el("g",{"data-testid":"rank-circle",transform:`translate(${calculateRankXTranslation()}, ${height/2-50})`},el("circle",{class:"rank-c\
+ircle-rim",cx:-RANK_CIRCLE_CX_OFFSET,cy:8,r:40}),el("circle",{class:"rank-circle",cx:-RANK_CIRCLE_CX_OFFSET,cy:8,r:40}),el("g",{class:"rank-text"},rankIcon(rank_icon,rank.level,rank.percentile)));const labels=visibleStats.
+map(([key,stat2])=>{if(key==="commits"){return`${i18n.t("statcard.commits")} ${getTotalCommitsRangeLabel(include_all_commits,commitsRange,i18n)} : ${stat2.value}`}return`${stat2.label}: ${stat2.value}`}).
+join(", ");card.setAccessibilityLabel({title:`${card.title}, ${i18n.t("statcard.rank")}: ${rank.level}`,desc:labels});return card.render([rankCircle,el("svg",{x:0,y:0},flexLayout({items:statItems,gap:lheight,
+direction:"column"}))])};var renderStatsCard=Object.assign(renderCard2,{OPTIONS:{rank_icon:RANK_ICONS,show:SHOW_STATS,hide:HIDE_STATS,number_format:NUMBER_FORMATS}});var statsQuery=object({username:usernameParam,repo:safeListParam,owner:safeListParam,hide:listParam,hide_title:booleanParam,hide_border:booleanParam,card_width:looseIntParam,hide_rank:booleanParam,show_icons:booleanParam,
+include_all_commits:booleanParam,from:fromParam,to:toParam,line_height:rawParam,text_bold:booleanParam,exclude_repo:listParam,custom_title:rawParam,locale:localeParam,disable_animations:booleanParam,border_radius:numberParam,
+number_format:rawParam,role:listParam,number_precision:looseIntParam,rank_icon:enumParam(renderStatsCard.OPTIONS.rank_icon),show:listParam,contribs_include_own_repos:booleanParam}).check(ORDERED_RANGE);
+var renderStats=cardHandler(statsQuery,async({username,repo,owner,hide:hide2,hide_title,hide_border,card_width,hide_rank,show_icons,include_all_commits,from,to,line_height,text_bold,exclude_repo,custom_title,
+locale,disable_animations,border_radius,number_format,role,number_precision,rank_icon,show,contribs_include_own_repos},colors,config2)=>{const repository=repo.map(name=>name.includes("/")?name:`${username??
+""}/${name}`);const stats2=await fetchStats({username,include_all_commits,exclude_repo,include_merged_pull_requests:show.includes("prs_merged")||show.includes("prs_merged_percentage"),include_discussions:show.
+includes("discussions_started"),include_discussions_answers:show.includes("discussions_answered"),from,to,repo:repository,owner,include_prs_authored:show.includes("prs_authored"),include_prs_commented:show.
+includes("prs_commented"),include_prs_reviewed:show.includes("prs_reviewed"),include_issues_authored:show.includes("issues_authored"),include_issues_commented:show.includes("issues_commented"),ownerAffiliations:role,
+include_contributions:show.includes("contributions"),include_all_time_contribs:show.includes("all_time_contribs"),contribs_include_own_repos},config2);return renderStatsCard(stats2,{...colors,hide:hide2,
+show_icons,hide_title,hide_border,card_width,hide_rank,include_all_commits,line_height,text_bold,custom_title,border_radius,number_format,number_precision,locale,disable_animations,rank_icon,show},username,
+repository,owner)});var stats=Object.assign(renderStats,{OPTIONS:{...renderStatsCard.OPTIONS,role:OWNER_AFFILIATIONS}});var DEFAULT_CARD_WIDTH=CARD_WIDTH.compact;var MIN_CARD_WIDTH2=280;var CARD_PADDING2=25;var COMPACT_LAYOUT_BASE_HEIGHT=90;var MAXIMUM_LANGS_COUNT=20;var NORMAL_LAYOUT_DEFAULT_LANGS_COUNT=5;var COMPACT_LAYOUT_DEFAULT_LANGS_COUNT=6;
+var DONUT_LAYOUT_DEFAULT_LANGS_COUNT=5;var DONUT_EXTRA_WIDTH=50;var PIE_LAYOUT_DEFAULT_LANGS_COUNT=6;var DONUT_VERTICAL_LAYOUT_DEFAULT_LANGS_COUNT=6;var TOP_LANG_LAYOUTS=["compact","normal","donut","d\
+onut-vertical","pie"];var TOP_LANG_STATS_FORMATS=["percentages","bytes"];var getLongestLang=arr=>{let longest={name:"",size:0,color:""};for(const lang of arr){if(lang.name.length>longest.name.length){
+longest=lang}}return longest};var degreesToRadians=angleInDegrees=>angleInDegrees*(Math.PI/180);var polarToCartesian=(centerX,centerY,radius,angleInDegrees)=>{const rads=degreesToRadians(angleInDegrees);return{x:centerX+radius*Math.cos(rads),y:centerY+radius*Math.sin(rads)}};var getCircleLength=radius=>2*Math.PI*radius;var calculateCompactLayoutHeight=totalLangs=>COMPACT_LAYOUT_BASE_HEIGHT+Math.round(totalLangs/2)*25;var calculateNormalLayoutHeight=totalLangs=>45+(totalLangs+
 1)*40;var calculateDonutLayoutHeight=totalLangs=>215+Math.max(totalLangs-5,0)*32;var calculateDonutVerticalLayoutHeight=totalLangs=>300+Math.round(totalLangs/2)*25;var calculatePieLayoutHeight=totalLangs=>300+
 Math.round(totalLangs/2)*25;var donutCenterTranslation=totalLangs=>-45+Math.max(totalLangs-5,0)*16;var trimTopLanguages=(topLangs2,langs_count,hide2)=>{let langs=Object.values(topLangs2);const langsToHide={};
 const langsCount=clampValue(langs_count,1,MAXIMUM_LANGS_COUNT);if(hide2){for(const langName of hide2){langsToHide[lowercaseTrim(langName)]=true}}langs=langs.toSorted((a,b)=>b.size-a.size).filter(lang=>!langsToHide[lowercaseTrim(
 lang.name)]).slice(0,langsCount);const totalLanguageSize=langs.reduce((acc,curr)=>acc+curr.size,0);return{langs,totalLanguageSize}};var getDisplayValue=(size,percentages,format)=>format==="bytes"?formatBytes(
 size):`${percentages.toFixed(2)}%`;var resolveLangColor=lang=>{const color=lang.color||DEFAULT_LANG_COLOR;if(!isPrefixedHexColor(color)){throw new Error(`Invalid language color: "${color}"`)}return color};
-var createProgressTextNode=({width,color,name,size,totalSize,statsFormat,hideValues,index})=>{const staggerDelay=(index+3)*150;const paddingRight=hideValues?CARD_PADDING*2:95;const progressTextX=width-
+var createProgressTextNode=({width,color,name,size,totalSize,statsFormat,hideValues,index})=>{const staggerDelay=(index+3)*150;const paddingRight=hideValues?CARD_PADDING2*2:95;const progressTextX=width-
 paddingRight+10;const progressWidth=width-paddingRight;const progress=size/totalSize*100;const displayValue=getDisplayValue(size,progress,statsFormat);return el("g",{class:"stagger",style:`animation-d\
 elay: ${staggerDelay}ms`},el("text",{"data-testid":"lang-name",x:2,y:15,class:"lang-name"},name),!hideValues&&el("text",{x:progressTextX,y:34,class:"lang-name"},displayValue),createProgressNode({x:0,y:25,
 color,width:progressWidth,progress,delay:staggerDelay+300}))};var createCompactLangNode=({lang,totalSize,hideProgress,hideValues,statsFormat="percentages",index})=>{const percentages=lang.size/totalSize*
@@ -4096,14 +4181,14 @@ createLanguageTextNode({langs,totalSize:totalLanguageSize,hideProgress,statsForm
 radius);const circles=[];let indent=0;let startDelayCoefficient=1;for(const lang of langs){const langColor=resolveLangColor(lang);const percentage=lang.size/totalLanguageSize*100;const circleLength=totalCircleLength*
 (percentage/100);const delay=startDelayCoefficient*100;circles.push(el("g",{class:"stagger",style:`animation-delay: ${delay}ms`},el("circle",{cx:150,cy:100,r:radius,fill:"transparent",stroke:langColor,
 "stroke-width":25,"stroke-dasharray":totalCircleLength,"stroke-dashoffset":indent,size:percentage,"data-testid":"lang-donut"})));indent+=circleLength;startDelayCoefficient+=1}return el("svg",{"data-te\
-stid":"lang-items"},el("svg",{"data-testid":"donut"},circles),el("g",{transform:"translate(0, 220)"},el("svg",{"data-testid":"lang-names",x:CARD_PADDING},createLanguageTextNode({langs,totalSize:totalLanguageSize,
+stid":"lang-items"},el("svg",{"data-testid":"donut"},circles),el("g",{transform:"translate(0, 220)"},el("svg",{"data-testid":"lang-names",x:CARD_PADDING2},createLanguageTextNode({langs,totalSize:totalLanguageSize,
 hideProgress:false,statsFormat,hideValues}))))};var renderPieLayout=(langs,totalLanguageSize,statsFormat,hideValues)=>{const radius=90;const centerX=150;const centerY=100;let startAngle=0;let startDelayCoefficient=1;
 const paths=[];for(const lang of langs){const langColor=resolveLangColor(lang);if(langs.length===1){paths.push(el("circle",{cx:centerX,cy:centerY,r:radius,stroke:"none",fill:langColor,"data-testid":"l\
 ang-pie",size:100}));break}const langSizePart=lang.size/totalLanguageSize;const percentage=langSizePart*100;const angle=langSizePart*360;const endAngle=startAngle+angle;const startPoint=polarToCartesian(
 centerX,centerY,radius,startAngle);const endPoint=polarToCartesian(centerX,centerY,radius,endAngle);const largeArcFlag=angle>180?1:0;const delay=startDelayCoefficient*100;paths.push(el("g",{class:"sta\
 gger",style:`animation-delay: ${delay}ms`},el("path",{"data-testid":"lang-pie",size:percentage,d:`M ${centerX} ${centerY} L ${startPoint.x} ${startPoint.y} A ${radius} ${radius} 0 ${largeArcFlag} 1 ${endPoint.
 x} ${endPoint.y} Z`,fill:langColor})));startAngle=endAngle;startDelayCoefficient+=1}return el("svg",{"data-testid":"lang-items"},el("svg",{"data-testid":"pie"},paths),el("g",{transform:"translate(0, 2\
-20)"},el("svg",{"data-testid":"lang-names",x:CARD_PADDING},createLanguageTextNode({langs,totalSize:totalLanguageSize,hideProgress:false,statsFormat,hideValues}))))};var createDonutPaths=(cx,cy,radius,percentages)=>{
+20)"},el("svg",{"data-testid":"lang-names",x:CARD_PADDING2},createLanguageTextNode({langs,totalSize:totalLanguageSize,hideProgress:false,statsFormat,hideValues}))))};var createDonutPaths=(cx,cy,radius,percentages)=>{
 const paths=[];let startAngle=0;const totalPercent=percentages.reduce((acc,curr)=>acc+curr,0);for(const rawPercent of percentages){const percent=Number.parseFloat((rawPercent/totalPercent*100).toFixed(
 2));const endAngle=3.6*percent+startAngle;const startPoint=polarToCartesian(cx,cy,radius,endAngle-90);const endPoint=polarToCartesian(cx,cy,radius,startAngle-90);const largeArc=endAngle-startAngle<=180?
 0:1;paths.push({percent,d:`M ${startPoint.x} ${startPoint.y} A ${radius} ${radius} 0 ${largeArc} 0 ${endPoint.x} ${endPoint.y}`});startAngle=endAngle}return paths};var renderDonutLayout=(langs,width,totalLanguageSize,statsFormat,hideValues)=>{
@@ -4112,25 +4197,25 @@ lang));const langsPercents=langs.map(lang=>Number.parseFloat((lang.size/totalLan
 length===1?[el("circle",{cx:centerX,cy:centerY,r:radius,stroke:colors[0]??DEFAULT_LANG_COLOR,fill:"none","stroke-width":strokeWidth,"data-testid":"lang-donut",size:100})]:langPaths.map((section,index)=>el(
 "g",{class:"stagger",style:`animation-delay: ${(index+3)*100+300}ms`},el("path",{"data-testid":"lang-donut",size:section.percent,d:section.d,stroke:colors[index]??DEFAULT_LANG_COLOR,fill:"none","strok\
 e-width":strokeWidth})));return[createDonutLanguagesNode({langs,totalSize:totalLanguageSize,hideValues,statsFormat}),el("g",{transform:`translate(125, ${donutCenterTranslation(langs.length)})`},el("sv\
-g",{width,height:width},donutPaths))]};var noLanguagesDataNode=({text,layout})=>el("text",{x:layout==="pie"||layout==="donut-vertical"?CARD_PADDING:0,y:11,class:"stat bold"},text);var getDefaultLanguagesCountByLayout=({
+g",{width,height:width},donutPaths))]};var noLanguagesDataNode=({text,layout})=>el("text",{x:layout==="pie"||layout==="donut-vertical"?CARD_PADDING2:0,y:11,class:"stat bold"},text);var getDefaultLanguagesCountByLayout=({
 layout,hide_progress})=>{if(layout==="compact"||hide_progress===true){return COMPACT_LAYOUT_DEFAULT_LANGS_COUNT}if(layout==="donut"){return DONUT_LAYOUT_DEFAULT_LANGS_COUNT}if(layout==="donut-vertical"){
-return DONUT_VERTICAL_LAYOUT_DEFAULT_LANGS_COUNT}if(layout==="pie"){return PIE_LAYOUT_DEFAULT_LANGS_COUNT}return NORMAL_LAYOUT_DEFAULT_LANGS_COUNT};var renderTopLanguages=(topLangs2,options={})=>{const{
-hide_title=false,hide_border=false,card_width,hide:hide2,hide_progress,hide_values,layout,custom_title,locale,langs_count=getDefaultLanguagesCountByLayout({layout,hide_progress}),border_radius,disable_animations,
-stats_format="percentages"}=options;const i18n=new I18n({locale,translations:langCardLocales});const{langs,totalLanguageSize}=trimTopLanguages(topLangs2,langs_count,hide2);let width=card_width?Number.
-isNaN(card_width)?DEFAULT_CARD_WIDTH:card_width<MIN_CARD_WIDTH?MIN_CARD_WIDTH:card_width:DEFAULT_CARD_WIDTH;let height=calculateNormalLayoutHeight(langs.length);const{lightColors,darkColors}=getLightDarkColors(
-options);let finalLayout;if(langs.length===0){height=COMPACT_LAYOUT_BASE_HEIGHT;finalLayout=noLanguagesDataNode({text:i18n.t("langcard.nodata"),layout})}else if(layout==="pie"){height=calculatePieLayoutHeight(
+return DONUT_VERTICAL_LAYOUT_DEFAULT_LANGS_COUNT}if(layout==="pie"){return PIE_LAYOUT_DEFAULT_LANGS_COUNT}return NORMAL_LAYOUT_DEFAULT_LANGS_COUNT};var renderCard3=(topLangs2,options={})=>{const{hide_title=false,
+hide_border=false,card_width,hide:hide2,hide_progress,hide_values,layout,custom_title,locale,langs_count=getDefaultLanguagesCountByLayout({layout,hide_progress}),border_radius,disable_animations,stats_format="\
+percentages"}=options;const i18n=new I18n({locale,translations:langCardLocales});const{langs,totalLanguageSize}=trimTopLanguages(topLangs2,langs_count,hide2);let width=card_width?Number.isNaN(card_width)?
+DEFAULT_CARD_WIDTH:card_width<MIN_CARD_WIDTH2?MIN_CARD_WIDTH2:card_width:DEFAULT_CARD_WIDTH;let height=calculateNormalLayoutHeight(langs.length);const{lightColors,darkColors}=getLightDarkColors(options);
+let finalLayout;if(langs.length===0){height=COMPACT_LAYOUT_BASE_HEIGHT;finalLayout=noLanguagesDataNode({text:i18n.t("langcard.nodata"),layout})}else if(layout==="pie"){height=calculatePieLayoutHeight(
 langs.length);finalLayout=renderPieLayout(langs,totalLanguageSize,stats_format,hide_values)}else if(layout==="donut-vertical"){height=calculateDonutVerticalLayoutHeight(langs.length);finalLayout=renderDonutVerticalLayout(
 langs,totalLanguageSize,stats_format,hide_values)}else if(layout==="compact"||hide_progress===true){height=calculateCompactLayoutHeight(langs.length)+(hide_progress?-25:0);finalLayout=renderCompactLayout(
-langs,width,totalLanguageSize,hide_progress,stats_format,hide_values)}else if(layout==="donut"){height=calculateDonutLayoutHeight(langs.length);width+=50;finalLayout=renderDonutLayout(langs,width,totalLanguageSize,
-stats_format,hide_values)}else{finalLayout=renderNormalLayout(langs,width,totalLanguageSize,stats_format,hide_values)}const card=new Card({customTitle:custom_title,defaultTitle:i18n.t("langcard.title"),
-width,height,border_radius,colors:{light:lightColors,dark:darkColors}});if(disable_animations){card.disableAnimations()}card.setHideBorder(hide_border);card.setHideTitle(hide_title);card.setCSS({light:({
-textColor,progBarBgColor})=>[atRule("@keyframes slideInAnimation",rule("from",{width:0}),rule("to",{width:"calc(100%-100px)"})),atRule("@keyframes growWidthAnimation",rule("from",{width:0}),rule("to",
-{width:"100%"})),rule(".stat",{font:`600 14px 'Segoe UI', Ubuntu, "Helvetica Neue", Sans-Serif`,fill:textColor}),atRule("@supports(-moz-appearance: auto)",cssComment("Selector detects Firefox"),rule("\
-.stat",{"font-size":"12px"})),rule(".bold",{"font-weight":700}),rule(".lang-name",{font:'400 11px "Segoe UI", Ubuntu, Sans-Serif',fill:textColor}),rule(".stagger",{opacity:0,animation:"fadeInAnimation\
- 0.3s ease-in-out forwards"}),rule("#rect-mask rect",{animation:"slideInAnimation 1s ease-in-out forwards"}),rule(".lang-progress",{animation:"growWidthAnimation 0.6s ease-in-out forwards"}),rule(".pr\
-ogress-background",{fill:progBarBgColor})],dark:({textColor,progBarBgColor})=>[rule(".stat",{fill:textColor}),rule(".lang-name",{fill:textColor}),rule(".progress-background",{fill:progBarBgColor})]});
-card.setAccessibilityLabel({title:card.title,desc:langs.map(lang=>`${lang.name} ${(lang.size/totalLanguageSize*100).toFixed(2)}%`).join(", ")});if(layout==="pie"||layout==="donut-vertical"){return card.
-render(finalLayout)}return card.render(el("svg",{"data-testid":"lang-items",x:CARD_PADDING},finalLayout))};var TopLanguagesDocument=graphqlDocument(`
+langs,width,totalLanguageSize,hide_progress,stats_format,hide_values)}else if(layout==="donut"){height=calculateDonutLayoutHeight(langs.length);width=width===DEFAULT_CARD_WIDTH?CARD_WIDTH.standard:width+
+DONUT_EXTRA_WIDTH;finalLayout=renderDonutLayout(langs,width,totalLanguageSize,stats_format,hide_values)}else{finalLayout=renderNormalLayout(langs,width,totalLanguageSize,stats_format,hide_values)}const card=new Card(
+{customTitle:custom_title,defaultTitle:i18n.t("langcard.title"),titlePrefixIcon:CARD_ICON.topLanguages,width,height,border_radius,colors:{light:lightColors,dark:darkColors}});if(disable_animations){card.
+disableAnimations()}card.setHideBorder(hide_border);card.setHideTitle(hide_title);card.setCSS({light:({textColor,progBarBgColor})=>[atRule("@keyframes slideInAnimation",rule("from",{width:0}),rule("to",
+{width:"calc(100%-100px)"})),atRule("@keyframes growWidthAnimation",rule("from",{width:0}),rule("to",{width:"100%"})),rule(".stat",{font:font("regular","body"),fill:textColor}),firefoxFontSize([".stat"],
+"small"),rule(".bold",{"font-weight":FONT_WEIGHT.semibold}),rule(".lang-name",{font:font("regular","micro"),fill:textColor}),rule(".stagger",{opacity:0,animation:"fadeInAnimation 0.3s ease-in-out forw\
+ards"}),rule("#rect-mask rect",{animation:"slideInAnimation 1s ease-in-out forwards"}),rule(".lang-progress",{animation:"growWidthAnimation 0.6s ease-in-out forwards"}),rule(".progress-background",{fill:progBarBgColor})],
+dark:({textColor,progBarBgColor})=>[rule(".stat",{fill:textColor}),rule(".lang-name",{fill:textColor}),rule(".progress-background",{fill:progBarBgColor})]});card.setAccessibilityLabel({title:card.title,
+desc:langs.map(lang=>`${lang.name} ${(lang.size/totalLanguageSize*100).toFixed(2)}%`).join(", ")});if(layout==="pie"||layout==="donut-vertical"){return card.render(finalLayout)}return card.render(el("\
+svg",{"data-testid":"lang-items",x:CARD_PADDING2},finalLayout))};var renderTopLanguages=Object.assign(renderCard3,{OPTIONS:{layout:TOP_LANG_LAYOUTS,stats_format:TOP_LANG_STATS_FORMATS}});var TopLanguagesDocument=graphqlDocument(`
 query topLanguages($login: String!, $ownerAffiliations: [RepositoryAffiliation]) {
   user(login: $login) {
     repositories(ownerAffiliations: $ownerAffiliations, isFork: false, first: 100) {
@@ -4155,20 +4240,17 @@ fragment TopLanguage on LanguageEdge {
     name
   }
 }`);var fetcher4=createGraphQLFetcher(TopLanguagesDocument,"token");var fetchTopLanguages=async({username,exclude_repo=[],size_weight=1,count_weight=0,ownerAffiliations=[]},config2)=>{if(!username){throw CardError.
-missingParam(["username"])}const affiliations=parseOwnerAffiliations(ownerAffiliations);const res=await retryer(fetcher4,{login:username,ownerAffiliations:affiliations},config2);if(res.data.errors){logger.
-error(res.data.errors);const[firstError]=res.data.errors;if(firstError?.type==="NOT_FOUND"){throw new CardError(firstError.message||"Could not fetch user.",{code:"not_found",secondaryMessage:USER_NOT_FOUND})}
-if(firstError?.message){throw new CardError(wrapTextMultiline(firstError.message,525,12)[0]??"",{code:"upstream",secondaryMessage:res.statusText})}throw new CardError("Something went wrong while tryin\
-g to retrieve the language data using the GraphQL API.",{code:"upstream"})}const repoToHide={};const allExcludedRepos=[...exclude_repo,...config2.excludeRepositories];for(const repoName of allExcludedRepos){
-repoToHide[repoName]=true}const repoNodes=(res.data.data.user?.repositories.nodes??[]).filter(node=>!!node&&!repoToHide[node.name]);let languageEdges=[];for(const repo of repoNodes){const edges=(repo.
-languages?.edges??[]).filter(edge=>!!edge);if(edges.length>0){languageEdges=[...edges,...languageEdges]}}const languageMap={};for(const edge of languageEdges){const existing=languageMap[edge.node.name];
-languageMap[edge.node.name]={name:edge.node.name,color:edge.node.color,size:edge.size+(existing?.size??0),count:(existing?.count??0)+1}}for(const lang of Object.values(languageMap)){lang.size=lang.size**
-size_weight*lang.count**count_weight}return Object.fromEntries(Object.entries(languageMap).toSorted(([,a],[,b])=>b.size-a.size))};var topLangsQuery=object({username:usernameParam,hide:listParam,hide_title:booleanParam,hide_border:booleanParam,card_width:looseIntParam,layout:enumParam(TOP_LANG_LAYOUTS),langs_count:looseIntParam,exclude_repo:listParam,
-size_weight:numberParam,count_weight:numberParam,custom_title:rawParam,locale:localeParam,border_radius:numberParam,role:listParam,disable_animations:booleanParam,hide_progress:booleanParam,hide_values:booleanParam,
-stats_format:enumParam(TOP_LANG_STATS_FORMATS)});var renderTopLangs=async(query,config2)=>{let colors;try{colors=parseColorParams(query)}catch(error2){return errorResult(error2)}try{const{username,hide:hide2,
-hide_title,hide_border,card_width,layout,langs_count,exclude_repo,size_weight,count_weight,custom_title,locale,border_radius,role,disable_animations,hide_progress,hide_values,stats_format}=parseParams(
-topLangsQuery,query);const topLangs2=await fetchTopLanguages({username,exclude_repo,size_weight,count_weight,ownerAffiliations:role},config2);return{status:"success",content:renderTopLanguages(topLangs2,
-{...colors,custom_title,hide_title,hide_border,card_width,hide:hide2,layout,langs_count,border_radius,locale,disable_animations,hide_progress,hide_values,stats_format})}}catch(error2){return errorResult(
-error2,colors)}};var topLangs=Object.assign(renderTopLangs,{LAYOUTS:TOP_LANG_LAYOUTS,STATS_FORMATS:TOP_LANG_STATS_FORMATS});var DEFAULT_CARD_WIDTH2=495;var MIN_CARD_WIDTH2=250;var COMPACT_LAYOUT_MIN_WIDTH=400;var DEFAULT_LINE_HEIGHT=25;var PROGRESSBAR_PADDING=130;var HIDDEN_PROGRESSBAR_PADDING=170;var COMPACT_LAYOUT_PROGRESSBAR_PADDING=25;
+missingParam(["username"])}const affiliations=parseOwnerAffiliations(ownerAffiliations);const res=await retryer(fetcher4,{login:username,ownerAffiliations:affiliations},config2);if(res.data.errors){throw graphqlError(
+res.data.errors,res.statusText,"Something went wrong while trying to retrieve the language data using the GraphQL API.")}const repoToHide={};const allExcludedRepos=[...exclude_repo,...config2.excludeRepositories];
+for(const repoName of allExcludedRepos){repoToHide[repoName]=true}const repoNodes=(res.data.data.user?.repositories.nodes??[]).filter(node=>!!node&&!repoToHide[node.name]);let languageEdges=[];for(const repo of repoNodes){
+const edges=(repo.languages?.edges??[]).filter(edge=>!!edge);if(edges.length>0){languageEdges=[...edges,...languageEdges]}}const languageMap={};for(const edge of languageEdges){const existing=languageMap[edge.
+node.name];languageMap[edge.node.name]={name:edge.node.name,color:edge.node.color,size:edge.size+(existing?.size??0),count:(existing?.count??0)+1}}for(const lang of Object.values(languageMap)){lang.size=
+lang.size**size_weight*lang.count**count_weight}return Object.fromEntries(Object.entries(languageMap).toSorted(([,a],[,b])=>b.size-a.size))};var topLangsQuery=object({username:usernameParam,hide:listParam,hide_title:booleanParam,hide_border:booleanParam,card_width:looseIntParam,layout:enumParam(renderTopLanguages.OPTIONS.layout),langs_count:looseIntParam,
+exclude_repo:listParam,size_weight:numberParam,count_weight:numberParam,custom_title:rawParam,locale:localeParam,border_radius:numberParam,role:listParam,disable_animations:booleanParam,hide_progress:booleanParam,
+hide_values:booleanParam,stats_format:enumParam(renderTopLanguages.OPTIONS.stats_format)});var renderTopLangs=cardHandler(topLangsQuery,async({username,hide:hide2,hide_title,hide_border,card_width,layout,
+langs_count,exclude_repo,size_weight,count_weight,custom_title,locale,border_radius,role,disable_animations,hide_progress,hide_values,stats_format},colors,config2)=>{const topLangs2=await fetchTopLanguages(
+{username,exclude_repo,size_weight,count_weight,ownerAffiliations:role},config2);return renderTopLanguages(topLangs2,{...colors,custom_title,hide_title,hide_border,card_width,hide:hide2,layout,langs_count,
+border_radius,locale,disable_animations,hide_progress,hide_values,stats_format})});var topLangs=Object.assign(renderTopLangs,{OPTIONS:{...renderTopLanguages.OPTIONS,role:OWNER_AFFILIATIONS}});var DEFAULT_CARD_WIDTH2=CARD_WIDTH.wide;var MIN_CARD_WIDTH3=250;var COMPACT_LAYOUT_MIN_WIDTH=400;var DEFAULT_LINE_HEIGHT=25;var PROGRESSBAR_PADDING=130;var HIDDEN_PROGRESSBAR_PADDING=170;var COMPACT_LAYOUT_PROGRESSBAR_PADDING=25;
 var TOTAL_TEXT_WIDTH=275;var WAKATIME_LAYOUTS=["compact","normal"];var DISPLAY_FORMATS=["time","percent"];var noCodingActivityNode=({text})=>el("text",{x:25,y:11,class:"stat bold"},text);var formatLanguageValue=({
 display_format,lang})=>display_format==="percent"?`${lang.percent.toFixed(2)} %`:lang.text;var createCompactLangNode2=({lang,x,y,display_format})=>{if(!Number.isFinite(x)){throw new TypeError(`Invalid\
  x: "${x}"`)}if(!Number.isFinite(y)){throw new TypeError(`Invalid y: "${y}"`)}const color=getLanguageColor(lang.name);const value=formatLanguageValue({display_format,lang});return el("g",{transform:`t\
@@ -4179,55 +4261,55 @@ if(!Number.isFinite(index)){throw new TypeError(`Invalid index: "${index}"`)}if(
 3)*150;return el("g",{class:"stagger",style:`animation-delay: ${staggerDelay}ms`,transform:"translate(25, 0)"},el("text",{class:"stat bold",y:12.5,"data-testid":id},`${label}:`),el("text",{class:"stat",
 x:hideProgress?HIDDEN_PROGRESSBAR_PADDING:PROGRESSBAR_PADDING+progressBarWidth,y:12.5},value),!hideProgress&&createProgressNode({x:110,y:4,progress:percent,width:progressBarWidth,delay:staggerDelay+300}))};
 var recalculatePercentages=languages=>{const totalSum=languages.reduce((sum,language)=>sum+language.percent,0);const weight=Number((100/totalSum).toFixed(2));for(const language of languages){language.
-percent=Number((language.percent*weight).toFixed(2))}};var getStyles2=({textColor})=>{if(!isPrefixedHexColor(textColor)){throw new Error(`Invalid text color: "${textColor}"`)}return[rule(".stat",{font:`\
-600 14px 'Segoe UI', Ubuntu, "Helvetica Neue", Sans-Serif`,fill:textColor}),atRule("@supports(-moz-appearance: auto)",cssComment("Selector detects Firefox"),rule(".stat",{"font-size":"12px"})),rule(".\
-stagger",{opacity:0,animation:"fadeInAnimation 0.3s ease-in-out forwards"}),rule(".not_bold",{"font-weight":400}),rule(".bold",{"font-weight":700})]};var progressBackground=(titleColor,textColor)=>textColor===
-titleColor?"#fff0":textColor;var normalizeCardWidth=({value,layout})=>{if(value===void 0||Number.isNaN(value)){return DEFAULT_CARD_WIDTH2}return Math.max(layout==="compact"?COMPACT_LAYOUT_MIN_WIDTH:MIN_CARD_WIDTH2,
-value)};var renderWakatimeCard=(stats2={},options={})=>{let{languages=[]}=stats2;const{hide_title=false,hide_border=false,card_width,hide:hide2,line_height=DEFAULT_LINE_HEIGHT,hide_progress,custom_title,
-locale,layout,langs_count=languages.length,border_radius,display_format="time",disable_animations}=options;const normalizedWidth=normalizeCardWidth({value:card_width,layout});const shouldHideLangs=Array.
-isArray(hide2)&&hide2.length>0;if(shouldHideLangs){const languagesToHide=new Set(hide2.map(lang=>lowercaseTrim(lang)));languages=languages.filter(lang=>!languagesToHide.has(lowercaseTrim(lang.name)))}
-languages=languages.slice(0,langs_count);recalculatePercentages(languages);const i18n=new I18n({locale,translations:wakatimeCardLocales});const lheight=Number.parseInt(String(line_height),10);const langsCount=clampValue(
-langs_count,1,langs_count);const{lightColors,darkColors}=getLightDarkColors(options);const filteredLanguages=languages.filter(language=>language.hours||language.minutes).slice(0,langsCount);let height=Math.
-max(45+(filteredLanguages.length+1)*lheight,150);let finalLayout;if(layout==="compact"){const width=normalizedWidth-5;height=90+Math.round(filteredLanguages.length/2)*DEFAULT_LINE_HEIGHT;let progressOffset=0;
-const compactProgressBar=filteredLanguages.map(language=>{const progress=(width-COMPACT_LAYOUT_PROGRESSBAR_PADDING)*language.percent/100;const x=progressOffset;progressOffset+=progress;return el("rect",
-{mask:"url(#rect-mask)","data-testid":"lang-progress",x,y:0,width:progress,height:8,fill:getLanguageColor(language.name)})});finalLayout=[el("mask",{id:"rect-mask"},el("rect",{x:COMPACT_LAYOUT_PROGRESSBAR_PADDING,
-y:0,width:width-2*COMPACT_LAYOUT_PROGRESSBAR_PADDING,height:8,fill:"white",rx:5})),compactProgressBar,filteredLanguages.length>0?createLanguageTextNode2({y:25,langs:filteredLanguages,display_format,card_width:normalizedWidth}):
-noCodingActivityNode({text:stats2.is_coding_activity_visible?stats2.is_other_usage_visible?i18n.t("wakatimecard.nocodingactivity"):i18n.t("wakatimecard.nocodedetails"):i18n.t("wakatimecard.notpublic")})]}else{
-finalLayout=flexLayout({items:filteredLanguages.length>0?filteredLanguages.map((language,index)=>createTextNode2({id:language.name,label:language.name,value:formatLanguageValue({display_format,lang:language}),
-index,percent:language.percent,hideProgress:hide_progress,progressBarWidth:normalizedWidth-TOTAL_TEXT_WIDTH})):[noCodingActivityNode({text:stats2.is_coding_activity_visible?stats2.is_other_usage_visible?
-i18n.t("wakatimecard.nocodingactivity"):i18n.t("wakatimecard.nocodedetails"):i18n.t("wakatimecard.notpublic")})],gap:lheight,direction:"column"})}let titleText=i18n.t("wakatimecard.title");switch(stats2.
-range){case"last_7_days":{titleText+=` (${i18n.t("wakatimecard.last7days")})`;break}case"last_year":{titleText+=` (${i18n.t("wakatimecard.lastyear")})`;break}default:{break}}const card=new Card({customTitle:custom_title,
-defaultTitle:titleText,width:normalizedWidth,height,border_radius,colors:{light:lightColors,dark:darkColors}});if(disable_animations){card.disableAnimations()}card.setHideBorder(hide_border);card.setHideTitle(
-hide_title);card.setCSS({light:({titleColor,textColor})=>[getStyles2({textColor}),atRule("@keyframes slideInAnimation",rule("from",{width:0}),rule("to",{width:"calc(100%-100px)"})),atRule("@keyframes \
-growWidthAnimation",rule("from",{width:0}),rule("to",{width:"100%"})),rule(".lang-name",{font:"400 11px 'Segoe UI', Ubuntu, Sans-Serif",fill:textColor}),rule("#rect-mask rect",{animation:"slideInAnima\
-tion 1s ease-in-out forwards"}),rule(".lang-progress",{animation:"growWidthAnimation 0.6s ease-in-out forwards",fill:titleColor}),rule(".progress-background",{fill:progressBackground(titleColor,textColor)})],
-dark:({titleColor,textColor})=>[getStyles2({textColor}),rule(".lang-name",{fill:textColor}),rule(".lang-progress",{fill:titleColor}),rule(".progress-background",{fill:progressBackground(titleColor,textColor)})]});
-card.setAccessibilityLabel({title:card.title,desc:filteredLanguages.length>0?filteredLanguages.map(lang=>`${lang.name}: ${formatLanguageValue({display_format,lang})}`).join(", "):i18n.t("wakatimecard.\
-nocodingactivity")});return card.render(el("svg",{x:0,y:0,width:"100%"},finalLayout))};var fetchWakatimeStats=async({username,api_domain},config2)=>{if(!username){throw CardError.missingParam(["username"])}const domain=api_domain?api_domain.replaceAll(/\/$/gi,""):"wakatime.com";const res=await httpRequest(
+percent=Number((language.percent*weight).toFixed(2))}};var getStyles2=({textColor})=>{if(!isPrefixedHexColor(textColor)){throw new Error(`Invalid text color: "${textColor}"`)}return[rule(".stat",{font:font(
+"regular","body"),fill:textColor}),firefoxFontSize([".stat"],"small"),rule(".stagger",{opacity:0,animation:"fadeInAnimation 0.3s ease-in-out forwards"}),rule(".not_bold",{"font-weight":FONT_WEIGHT.regular}),
+rule(".bold",{"font-weight":FONT_WEIGHT.semibold})]};var progressBackground=(titleColor,textColor)=>textColor===titleColor?"#fff0":textColor;var normalizeCardWidth=({value,layout})=>{if(value===void 0||
+Number.isNaN(value)){return DEFAULT_CARD_WIDTH2}return Math.max(layout==="compact"?COMPACT_LAYOUT_MIN_WIDTH:MIN_CARD_WIDTH3,value)};var renderCard4=(stats2={},options={})=>{let{languages=[]}=stats2;const{
+hide_title=false,hide_border=false,card_width,hide:hide2,line_height=DEFAULT_LINE_HEIGHT,hide_progress,custom_title,locale,layout,langs_count=languages.length,border_radius,display_format="time",disable_animations}=options;
+const normalizedWidth=normalizeCardWidth({value:card_width,layout});const shouldHideLangs=Array.isArray(hide2)&&hide2.length>0;if(shouldHideLangs){const languagesToHide=new Set(hide2.map(lang=>lowercaseTrim(
+lang)));languages=languages.filter(lang=>!languagesToHide.has(lowercaseTrim(lang.name)))}languages=languages.slice(0,langs_count);recalculatePercentages(languages);const i18n=new I18n({locale,translations:wakatimeCardLocales});
+const lheight=Number.parseInt(String(line_height),10);const langsCount=clampValue(langs_count,1,langs_count);const{lightColors,darkColors}=getLightDarkColors(options);const filteredLanguages=languages.
+filter(language=>language.hours||language.minutes).slice(0,langsCount);let height=Math.max(45+(filteredLanguages.length+1)*lheight,150);let finalLayout;if(layout==="compact"){const width=normalizedWidth-
+5;height=90+Math.round(filteredLanguages.length/2)*DEFAULT_LINE_HEIGHT;let progressOffset=0;const compactProgressBar=filteredLanguages.map(language=>{const progress=(width-COMPACT_LAYOUT_PROGRESSBAR_PADDING)*
+language.percent/100;const x=progressOffset;progressOffset+=progress;return el("rect",{mask:"url(#rect-mask)","data-testid":"lang-progress",x,y:0,width:progress,height:8,fill:getLanguageColor(language.
+name)})});finalLayout=[el("mask",{id:"rect-mask"},el("rect",{x:COMPACT_LAYOUT_PROGRESSBAR_PADDING,y:0,width:width-2*COMPACT_LAYOUT_PROGRESSBAR_PADDING,height:8,fill:"white",rx:5})),compactProgressBar,
+filteredLanguages.length>0?createLanguageTextNode2({y:25,langs:filteredLanguages,display_format,card_width:normalizedWidth}):noCodingActivityNode({text:stats2.is_coding_activity_visible?stats2.is_other_usage_visible?
+i18n.t("wakatimecard.nocodingactivity"):i18n.t("wakatimecard.nocodedetails"):i18n.t("wakatimecard.notpublic")})]}else{finalLayout=flexLayout({items:filteredLanguages.length>0?filteredLanguages.map((language,index)=>createTextNode2(
+{id:language.name,label:language.name,value:formatLanguageValue({display_format,lang:language}),index,percent:language.percent,hideProgress:hide_progress,progressBarWidth:normalizedWidth-TOTAL_TEXT_WIDTH})):
+[noCodingActivityNode({text:stats2.is_coding_activity_visible?stats2.is_other_usage_visible?i18n.t("wakatimecard.nocodingactivity"):i18n.t("wakatimecard.nocodedetails"):i18n.t("wakatimecard.notpublic")})],
+gap:lheight,direction:"column"})}let titleText=i18n.t("wakatimecard.title");switch(stats2.range){case"last_7_days":{titleText+=` (${i18n.t("wakatimecard.last7days")})`;break}case"last_year":{titleText+=
+` (${i18n.t("wakatimecard.lastyear")})`;break}default:{break}}const card=new Card({customTitle:custom_title,defaultTitle:titleText,titlePrefixIcon:CARD_ICON.wakatime,width:normalizedWidth,height,border_radius,
+colors:{light:lightColors,dark:darkColors}});if(disable_animations){card.disableAnimations()}card.setHideBorder(hide_border);card.setHideTitle(hide_title);card.setCSS({light:({titleColor,textColor})=>[
+getStyles2({textColor}),atRule("@keyframes slideInAnimation",rule("from",{width:0}),rule("to",{width:"calc(100%-100px)"})),atRule("@keyframes growWidthAnimation",rule("from",{width:0}),rule("to",{width:"\
+100%"})),rule(".lang-name",{font:font("regular","micro"),fill:textColor}),rule("#rect-mask rect",{animation:"slideInAnimation 1s ease-in-out forwards"}),rule(".lang-progress",{animation:"growWidthAnim\
+ation 0.6s ease-in-out forwards",fill:titleColor}),rule(".progress-background",{fill:progressBackground(titleColor,textColor)})],dark:({titleColor,textColor})=>[getStyles2({textColor}),rule(".lang-nam\
+e",{fill:textColor}),rule(".lang-progress",{fill:titleColor}),rule(".progress-background",{fill:progressBackground(titleColor,textColor)})]});card.setAccessibilityLabel({title:card.title,desc:filteredLanguages.
+length>0?filteredLanguages.map(lang=>`${lang.name}: ${formatLanguageValue({display_format,lang})}`).join(", "):i18n.t("wakatimecard.nocodingactivity")});return card.render(el("svg",{x:0,y:0,width:"100\
+%"},finalLayout))};var renderWakatimeCard=Object.assign(renderCard4,{OPTIONS:{layout:WAKATIME_LAYOUTS,display_format:DISPLAY_FORMATS}});var fetchWakatimeStats=async({username,api_domain},config2)=>{if(!username){throw CardError.missingParam(["username"])}const domain=api_domain?api_domain.replaceAll(/\/$/gi,""):"wakatime.com";const res=await httpRequest(
 config2.fetch,`https://${domain}/api/v1/users/${username}/stats?is_including_today=true`);if(res.status===404){throw new CardError(`Could not resolve to a User with the login of '${username}'`,{code:"\
 not_found",secondaryMessage:WAKATIME_USER_NOT_FOUND})}if(res.status<200||res.status>299){throw new CardError(`Could not fetch the WakaTime stats of '${username}'`,{code:"upstream"})}return res.data.data};var wakatimeQuery=object({username:safeParam,hide_border:booleanParam,card_width:looseIntParam,line_height:rawParam,hide_title:booleanParam,hide_progress:booleanParam,custom_title:rawParam,locale:localeParam,
-layout:enumParam(WAKATIME_LAYOUTS),langs_count:looseIntParam,hide:listParam,api_domain:rawParam,border_radius:numberParam,display_format:enumParam(DISPLAY_FORMATS),disable_animations:booleanParam});var renderWakatime=async(query,config2)=>{
-let colors;try{colors=parseColorParams(query)}catch(error2){return errorResult(error2)}try{const{username,hide_border,card_width,line_height,hide_title,hide_progress,custom_title,locale,layout,langs_count,
-hide:hide2,api_domain,border_radius,display_format,disable_animations}=parseParams(wakatimeQuery,query);const stats2=await fetchWakatimeStats({username,api_domain},config2);return{status:"success",content:renderWakatimeCard(
-stats2,{...colors,custom_title,hide_title,hide_border,card_width,hide:hide2,line_height,hide_progress,border_radius,locale,layout,langs_count,display_format,disable_animations})}}catch(error2){return errorResult(
-error2,colors)}};var wakatime=Object.assign(renderWakatime,{LAYOUTS:WAKATIME_LAYOUTS,DISPLAY_FORMATS});var parseCsv=value=>value?value.split(","):void 0;var parseFetchMultiPageStars=value=>{if(value==="true"){return Infinity}const limit=Number(value);return limit>0?limit:1};var parsePATsFromEnv=env=>Object.
+layout:enumParam(renderWakatimeCard.OPTIONS.layout),langs_count:looseIntParam,hide:listParam,api_domain:rawParam,border_radius:numberParam,display_format:enumParam(renderWakatimeCard.OPTIONS.display_format),
+disable_animations:booleanParam});var renderWakatime=cardHandler(wakatimeQuery,async({username,hide_border,card_width,line_height,hide_title,hide_progress,custom_title,locale,layout,langs_count,hide:hide2,
+api_domain,border_radius,display_format,disable_animations},colors,config2)=>{const stats2=await fetchWakatimeStats({username,api_domain},config2);return renderWakatimeCard(stats2,{...colors,custom_title,
+hide_title,hide_border,card_width,hide:hide2,line_height,hide_progress,border_radius,locale,layout,langs_count,display_format,disable_animations})});var wakatime=Object.assign(renderWakatime,{OPTIONS:renderWakatimeCard.
+OPTIONS});var parseCsv=value=>value?value.split(","):void 0;var parseFetchMultiPageStars=value=>{if(value==="true"){return Infinity}const limit=Number(value);return limit>0?limit:1};var parsePATsFromEnv=env=>Object.
 keys(env).filter(key=>/PAT_\d*$/.exec(key)).map(name=>({name,value:env[name]??""}));var CardConfig=class _CardConfig{pats;usernameAllowlist;gistAllowlist;excludeRepositories;fetchMultiPageStars;fetch;constructor(init={}){
 this.pats=init.pats??[];this.usernameAllowlist=init.usernameAllowlist;this.gistAllowlist=init.gistAllowlist;this.excludeRepositories=init.excludeRepositories??[];this.fetchMultiPageStars=init.fetchMultiPageStars??
 1;this.fetch=init.fetch??defaultFetch}static fromEnv(env){return new _CardConfig({pats:parsePATsFromEnv(env),usernameAllowlist:parseCsv(env["WHITELIST"]),gistAllowlist:parseCsv(env["GIST_WHITELIST"]),
 excludeRepositories:parseCsv(env["EXCLUDE_REPO"])??[],fetchMultiPageStars:parseFetchMultiPageStars(env["FETCH_MULTI_PAGE_STARS"])})}isAllowed(id,kind){const list=kind==="gist"?this.gistAllowlist:this.
 usernameAllowlist;return list===void 0||list.includes(id)}with(overrides){return new _CardConfig({pats:this.pats,usernameAllowlist:this.usernameAllowlist,gistAllowlist:this.gistAllowlist,excludeRepositories:this.
 excludeRepositories,fetchMultiPageStars:this.fetchMultiPageStars,fetch:this.fetch,...overrides})}};var CARDS={stats:{handler:stats,requires:"username"},"top-langs":{handler:topLangs,requires:"username"},pin:{handler:pin,requires:"repo"},wakatime:{handler:wakatime,requires:"username"},gist:{handler:gist,
-requires:"id"}};var isCardName=value=>Object.hasOwn(CARDS,value);var parseOptions=value=>{const trimmed=value.trim();if(!trimmed){return{}}if(trimmed.startsWith("{")){let parsed;try{parsed=JSON.parse(
-trimmed)}catch{throw new Error("Invalid JSON in options.")}if(typeof parsed!=="object"||parsed===null){throw new Error("Invalid JSON in options.")}return Object.fromEntries(Object.entries(parsed).filter(
-([,entry])=>entry!==null&&entry!==void 0).map(([key,entry])=>[key,Array.isArray(entry)?entry.join(","):String(entry)]))}const params=new URLSearchParams(trimmed);return Object.fromEntries([...new Set(
-params.keys())].map(key=>[key,params.getAll(key).join(",")]))};var resolveCard=(card,options)=>{if(!isCardName(card)){throw new Error(`Unsupported card type: ${card}. Expected one of ${Object.keys(CARDS).
-join(", ")}.`)}const definition=CARDS[card];if(!options[definition.requires]){throw new Error(`${definition.requires} is required for the ${card} card.`)}return definition};var run=async()=>{const card=getInput(
-"card",{required:true}).toLowerCase();const options=parseOptions(getInput("options"));const repositoryOwner=process.env["GITHUB_REPOSITORY_OWNER"];if(!options["username"]&&repositoryOwner){options["us\
-ername"]=repositoryOwner;warning("username not provided; defaulting to repository owner.")}const{handler}=resolveCard(card,options);const token=getInput("token");const config2=new CardConfig({pats:token?
-[{name:"action input `token`",value:token}]:[]});const result=await handler(options,config2);if(result.status==="error"){throw new Error(result.retryable?`Card generation failed while fetching data: ${result.
-error.message}`:`Card generation failed: ${result.error.message}`)}if(!result.content){throw new Error("Card renderer returned empty output.")}const outputPath=getInput("path")||path.join("profile",`${card}\
-.svg`);const resolved=path.resolve(process.cwd(),outputPath);await mkdir2(path.dirname(resolved),{recursive:true});await writeFile2(resolved,result.content,"utf8");info(`Wrote ${resolved}`);setOutput(
-"path",outputPath)};try{await run()}catch(error2){setFailed(error2 instanceof Error?error2.message:String(error2))}
+requires:"id"},"contributed-to":{handler:contributedTo,requires:"username"}};var isCardName=value=>Object.hasOwn(CARDS,value);var parseOptions=value=>{const trimmed=value.trim();if(!trimmed){return{}}
+if(trimmed.startsWith("{")){let parsed;try{parsed=JSON.parse(trimmed)}catch{throw new Error("Invalid JSON in options.")}if(typeof parsed!=="object"||parsed===null){throw new Error("Invalid JSON in opt\
+ions.")}return Object.fromEntries(Object.entries(parsed).filter(([,entry])=>entry!==null&&entry!==void 0).map(([key,entry])=>[key,Array.isArray(entry)?entry.join(","):String(entry)]))}const params=new URLSearchParams(
+trimmed);return Object.fromEntries([...new Set(params.keys())].map(key=>[key,params.getAll(key).join(",")]))};var resolveCard=(card,options)=>{if(!isCardName(card)){throw new Error(`Unsupported card t\
+ype: ${card}. Expected one of ${Object.keys(CARDS).join(", ")}.`)}const definition=CARDS[card];if(!options[definition.requires]){throw new Error(`${definition.requires} is required for the ${card} car\
+d.`)}return definition};var run=async()=>{const card=getInput("card",{required:true}).toLowerCase();const options=parseOptions(getInput("options"));const repositoryOwner=process.env["GITHUB_REPOSITORY\
+_OWNER"];if(!options["username"]&&repositoryOwner){options["username"]=repositoryOwner;warning("username not provided; defaulting to repository owner.")}const{handler}=resolveCard(card,options);const token=getInput(
+"token");const config2=new CardConfig({pats:token?[{name:"action input `token`",value:token}]:[]});const result=await handler(options,config2);if(result.status==="error"){throw new Error(result.retryable?
+`Card generation failed while fetching data: ${result.error.message}`:`Card generation failed: ${result.error.message}`)}if(!result.content){throw new Error("Card renderer returned empty output.")}const outputPath=getInput(
+"path")||path.join("profile",`${card}.svg`);const resolved=path.resolve(process.cwd(),outputPath);await mkdir2(path.dirname(resolved),{recursive:true});await writeFile2(resolved,result.content,"utf8");
+info(`Wrote ${resolved}`);setOutput("path",outputPath)};try{await run()}catch(error2){setFailed(error2 instanceof Error?error2.message:String(error2))}
 /*! Bundled license information:
 
 undici/lib/web/fetch/body.js:
