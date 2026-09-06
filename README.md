@@ -46,9 +46,13 @@ jobs:
           path: profile/langs.svg
           token: ${{ secrets.STATS_PAT }}
 
-      - uses: stefanzweifel/git-auto-commit-action@v6
-        with:
-          commit_message: 'chore: refresh stats cards'
+      - name: Commit if anything changed
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add profile
+          git diff --quiet --cached || git commit -m 'chore: refresh stats cards'
+          git push
 ```
 
 Then in your README:
