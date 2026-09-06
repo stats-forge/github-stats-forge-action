@@ -12,8 +12,8 @@ importers:
         specifier: 3.0.1
         version: 3.0.1
       '@stats-forge/github-stats-forge-core':
-        specifier: 0.2.0
-        version: 0.2.0
+        specifier: 0.4.0
+        version: 0.4.0
     devDependencies:
       '@marcalexiei/oxfmt-config':
         specifier: 1.3.0
@@ -870,8 +870,8 @@ packages:
   '@standard-schema/spec@1.1.0':
     resolution: {integrity: sha512-l2aFy5jALhniG5HgqrD6jXLi/rUWrKvqN/qJx6yoJsgKhblVd+iqqU4RCXavm/jPityDo5TCvKMnpjKnOriy0w==}
 
-  '@stats-forge/github-stats-forge-core@0.2.0':
-    resolution: {integrity: sha512-btdx18z5mzTXfPzVUr7FxI7n8jMNgBPEZaecrCOeYzMrxifyQLkFL/OZP0dj0W8AjkRj6QhsbjwmbWYfYVdPtw==}
+  '@stats-forge/github-stats-forge-core@0.4.0':
+    resolution: {integrity: sha512-j2tnJhCBxX8x9ShM5+RgMI++SKhdgBhnezU/HAWGBODZ/ZodBkBZdLC/3MzgZkL4QkCBJWQ8IpMQyHDJVq4y1Q==}
     engines: {node: ^24 || >=26}
 
   '@tybys/wasm-util@0.10.3':
@@ -1927,7 +1927,7 @@ snapshots:
 
   '@standard-schema/spec@1.1.0': {}
 
-  '@stats-forge/github-stats-forge-core@0.2.0':
+  '@stats-forge/github-stats-forge-core@0.4.0':
     dependencies:
       zod: 4.5.4
 

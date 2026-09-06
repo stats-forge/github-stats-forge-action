@@ -10,13 +10,14 @@ describe(resolveCard, () => {
     ['wakatime', { username: 'octocat' }],
     ['gist', { id: 'bbfce31e0217a3689c8d' }],
     ['contributed-to', { username: 'octocat' }],
+    ['org', { org: 'stats-forge' }],
   ])('resolves the %s card the action documents', (card, options) => {
     expect(resolveCard(card, options)).toBeDefined();
   });
 
   it('names the supported cards when given one it does not know', () => {
     expect(() => resolveCard('stat', { username: 'octocat' })).toThrow(
-      'Unsupported card type: stat. Expected one of stats, top-langs, pin, wakatime, gist, contributed-to.',
+      'Unsupported card type: stat. Expected one of stats, top-langs, pin, wakatime, gist, contributed-to, org.',
     );
   });
 
