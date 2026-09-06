@@ -29,6 +29,7 @@ const mocks = vi.hoisted(() => {
       pin: card(),
       wakatime: card(),
       gist: card(),
+      contributedTo: card(),
     },
   };
 });
@@ -56,6 +57,7 @@ vi.mock(import('@stats-forge/github-stats-forge-core/api'), async (importOrigina
     pin: Object.assign(mocks.handlers.pin, actual.pin),
     wakatime: Object.assign(mocks.handlers.wakatime, actual.wakatime),
     gist: Object.assign(mocks.handlers.gist, actual.gist),
+    contributedTo: Object.assign(mocks.handlers.contributedTo, actual.contributedTo),
   };
 });
 
