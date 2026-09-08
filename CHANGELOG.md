@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.0](https://github.com/stats-forge/github-stats-forge-action/compare/v0.3.0...v0.4.0) (2026-09-08)
+
+
+### Features
+
+* update `@stats-forge/github-stats-forge-core` to 0.4 ([#12](https://github.com/stats-forge/github-stats-forge-action/issues/12)) ([15ddb76](https://github.com/stats-forge/github-stats-forge-action/commit/15ddb7661ce9c40d26e299f818aa5c2feb11c6e9))
+
 ## [0.3.0](https://github.com/stats-forge/github-stats-forge-action/compare/v0.2.0...v0.3.0) (2026-09-06)
 
 
