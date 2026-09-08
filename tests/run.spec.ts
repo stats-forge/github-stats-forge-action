@@ -30,6 +30,7 @@ const mocks = vi.hoisted(() => {
       wakatime: card(),
       gist: card(),
       contributedTo: card(),
+      org: card(),
     },
   };
 });
@@ -58,6 +59,7 @@ vi.mock(import('@stats-forge/github-stats-forge-core/api'), async (importOrigina
     wakatime: Object.assign(mocks.handlers.wakatime, actual.wakatime),
     gist: Object.assign(mocks.handlers.gist, actual.gist),
     contributedTo: Object.assign(mocks.handlers.contributedTo, actual.contributedTo),
+    org: Object.assign(mocks.handlers.org, actual.org),
   };
 });
 
@@ -190,6 +192,19 @@ describe(run, () => {
 
     expect(mocks.handlers.stats).toHaveBeenCalledWith({ username: 'octocat' }, expect.anything());
     expect(mocks.core.warning).not.toHaveBeenCalled();
+  });
+
+  it('falls back to the repository owner for the org card, which is keyed on `org`', async () => {
+    mocks.inputs.set('card', 'org');
+    mocks.inputs.set('options', '');
+    vi.stubEnv('GITHUB_REPOSITORY_OWNER', 'stats-forge');
+
+    await run();
+
+    expect(mocks.handlers.org).toHaveBeenCalledWith({ org: 'stats-forge' }, expect.anything());
+    expect(mocks.core.warning).toHaveBeenCalledWith(
+      'org not provided; defaulting to repository owner.',
+    );
   });
 
   it('does not apply the owner fallback to a card that wants another option', async () => {

@@ -8,7 +8,7 @@ branding:
 
 inputs:
   card:
-    description: Card type to generate (stats, top-langs, pin, wakatime, gist, contributed-to).
+    description: Card type to generate (stats, top-langs, pin, wakatime, gist, contributed-to, org).
     required: true
   options:
     description: Options for the card (query string or JSON).

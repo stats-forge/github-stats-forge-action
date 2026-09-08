@@ -9,6 +9,7 @@ import {
   CardConfig,
   contributedTo,
   gist,
+  org,
   pin,
   stats,
   topLangs,
@@ -32,6 +33,7 @@ const CARDS = {
   wakatime: { handler: wakatime, requires: 'username' },
   gist: { handler: gist, requires: 'id' },
   'contributed-to': { handler: contributedTo, requires: 'username' },
+  org: { handler: org, requires: 'org' },
 } satisfies Record<string, CardDefinition>;
 
 type CardName = keyof typeof CARDS;
@@ -106,9 +108,11 @@ export const run = async (): Promise<void> => {
   const options = parseOptions(getInput('options'));
 
   const repositoryOwner = process.env['GITHUB_REPOSITORY_OWNER'];
-  if (!options['username'] && repositoryOwner) {
-    options['username'] = repositoryOwner;
-    warning('username not provided; defaulting to repository owner.');
+  // The org card is keyed on `org`; every other card names its account `username`.
+  const account = card === 'org' ? 'org' : 'username';
+  if (!options[account] && repositoryOwner) {
+    options[account] = repositoryOwner;
+    warning(`${account} not provided; defaulting to repository owner.`);
   }
 
   const { handler } = resolveCard(card, options);
