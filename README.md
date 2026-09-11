@@ -71,14 +71,14 @@ Rendering in your own Actions run spends your own token budget, fails loudly in 
 
 ## Inputs
 
-| Input     | Required | Default              | Description                                                                                                                                                                                                    |
-| --------- | -------- | -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `card`    | yes      | —                    | `stats`, `top-langs`, `pin`, `wakatime`, `gist`, `contributed-to` or `org`.                                                                                                                                    |
-| `options` | no       | `""`                 | Card options as a query string (`key=value&...`) or JSON. Repeated keys are joined with commas. If the account option (`org` for the org card, `username` otherwise) is omitted, the repository owner is used. |
-| `path`    | no       | `profile/<card>.svg` | Output path, including the filename.                                                                                                                                                                           |
-| `token`   | no       | `github.token`       | GitHub token (PAT or `GITHUB_TOKEN`). For private repo stats use a PAT with `repo` and `read:user`; for any gist, a PAT with `gist`.                                                                           |
+| Input     | Required | Default              | Description                                                                                                                          |
+| --------- | -------- | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| `card`    | yes      | —                    | `stats`, `top-langs`, `pin`, `wakatime`, `gist`, `contributed-to`, `org` or `org-activity`.                                          |
+| `options` | no       | `""`                 | Card options as a query string (`key=value&...`) or JSON. Repeated keys are joined with commas.                                      |
+| `path`    | no       | `profile/<card>.svg` | Output path, including the filename.                                                                                                 |
+| `token`   | no       | `github.token`       | GitHub token (PAT or `GITHUB_TOKEN`). For private repo stats use a PAT with `repo` and `read:user`; for any gist, a PAT with `gist`. |
 
-`username` defaults to the repository owner when omitted.
+The account option defaults to the repository owner when omitted: `org` for the org and org-activity cards, `username` for the rest.
 
 ## Outputs
 

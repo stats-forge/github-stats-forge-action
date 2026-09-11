@@ -2926,8 +2926,8 @@ class:"rank-percentile-header"},"Top"),el("text",{...RANK_TEXT,y:12,"data-testid
 text",{...RANK_TEXT,y:3,"data-testid":"level-rank-icon"},rankLevel)}}};var FONT_STACK=`'Segoe UI', Ubuntu, "Helvetica Neue", Sans-Serif`;var FONT_SIZE={display:22,title:18,lead:16,body:14,meta:13,small:12,micro:11};var TITLE_FIREFOX_SIZE=15.5;var FONT_WEIGHT={regular:400,
 semibold:600,bold:700};var font=(weight,size)=>`${String(FONT_WEIGHT[weight])} ${String(FONT_SIZE[size])}px ${FONT_STACK}`;var firefoxFontSize=(selectors,size)=>{const px=typeof size==="number"?size:FONT_SIZE[size];
 return atRule("@supports(-moz-appearance: auto)",cssComment("Selector detects Firefox"),selectors.map(selector=>rule(selector,{"font-size":`${String(px)}px`})))};var CARD_WIDTH={compact:300,standard:400,
-wide:500};var TITLE_BAND={opacity:.08,gap:9};var ACCENT={width:32,height:2,y:8};var CARD_ICON={contributedTo:icons.prs_merged,gist:icons.gist,organization:icons.organization,repo:icons.repo,stats:icons.
-pulse,topLanguages:icons.code,wakatime:icons.clock};var themes={default:{title_color:"2f80ed",icon_color:"4c71f2",text_color:"434d58",bg_color:"fffefe"},default_repocard:{title_color:"2f80ed",icon_color:"586069",text_color:"434d58",bg_color:"fffefe"},light_github:{
+wide:500};var TITLE_BAND={opacity:.08,gap:9};var ACCENT={width:32,height:2,y:8};var CARD_ICON={contributedTo:icons.prs_merged,gist:icons.gist,orgActivity:icons.calendar,organization:icons.organization,
+repo:icons.repo,stats:icons.pulse,topLanguages:icons.code,wakatime:icons.clock};var themes={default:{title_color:"2f80ed",icon_color:"4c71f2",text_color:"434d58",bg_color:"fffefe"},default_repocard:{title_color:"2f80ed",icon_color:"586069",text_color:"434d58",bg_color:"fffefe"},light_github:{
 title_color:"0969da",icon_color:"0969da",text_color:"59636e",bg_color:"ffffff",border_color:"d1d9e0"},dark_github:{title_color:"4493f8",icon_color:"4493f8",text_color:"9198a1",bg_color:"0d1117",border_color:"\
 3d444d"},light_github_repocard:{title_color:"0969da",icon_color:"59636e",text_color:"59636e",bg_color:"ffffff",border_color:"d1d9e0"},dark_github_repocard:{title_color:"4493f8",icon_color:"9198a1",text_color:"\
 9198a1",bg_color:"0d1117",border_color:"3d444d"},transparent:{title_color:"006AFF",icon_color:"0579C3",text_color:"417E87",bg_color:"ffffff00"},shadow_red:{title_color:"9A0000",text_color:"444",icon_color:"\
@@ -3331,16 +3331,17 @@ her than with it, so it keeps its own color."),rule(".title-icon",{fill:this.col
 iconColor,animation:"fadeInAnimation 0.8s ease-in-out forwards"}),rule(".title-band",{fill:this.colors.light.titleColor,opacity:TITLE_BAND.opacity}),firefoxFontSize([".header"],TITLE_FIREFOX_SIZE),this.
 css,this.renderDarkMediaBlock(),getAnimations(),!this.animations&&rule("*",NO_MOTION)),this.renderGradient(),el("rect",{"data-testid":"card-bg",class:"card-bg",x:.5,y:.5,rx:this.border_radius,height:"\
 99%",stroke:this.colors.light.borderColor,width:this.width-1,fill:typeof this.colors.light.bgColor==="object"?"url(#gradient)":this.colors.light.bgColor,"stroke-opacity":this.hideBorder?0:1}),!this.hideTitle&&
-this.renderTitleBand(),!this.hideTitle&&this.renderTitle(),el("g",{"data-testid":"main-card-body",transform:`translate(0, ${this.bodyOffset})`},body)))}};var RANGE_DATE_PATTERN=/^(?<year>\d{4})(?:-(?<month>\d{2})(?:-(?<day>\d{2}))?)?$/;var toGitHubDateTime=date2=>`${date2.toISOString().slice(0,19)}Z`;var getGitHubYearRange=year=>({from:new Date(Date.UTC(
-year,0,1)),to:new Date(Date.UTC(year,11,31,23,59,59))});var getWidestRange=()=>({from:getGitHubYearRange(GITHUB_EPOCH_YEAR).from,to:getGitHubYearRange(new Date().getUTCFullYear()).to});var toRange=(from,to)=>{
-const widest=getWidestRange();return{from:from??widest.from,to:to??widest.to}};var parseRangeDate=(value,end)=>{const match=RANGE_DATE_PATTERN.exec(value);if(!match){return void 0}const{year:yearText,
-month:monthText,day:dayText}=match.groups??{};const year=Number(yearText);const month=monthText===void 0?1:Number(monthText);const day=dayText===void 0?1:Number(dayText);const start=new Date(Date.UTC(
-year,month-1,day));if(start.getUTCMonth()+1!==month||start.getUTCDate()!==day){return void 0}if(end==="from"){return start}const nextUnit=dayText!==void 0?Date.UTC(year,month-1,day+1):monthText!==void 0?
-Date.UTC(year,month,1):Date.UTC(year+1,0,1);return new Date(nextUnit-1e3)};var toYearRanges=({from,to})=>{const ranges=[];for(let year=from.getUTCFullYear();year<=to.getUTCFullYear();year+=1){const yearRange=getGitHubYearRange(
-year);const start=from>yearRange.from?from:yearRange.from;const end=to<yearRange.to?to:yearRange.to;if(start<=end){ranges.push({from:start,to:end})}}return ranges};var formatYears=(first,last)=>first===
-last?`${first}`:`${first}\u2013${last}`;var formatRange=({from,to})=>{const firstYear=from.getUTCFullYear();const lastYear=to.getUTCFullYear();const wholeYears=from.getTime()===getGitHubYearRange(firstYear).
-from.getTime()&&to.getTime()===getGitHubYearRange(lastYear).to.getTime();if(!wholeYears){return`${from.toISOString().slice(0,10)} \u2013 ${to.toISOString().slice(0,10)}`}return formatYears(firstYear,lastYear)};
-var toContributionRanges=(contributionYears,range)=>{const contributed=new Set(contributionYears);return toYearRanges(range).filter(year=>contributed.has(year.from.getUTCFullYear()))};var AVAILABLE_LOCALES=["en","ar","az","bg","bn","ca","cn","zh-tw","cs","de","sw","ur","es","fa","fi","fr","hi","sa","hu","it","ja","kr","nl","pt-pt","pt-br","np","el","ro","ru","uk-ua","id","ml","my",
+this.renderTitleBand(),!this.hideTitle&&this.renderTitle(),el("g",{"data-testid":"main-card-body",transform:`translate(0, ${this.bodyOffset})`},body)))}};var RANGE_DATE_PATTERN=/^(?<year>\d{4})(?:-(?<month>\d{2})(?:-(?<day>\d{2}))?)?$/;var toGitHubDateTime=date2=>`${date2.toISOString().slice(0,19)}Z`;var toSearchDate=date2=>date2.toISOString().slice(0,
+10);var getGitHubYearRange=year=>({from:new Date(Date.UTC(year,0,1)),to:new Date(Date.UTC(year,11,31,23,59,59))});var getWidestRange=()=>({from:getGitHubYearRange(GITHUB_EPOCH_YEAR).from,to:getGitHubYearRange(
+new Date().getUTCFullYear()).to});var toRange=(from,to)=>{const widest=getWidestRange();return{from:from??widest.from,to:to??widest.to}};var parseRangeDate=(value,end)=>{const match=RANGE_DATE_PATTERN.
+exec(value);if(!match){return void 0}const{year:yearText,month:monthText,day:dayText}=match.groups??{};const year=Number(yearText);const month=monthText===void 0?1:Number(monthText);const day=dayText===
+void 0?1:Number(dayText);const start=new Date(Date.UTC(year,month-1,day));if(start.getUTCMonth()+1!==month||start.getUTCDate()!==day){return void 0}if(end==="from"){return start}const nextUnit=dayText!==
+void 0?Date.UTC(year,month-1,day+1):monthText!==void 0?Date.UTC(year,month,1):Date.UTC(year+1,0,1);return new Date(nextUnit-1e3)};var toYearRanges=({from,to})=>{const ranges=[];for(let year=from.getUTCFullYear();year<=
+to.getUTCFullYear();year+=1){const yearRange=getGitHubYearRange(year);const start=from>yearRange.from?from:yearRange.from;const end=to<yearRange.to?to:yearRange.to;if(start<=end){ranges.push({from:start,
+to:end})}}return ranges};var formatYears=(first,last)=>first===last?`${first}`:`${first}\u2013${last}`;var formatRange=({from,to})=>{const firstYear=from.getUTCFullYear();const lastYear=to.getUTCFullYear();
+const wholeYears=from.getTime()===getGitHubYearRange(firstYear).from.getTime()&&to.getTime()===getGitHubYearRange(lastYear).to.getTime();if(!wholeYears){return`${from.toISOString().slice(0,10)} \u2013 ${to.
+toISOString().slice(0,10)}`}return formatYears(firstYear,lastYear)};var toContributionRanges=(contributionYears,range)=>{const contributed=new Set(contributionYears);return toYearRanges(range).filter(
+year=>contributed.has(year.from.getUTCFullYear()))};var AVAILABLE_LOCALES=["en","ar","az","bg","bn","ca","cn","zh-tw","cs","de","sw","ur","es","fa","fi","fr","hi","sa","hu","it","ja","kr","nl","pt-pt","pt-br","np","el","ro","ru","uk-ua","id","ml","my",
 "ta","sk","tr","pl","uz","vi","se","he","fil","th","sr","sr-latn","no","be"];var FALLBACK_LOCALE="en";var isLocaleAvailable=locale=>AVAILABLE_LOCALES.includes(locale.toLowerCase());var defineLocales=table=>table;
 var PLACEHOLDER=/\{(?<name>\w+)\}/g;var interpolate=(phrase,key,values)=>phrase.replace(PLACEHOLDER,(_placeholder,name)=>{const value=values?.[name];if(value===void 0){throw new Error(`'${key}' needs \
 a value for '{${name}}'`)}return String(value)});var pluralRules=new Map;var rulesFor=locale=>{const cached2=pluralRules.get(locale);if(cached2){return cached2}const rules=new Intl.PluralRules(locale);
@@ -3377,8 +3378,8 @@ rule(".icon",{fill:iconColor})]});card.setAccessibilityLabel({title:card.title,d
 {repo:repo.nameWithOwner,count:repo.contributions,years:repo.years.join(", ")})),footer].join("; ")});return card.render(el("g",{"data-testid":"contributed-to-body",transform:`translate(${CARD_PADDING}\
 , 0)`},repos.length===0?el("text",{class:"repo-name","data-testid":"no-repos",x:0,y:FIRST_ROW_Y},t.noContributions()):rows,el("text",{class:"footer","data-testid":"footer",x:0,y:footerY},footer)))};var GITHUB_GRAPHQL_API="https://api.github.com/graphql";var defaultFetch=(input,init)=>fetch(input,init);var httpRequest=async(fetchImpl,url,init)=>{const response=await fetchImpl(url,init);const body=await response.
 text();let data;try{data=JSON.parse(body)}catch{data=body}return{status:response.status,statusText:response.statusText,data}};var createGraphQLFetcher=(document,scheme)=>(variables,token,{fetch:fetch2})=>httpRequest(
-fetch2,GITHUB_GRAPHQL_API,{method:"POST",headers:{Authorization:`${scheme} ${token}`,"Content-Type":"application/json"},body:JSON.stringify({query:document.text,variables})});var logger={log:(...args)=>{console.log(...args)},error:(...args)=>{console.error(...args)}};function getRandomInt(max){return Math.floor(Math.random()*max)}var retryer=async(fetcher6,variables,config2)=>{const PATs=config2.pats;if(PATs.length===0){throw new CardError("No GitHub API tokens fo\
-und",{code:"no_tokens"})}const startPAT=getRandomInt(PATs.length);for(let retries=0;retries<PATs.length;retries+=1){const currentPAT=PATs[(startPAT+retries)%PATs.length];if(!currentPAT){continue}const response=await fetcher6(
+fetch2,GITHUB_GRAPHQL_API,{method:"POST",headers:{Authorization:`${scheme} ${token}`,"Content-Type":"application/json"},body:JSON.stringify({query:document.text,variables})});var logger={log:(...args)=>{console.log(...args)},error:(...args)=>{console.error(...args)}};function getRandomInt(max){return Math.floor(Math.random()*max)}var retryer=async(fetcher7,variables,config2)=>{const PATs=config2.pats;if(PATs.length===0){throw new CardError("No GitHub API tokens fo\
+und",{code:"no_tokens"})}const startPAT=getRandomInt(PATs.length);for(let retries=0;retries<PATs.length;retries+=1){const currentPAT=PATs[(startPAT+retries)%PATs.length];if(!currentPAT){continue}const response=await fetcher7(
 variables,currentPAT.value,{fetch:config2.fetch,retries});const{errors}=response.data;const errorType=errors?.[0]?.type;const errorMsg=errors?.[0]?.message??"";const isRateLimited=!!errors&&errorType===
 "RATE_LIMITED"||/rate limit/i.test(errorMsg);if(isRateLimited){logger.log(`${currentPAT.name} Failed due to rate limiting`);continue}const{message}=response.data;const isBadCredential=message==="Bad c\
 redentials";const isAccountSuspended=message==="Sorry. Your account was suspended.";if(isBadCredential||isAccountSuspended){logger.log(`${currentPAT.name} Failed due to bad credentials`);continue}return response}
@@ -3682,7 +3683,63 @@ totalCount:0}),publicMembers:membersForbidden?null:organization.membersWithRole.
 custom_title:rawParam,disable_animations:booleanParam,number_format:rawParam,text_bold:booleanParam,locale:localeParam,border_radius:numberParam});var renderOrg=cardHandler(orgQuery,{org:"username"},async({
 org:org2,hide:hide2,show,show_icons,hide_title,hide_border,hide_description,card_width,line_height,custom_title,disable_animations,number_format,text_bold,locale,border_radius},colors,config2)=>{const organizationData=await fetchOrganization(
 {org:org2},config2);return renderOrganizationCard(organizationData,{...colors,hide:hide2,show,show_icons,hide_title,hide_border,hide_description,card_width,line_height,custom_title,disable_animations,
-number_format,text_bold,locale,border_radius})});var org=Object.assign(renderOrg,{OPTIONS:renderOrganizationCard.OPTIONS});var repoCardLocales=defineLocales({noDescription:{en:"No description provided"},unspecifiedLanguage:{en:"Unspecified"},template:{en:"Template",ar:"\u0642\u0627\u0644\u0628",az:"\u015Eablon",bg:"\u0428\u0430\u0431\u043B\u043E\u043D",
+number_format,text_bold,locale,border_radius})});var org=Object.assign(renderOrg,{OPTIONS:renderOrganizationCard.OPTIONS});var orgActivityCardLocales=defineLocales({title:{en:`{name}'{apostrophe} organization activity`},titleUnnamed:{en:"Organization activity"},lastDays:{en:{one:"last {count} day",other:"last {count} days"}},
+prsOpened:{en:"PRs opened"},prsMerged:{en:"PRs merged"},issuesOpened:{en:"Issues opened"},issuesClosed:{en:"Issues closed"},discussions:{en:"Discussions opened"},commits:{en:"Commits"}});var CARD_DEFAULT_WIDTH4=CARD_WIDTH.wide;var CARD_PADDING_X2=25;var STAT_ROW_X2=25;var LABEL_X_OFFSET2=25;var LABEL_VALUE_GAP2=16;var TITLE_FONT_SIZE2=FONT_SIZE.title;var TITLE_ICON_COLUMN2=25;var SHOW_STATS2=[
+"discussions","commits"];var HIDE_STATS2=["prs_opened","prs_merged","issues_opened","issues_closed"];var defaultTitleFor2=(t,name,days,contentWidth)=>{const window=` (${t.lastDays({count:days})})`;const apostrophe=/s$/i.
+test(name.trim())?"":"s";const named=`${t.title({name,apostrophe})}${window}`;return measureText(named,TITLE_FONT_SIZE2)<=contentWidth?named:`${t.titleUnnamed()}${window}`};var getStyles2=({textColor,
+iconColor,show_icons})=>[rule(".stat",{font:font("regular","body"),fill:textColor,"font-variant-numeric":"tabular-nums"}),rule(".stagger",{opacity:0,animation:"fadeInAnimation 0.3s ease-in-out forward\
+s"}),rule(".not_bold",{"font-weight":FONT_WEIGHT.regular,opacity:.75}),rule(".bold",{"font-weight":FONT_WEIGHT.semibold}),rule(".icon",{fill:iconColor,opacity:.75,display:show_icons?"block":"none"})];
+var renderCard2=(data,options={})=>{const{name,days,prsOpened,prsMerged,issuesOpened,issuesClosed,discussionsOpened,commits}=data;const{hide:hide2=[],show=[],show_icons=true,hide_title=false,hide_border=false,
+card_width,line_height=25,text_bold=true,custom_title,border_radius,number_format="short",locale,disable_animations=false}=options;const lheight=Number.parseInt(String(line_height),10);const{lightColors,
+darkColors}=getLightDarkColors(options);const shows=stat2=>show.includes(stat2);const t=localize(orgActivityCardLocales,locale);const STATS={prs_opened:{icon:icons.prs,label:t.prsOpened(),value:prsOpened,
+id:"prs_opened"},prs_merged:{icon:icons.prs_merged,label:t.prsMerged(),value:prsMerged,id:"prs_merged"},issues_opened:{icon:icons.issues,label:t.issuesOpened(),value:issuesOpened,id:"issues_opened"},issues_closed:{
+icon:icons.discussions_answered,label:t.issuesClosed(),value:issuesClosed,id:"issues_closed"}};if(shows("discussions")){STATS["discussions"]={icon:icons.discussions_started,label:t.discussions(),value:discussionsOpened,
+id:"discussions"}}if(shows("commits")&&commits!==null){STATS["commits"]={icon:icons.commits,label:t.commits(),value:commits,id:"commits"}}const visibleStats=Object.entries(STATS).filter(([key])=>!hide2.
+includes(key));if(visibleStats.length===0){throw new CardError("Could not render organization activity card.",{code:"invalid_param",secondaryMessage:"At least one stat is required."})}const width=card_width&&
+!Number.isNaN(card_width)?card_width:CARD_DEFAULT_WIDTH4;const height=45+(visibleStats.length+1)*lheight;const widestLabel=Math.max(...visibleStats.map(([,stat2])=>measureText(`${stat2.label}:`,FONT_SIZE.
+body)));const valueAnchorX=Math.round(Math.max(width-CARD_PADDING_X2-STAT_ROW_X2,(show_icons?LABEL_X_OFFSET2:0)+widestLabel+LABEL_VALUE_GAP2));const statItems=visibleStats.map(([,stat2],index)=>createTextNode(
+{icon:stat2.icon,label:stat2.label,value:stat2.value,id:stat2.id,index,showIcons:show_icons,shiftValuePos:0,valueAnchorX,bold:text_bold,labelBold:false,numberFormat:number_format}));const card=new Card(
+{customTitle:custom_title,defaultTitle:defaultTitleFor2(t,name,days,width-2*CARD_PADDING_X2-TITLE_ICON_COLUMN2),titlePrefixIcon:CARD_ICON.orgActivity,width,height,border_radius,colors:{light:lightColors,
+dark:darkColors}});card.setHideBorder(hide_border);card.setHideTitle(hide_title);const cardStyles=({textColor,iconColor})=>getStyles2({textColor,iconColor,show_icons});card.setCSS({light:cardStyles,dark:cardStyles});
+if(disable_animations){card.disableAnimations()}card.setAccessibilityLabel({title:card.title,desc:visibleStats.map(([,stat2])=>`${stat2.label}: ${String(stat2.value)}`).join(", ")});return card.render(
+flexLayout({items:statItems,gap:lheight,direction:"column"}))};var renderOrgActivityCard=Object.assign(renderCard2,{OPTIONS:{show:SHOW_STATS2,hide:HIDE_STATS2,number_format:NUMBER_FORMATS}});var GetOrganizationActivityDocument=graphqlDocument(`
+query getOrganizationActivity($login: String!, $prsOpened: String!, $prsMerged: String!, $issuesOpened: String!, $issuesClosed: String!, $discussions: String!) {
+  organization(login: $login) {
+    login
+    name
+  }
+  prsOpened: search(query: $prsOpened, type: ISSUE) {
+    issueCount
+  }
+  prsMerged: search(query: $prsMerged, type: ISSUE) {
+    issueCount
+  }
+  issuesOpened: search(query: $issuesOpened, type: ISSUE) {
+    issueCount
+  }
+  issuesClosed: search(query: $issuesClosed, type: ISSUE) {
+    issueCount
+  }
+  discussions: search(query: $discussions, type: DISCUSSION) {
+    discussionCount
+  }
+}`);var fetcher3=createGraphQLFetcher(GetOrganizationActivityDocument,"token");var urlExample2="/api/org-activity?org=ORG_NAME";var ORGANIZATION_ACTIVITY_ERROR="Something went wrong while trying to retrie\
+ve the organization activity using the GraphQL API.";var MS_PER_DAY2=24*60*60*1e3;var DEFAULT_DAYS=30;var MAX_DAYS=365;var lastDays=days=>{const now=new Date;const to=new Date(Date.UTC(now.getUTCFullYear(),
+now.getUTCMonth(),now.getUTCDate()));return{from:new Date(to.getTime()-(days-1)*MS_PER_DAY2),to}};var fetchCommitCount=({org:org2,range},token,{fetch:fetch2})=>{const query=`org:${org2}+author-date:${toSearchDate(
+range.from)}..${toSearchDate(range.to)}`;return httpRequest(fetch2,`https://api.github.com/search/commits?per_page=1&q=${query}`,{method:"GET",headers:{"Content-Type":"application/json",Accept:"applic\
+ation/vnd.github.cloak-preview",Authorization:`token ${token}`}})};var fetchOrgActivity=async({org:org2,days,include_commits=false},config2)=>{if(!org2){throw CardError.missingParam(["org"],urlExample2)}
+if(!GITHUB_USERNAME_PATTERN.test(org2)){throw new CardError("Invalid organization provided.",{code:"invalid_param",param:"org"})}const window=days!==void 0&&Number.isFinite(days)?clampValue(days,1,MAX_DAYS):
+DEFAULT_DAYS;const range=lastDays(window);const within=`${toSearchDate(range.from)}..${toSearchDate(range.to)}`;const scope=`org:${org2}`;const res=await retryer(fetcher3,{login:org2,prsOpened:`${scope}\
+ is:pr created:${within}`,prsMerged:`${scope} is:pr merged:${within}`,issuesOpened:`${scope} is:issue created:${within}`,issuesClosed:`${scope} is:issue closed:${within}`,discussions:`${scope} created\
+:${within}`},config2);if(res.data.errors){if(res.data.errors[0]?.type==="NOT_FOUND"){throw new CardError("Organization not found",{code:"not_found",secondaryMessage:ORGANIZATION_NOT_FOUND})}throw graphqlError(
+res.data.errors,res.statusText,ORGANIZATION_ACTIVITY_ERROR)}const{data}=res.data;if(!data.organization){throw new CardError("Organization not found",{code:"not_found",secondaryMessage:ORGANIZATION_NOT_FOUND})}
+let commits=null;if(include_commits){const commitRes=await retryer(fetchCommitCount,{org:org2,range},config2);const total=commitRes.data.total_count;if(typeof total==="number"){commits=total}else{logger.
+error(`GitHub error: ${JSON.stringify(commitRes.data)}`)}}return{login:data.organization.login,name:data.organization.name||data.organization.login,range,days:window,prsOpened:data.prsOpened.issueCount,
+prsMerged:data.prsMerged.issueCount,issuesOpened:data.issuesOpened.issueCount,issuesClosed:data.issuesClosed.issueCount,discussionsOpened:data.discussions.discussionCount,commits}};var orgActivityQuery=object({org:usernameParam,days:looseIntParam,hide:listParam,show:listParam,show_icons:booleanParam,hide_title:booleanParam,hide_border:booleanParam,card_width:looseIntParam,line_height:rawParam,
+custom_title:rawParam,disable_animations:booleanParam,number_format:rawParam,text_bold:booleanParam,locale:localeParam,border_radius:numberParam});var renderOrgActivity=cardHandler(orgActivityQuery,{org:"\
+username"},async({org:org2,days,hide:hide2,show,show_icons,hide_title,hide_border,card_width,line_height,custom_title,disable_animations,number_format,text_bold,locale,border_radius},colors,config2)=>{
+const data=await fetchOrgActivity({org:org2,days,include_commits:show.includes("commits")},config2);return renderOrgActivityCard(data,{...colors,hide:hide2,show,show_icons,hide_title,hide_border,card_width,
+line_height,custom_title,disable_animations,number_format,text_bold,locale,border_radius})});var orgActivity=Object.assign(renderOrgActivity,{OPTIONS:renderOrgActivityCard.OPTIONS});var repoCardLocales=defineLocales({noDescription:{en:"No description provided"},unspecifiedLanguage:{en:"Unspecified"},template:{en:"Template",ar:"\u0642\u0627\u0644\u0628",az:"\u015Eablon",bg:"\u0428\u0430\u0431\u043B\u043E\u043D",
 bn:"\u099F\u09C7\u09AE\u09AA\u09CD\u09B2\u09C7\u099F",ca:"Plantilla",cn:"\u6A21\u677F","zh-tw":"\u6A21\u677F",cs:"\u0160ablona",de:"Vorlage",sw:"Kigezo",ur:"\u0633\u0627\u0646\u0686\u06C1",es:"Plantil\
 la",fa:"\u0627\u0644\u06AF\u0648",fi:"Malli",fr:"Mod\xE8le",hi:"\u0916\u093E\u0915\u093E",sa:"\u092A\u094D\u0930\u093E\u0930\u0942\u092A\u092E\u094D",hu:"Sablon",it:"Template",ja:"\u30C6\u30F3\u30D7\u30EC\u30FC\u30C8",
 kr:"\uD15C\uD50C\uB9BF",nl:"Sjabloon","pt-pt":"Modelo","pt-br":"Modelo",np:"\u091F\u0947\u092E\u094D\u092A\u0932\u0947\u091F",el:"\u03A0\u03C1\u03CC\u03C4\u03C5\u03C0\u03BF",ro:"\u0218ablon",ru:"\u0428\u0430\u0431\u043B\u043E\
@@ -3699,13 +3756,13 @@ sk:"Archivovan\xE9",tr:"Ar\u015Fiv",pl:"Zarchiwizowano",uz:"Arxivlangan",vi:"\u0
 sr:"\u0410\u0440\u0445\u0438\u0432\u0438\u0440\u0430\u043D\u043E","sr-latn":"Arhivirano",no:"Arkivert",be:"\u0410\u0440\u0445\u0456\u0432\u0430\u0432\u0430\u043D\u044B"},prsAuthored:{en:"my created PR\
 s","zh-tw":"\u6211\u6240\u5275\u5EFA\u7684\u62C9\u53D6\u8ACB\u6C42"},prsCommented:{en:"my commented PRs","zh-tw":"\u6211\u6240\u53C3\u8207\u7684\u62C9\u53D6\u8ACB\u6C42"},prsReviewed:{en:"my reviewed \
 PRs","zh-tw":"\u6211\u6240\u5BE9\u6838\u7684\u62C9\u53D6\u8ACB\u6C42"},issuesAuthored:{en:"my created issues","zh-tw":"\u6211\u6240\u5275\u5EFA\u7684\u8B70\u984C"},issuesCommented:{en:"my commented is\
-sues","zh-tw":"\u6211\u6240\u53C3\u8207\u7684\u8B70\u984C"}});var ICON_SIZE2=16;var CARD_DEFAULT_WIDTH4=CARD_WIDTH.standard;var X_OFFSET2=25;var DESCRIPTION_FONT_SIZE3=FONT_SIZE.meta;var DESCRIPTION_LINE_HEIGHT_PX3=16;var DESCRIPTION_MAX_LINES3=3;var REPO_SHOW_STATS=[
+sues","zh-tw":"\u6211\u6240\u53C3\u8207\u7684\u8B70\u984C"}});var ICON_SIZE2=16;var CARD_DEFAULT_WIDTH5=CARD_WIDTH.standard;var X_OFFSET2=25;var DESCRIPTION_FONT_SIZE3=FONT_SIZE.meta;var DESCRIPTION_LINE_HEIGHT_PX3=16;var DESCRIPTION_MAX_LINES3=3;var REPO_SHOW_STATS=[
 "prs_authored","prs_commented","prs_reviewed","issues_authored","issues_commented"];var getBadgeSVG=(label,xOffset=0)=>{if(!Number.isFinite(xOffset)){throw new TypeError(`Invalid xOffset: "${xOffset}"`)}
 return el("g",{"data-testid":"badge",class:"badge",transform:`translate(${320+xOffset}, -18)`},el("rect",{"stroke-width":1,width:70,height:20,x:-12,y:-14,ry:10,rx:10}),el("text",{x:23,y:-5,"alignment-\
-baseline":"central","dominant-baseline":"central","text-anchor":"middle"},label))};var renderCard2=(repo,options={})=>{const{name,nameWithOwner,description,primaryLanguage,isArchived,isTemplate,stargazerCount,
+baseline":"central","dominant-baseline":"central","text-anchor":"middle"},label))};var renderCard3=(repo,options={})=>{const{name,nameWithOwner,description,primaryLanguage,isArchived,isTemplate,stargazerCount,
 forkCount,totalPRsAuthored,totalPRsCommented,totalPRsReviewed,totalIssuesAuthored,totalIssuesCommented}=repo;const{hide_border=false,card_width_input,show_owner=false,browser_rendering=false,show=[],show_icons=true,
 number_format="short",text_bold=false,line_height=22,username,theme="default_repocard",border_radius,locale,description_lines_count}=options;const card_width=card_width_input&&!Number.isNaN(card_width_input)?
-card_width_input:show.length>=2?CARD_DEFAULT_WIDTH4+30:CARD_DEFAULT_WIDTH4;const t=localize(repoCardLocales,locale);const shows=stat2=>show.includes(stat2);const repoFilter=encodeURIComponent(buildSearchFilter(
+card_width_input:show.length>=2?CARD_DEFAULT_WIDTH5+30:CARD_DEFAULT_WIDTH5;const t=localize(repoCardLocales,locale);const shows=stat2=>show.includes(stat2);const repoFilter=encodeURIComponent(buildSearchFilter(
 [nameWithOwner],[]));const encodedUsername=encodeURIComponent(username??"");const STATS={};if(shows("prs_authored")){STATS["prs_authored"]={icon:icons.prs,label:t.prsAuthored(),value:totalPRsAuthored,
 id:"prs_authored",link:`https://github.com/search?q=${repoFilter}author%3A${encodedUsername}&amp;type=pullrequests`}}if(shows("prs_commented")){STATS["prs_commented"]={icon:icons.comments,label:t.prsCommented(),
 value:totalPRsCommented,id:"prs_commented",link:`https://github.com/search?q=${repoFilter}commenter%3A${encodedUsername}+-author%3A${encodedUsername}&amp;type=pullrequests`}}if(shows("prs_reviewed")){
@@ -3733,8 +3790,8 @@ rule(".gray",{font:font("regular","small"),fill:textColor}),rule(".badge",{font:
 ld",{"font-weight":FONT_WEIGHT.semibold}),rule(".icon",{fill:iconColor,display:"block"})],dark:({textColor,iconColor})=>[rule(".description",{fill:textColor,...browser_rendering?wrappedTextStyles(textColor):
 {}}),rule(".gray",{fill:textColor}),rule(".badge rect",{stroke:textColor}),rule(".badge text",{fill:textColor}),rule(".stat",{fill:textColor}),rule(".icon",{fill:iconColor})]});const extraStatLabels=Object.
 values(STATS).map(stat2=>`${stat2.label}: ${stat2.value??0}`).join(", ");card.setAccessibilityLabel({title:card.title,desc:[`${desc}.`,primaryLanguage?langName:"",extraStatLabels].filter(Boolean).join(
-", ")});return card.render([isTemplate?getBadgeSVG(t.template(),card_width-CARD_DEFAULT_WIDTH4):isArchived?getBadgeSVG(t.archived(),card_width-CARD_DEFAULT_WIDTH4):void 0,descriptionSvg,el("g",{transform:`\
-translate(30, ${height-75-extraHeight})`},starAndForkCount),extraItems])};var renderRepoCard=Object.assign(renderCard2,{OPTIONS:{show:REPO_SHOW_STATS,number_format:NUMBER_FORMATS}});var GetRepoDocument=graphqlDocument(`
+", ")});return card.render([isTemplate?getBadgeSVG(t.template(),card_width-CARD_DEFAULT_WIDTH5):isArchived?getBadgeSVG(t.archived(),card_width-CARD_DEFAULT_WIDTH5):void 0,descriptionSvg,el("g",{transform:`\
+translate(30, ${height-75-extraHeight})`},starAndForkCount),extraItems])};var renderRepoCard=Object.assign(renderCard3,{OPTIONS:{show:REPO_SHOW_STATS,number_format:NUMBER_FORMATS}});var GetRepoDocument=graphqlDocument(`
 query getRepo($login: String!, $repo: String!) {
   user(login: $login) {
     repository(name: $repo) {
@@ -3869,8 +3926,8 @@ fragment RepoStars on User {
 fragment RepoNode on Repository {
   name
   stargazerCount
-}`);var fetcher3=createGraphQLFetcher(UserInfoDocument,"bearer");var reposFetcher=createGraphQLFetcher(UserReposDocument,"bearer");var statsFetcher=async({username,includeMergedPullRequests,includeDiscussions,
-includeDiscussionsAnswers,commitsRange,ownerAffiliations,includeUserRepositories},config2)=>{let stats2=await retryer(fetcher3,{login:username,after:null,includeMergedPullRequests,includeDiscussions,includeDiscussionsAnswers,
+}`);var fetcher4=createGraphQLFetcher(UserInfoDocument,"bearer");var reposFetcher=createGraphQLFetcher(UserReposDocument,"bearer");var statsFetcher=async({username,includeMergedPullRequests,includeDiscussions,
+includeDiscussionsAnswers,commitsRange,ownerAffiliations,includeUserRepositories},config2)=>{let stats2=await retryer(fetcher4,{login:username,after:null,includeMergedPullRequests,includeDiscussions,includeDiscussionsAnswers,
 startTime:commitsRange&&toGitHubDateTime(commitsRange.from),endTime:commitsRange&&toGitHubDateTime(commitsRange.to),ownerAffiliations,includeUserRepositories},config2);if(stats2.data.errors){return stats2}
 const pageLimit=config2.fetchMultiPageStars;const extraRepoNodes=[];let pageRepositories=stats2.data.data.user?.repositories;let previousCursor=null;let fetchedPages=1;while(fetchedPages<pageLimit&&!pageRepositories?.
 nodes?.some(node=>node?.stargazerCount===0)&&pageRepositories?.pageInfo.hasNextPage){const after=pageRepositories.pageInfo.endCursor;if(after===null||after===previousCursor){break}previousCursor=after;
@@ -3906,10 +3963,10 @@ totalCount??0}stats2.contributedTo=user.repositoriesContributedTo.totalCount;con
 stats2.totalContributions=await sumOverRanges(username,contributionRanges,block=>block.contributionCalendar.totalContributions,config2)}if(include_all_time_contribs){const reposContributedTo=await fetchReposContributedTo(
 user.login,contributionRanges,contribs_include_own_repos,config2);stats2.allTimeContributedTo=reposContributedTo.size}const allExcludedRepos=[...exclude_repo,...config2.excludeRepositories];const repoToHide=new Set(
 allExcludedRepos);stats2.totalStars=(user.repositories.nodes??[]).filter(data=>!!data&&!repoToHide.has(data.name)).reduce((prev,curr)=>prev+(curr?.stargazerCount??0),0);stats2.rank=calculateRank({all_commits:include_all_commits,
-commits:stats2.totalCommits,prs:stats2.totalPRs,reviews:stats2.totalReviews,issues:stats2.totalIssues,repos:user.repositories.totalCount,stars:stats2.totalStars,followers:user.followers.totalCount});return stats2};var fetcher4=createGraphQLFetcher(GetRepoDocument,"token");var urlExample2="/api/pin?username=USERNAME&repo=REPO_NAME";var fetchRepo=async({username,reponame,include_prs_authored=false,include_prs_commented=false,
+commits:stats2.totalCommits,prs:stats2.totalPRs,reviews:stats2.totalReviews,issues:stats2.totalIssues,repos:user.repositories.totalCount,stars:stats2.totalStars,followers:user.followers.totalCount});return stats2};var fetcher5=createGraphQLFetcher(GetRepoDocument,"token");var urlExample3="/api/pin?username=USERNAME&repo=REPO_NAME";var fetchRepo=async({username,reponame,include_prs_authored=false,include_prs_commented=false,
 include_prs_reviewed=false,include_issues_authored=false,include_issues_commented=false},config2)=>{let parsedOwner=username;let repo=reponame;if(repo?.includes("/")){const[ownerFromRepo,nameFromRepo]=repo.
-split("/");parsedOwner=ownerFromRepo??"";repo=nameFromRepo??""}const login=username||parsedOwner;if(!login&&!repo){throw CardError.missingParam(["username","repo"],urlExample2)}if(!login){throw CardError.
-missingParam(["username"],urlExample2)}if(!repo){throw CardError.missingParam(["repo"],urlExample2)}const repoOwner=parsedOwner||login;const res=await retryer(fetcher4,{login:repoOwner,repo},config2);
+split("/");parsedOwner=ownerFromRepo??"";repo=nameFromRepo??""}const login=username||parsedOwner;if(!login&&!repo){throw CardError.missingParam(["username","repo"],urlExample3)}if(!login){throw CardError.
+missingParam(["username"],urlExample3)}if(!repo){throw CardError.missingParam(["repo"],urlExample3)}const repoOwner=parsedOwner||login;const res=await retryer(fetcher5,{login:repoOwner,repo},config2);
 const{data}=res.data;if(!data.user&&!data.organization){throw new CardError("Not found",{code:"not_found",secondaryMessage:REPO_NOT_FOUND})}if(data.organization===null&&data.user){const{repository}=data.
 user;if(!repository||repository.isPrivate){throw new CardError("User Repository Not found",{code:"not_found",secondaryMessage:REPO_NOT_FOUND})}const repoUserStats=await fetchRepoUserStats({username:login,
 repo:[`${repoOwner}/${repo}`],include_prs_authored,include_prs_commented,include_prs_reviewed,include_issues_authored,include_issues_commented},config2);return{...repoUserStats,...repository}}if(data.
@@ -4089,19 +4146,19 @@ el:"\u03A0\u03BF\u03C3\u03BF\u03C3\u03C4\u03CC \u03A3\u03C5\u03B3\u03C7\u03C9\u0
 zdesi",pl:"Procent po\u0142\u0105czonych PR",uz:"Birlangan PR-lar foizi",vi:"T\u1EF7 L\u1EC7 PR \u0110\xE3 H\u1EE3p Nh\u1EA5t",se:"Procent av sammanfogade PR",he:"\u05D0\u05D7\u05D5\u05D6 \u05D4\u05BEPRs \u05E9\u05E9\u05D5\u05DC\u05D1\u05D5",
 fil:"Porsyento ng mga PR na Pinagsama",th:"\u0E40\u0E1B\u0E2D\u0E23\u0E4C\u0E40\u0E0B\u0E47\u0E19\u0E15\u0E4C PR \u0E17\u0E35\u0E48\u0E16\u0E39\u0E01 Merged \u0E41\u0E25\u0E49\u0E27\u0E17\u0E31\u0E49\u0E07\u0E2B\u0E21\u0E14",
 sr:"\u041F\u0440\u043E\u0446\u0435\u043D\u0430\u0442 \u0441\u043F\u043E\u0458\u0435\u043D\u0438\u0445 PR-\u043E\u0432\u0430","sr-latn":"Procenat spojenih PR-ova",no:"Prosentandel sammensl\xE5tte PR",be:"\
-\u0410\u0434\u0441\u043E\u0442\u0430\u043A \u0430\u0431'\u044F\u0434\u043D\u0430\u043D\u044B\u0445 PR"}});var CARD_MIN_WIDTH=287;var CARD_DEFAULT_WIDTH5=CARD_WIDTH.compact;var RANK_CARD_DEFAULT_WIDTH=CARD_WIDTH.wide;var RANK_ONLY_CARD_DEFAULT_WIDTH=CARD_WIDTH.compact;var STAT_FONT_SIZE=FONT_SIZE.body;var CARD_PADDING_X2=25;
-var STAT_ROW_X2=25;var RANK_GUTTER=120;var RANK_CIRCLE_CX_OFFSET=10;var LABEL_X_OFFSET2=25;var LABEL_VALUE_GAP2=16;var RANK_ICONS=["default","github","percentile"];var SHOW_STATS2=["contributions","pr\
-s_merged","prs_merged_percentage","reviews","discussions_started","discussions_answered","prs_authored","prs_commented","prs_reviewed","issues_authored","issues_commented","all_time_contribs"];var HIDE_STATS2=[
+\u0410\u0434\u0441\u043E\u0442\u0430\u043A \u0430\u0431'\u044F\u0434\u043D\u0430\u043D\u044B\u0445 PR"}});var CARD_MIN_WIDTH=287;var CARD_DEFAULT_WIDTH6=CARD_WIDTH.compact;var RANK_CARD_DEFAULT_WIDTH=CARD_WIDTH.wide;var RANK_ONLY_CARD_DEFAULT_WIDTH=CARD_WIDTH.compact;var STAT_FONT_SIZE=FONT_SIZE.body;var CARD_PADDING_X3=25;
+var STAT_ROW_X3=25;var RANK_GUTTER=120;var RANK_CIRCLE_CX_OFFSET=10;var LABEL_X_OFFSET3=25;var LABEL_VALUE_GAP3=16;var RANK_ICONS=["default","github","percentile"];var SHOW_STATS3=["contributions","pr\
+s_merged","prs_merged_percentage","reviews","discussions_started","discussions_answered","prs_authored","prs_commented","prs_reviewed","issues_authored","issues_commented","all_time_contribs"];var HIDE_STATS3=[
 "stars","commits","prs","issues","contribs"];var LONG_LOCALES=new Set(["az","bg","cs","de","el","es","fil","fi","fr","hu","id","ja","ml","my","nl","pl","pt-br","pt-pt","ru","sr","sr-latn","sw","ta","u\
 k-ua","uz","zh-tw"]);var calculateCircleProgress=value=>{const radius=40;const circumference=Math.PI*(radius*2);const clamped=Math.min(Math.max(value,0),100);return(100-clamped)/100*circumference};var getProgressAnimation=({
-progress})=>atRule("@keyframes rankAnimation",rule("from",{"stroke-dashoffset":calculateCircleProgress(0)}),rule("to",{"stroke-dashoffset":calculateCircleProgress(progress)}));var getStyles2=({textColor,
+progress})=>atRule("@keyframes rankAnimation",rule("from",{"stroke-dashoffset":calculateCircleProgress(0)}),rule("to",{"stroke-dashoffset":calculateCircleProgress(progress)}));var getStyles3=({textColor,
 iconColor,ringColor,show_icons,progress})=>[rule(".stat",{font:font("regular","body"),fill:textColor,"font-variant-numeric":"tabular-nums"}),firefoxFontSize([".stat"],"small"),rule(".stagger",{opacity:0,
 animation:"fadeInAnimation 0.3s ease-in-out forwards"}),rule(".rank-text",{font:font("bold","display"),fill:textColor,animation:"scaleInAnimation 0.3s ease-in-out forwards"}),rule(".rank-percentile-he\
 ader",{"font-size":`${String(FONT_SIZE.body)}px`}),rule(".rank-percentile-text",{"font-size":`${String(FONT_SIZE.lead)}px`}),cssComment("Labels recede so that the values read first."),rule(".not_bold",
 {"font-weight":FONT_WEIGHT.regular,opacity:.75}),rule(".bold",{"font-weight":FONT_WEIGHT.semibold}),rule(".icon",{fill:iconColor,opacity:.75,display:show_icons?"block":"none"}),rule(".rank-circle-rim",
 {stroke:ringColor,fill:"none","stroke-width":4,opacity:.15}),rule(".rank-circle",{stroke:ringColor,"stroke-dasharray":250,fill:"none","stroke-width":4,"stroke-linecap":"round",opacity:1,"transform-ori\
 gin":"-10px 8px",transform:"rotate(-90deg)",animation:"rankAnimation 0.8s forwards ease-in-out"}),getProgressAnimation({progress})];var getTotalCommitsRangeLabel=(include_all_commits,commitsRange,commonT)=>include_all_commits?
-"":commitsRange?` (${formatRange(commitsRange)})`:` (${commonT.lastYear()})`;var renderCard3=(stats2,options={},username,repo=[],owner=[])=>{const{name,totalStars,totalCommits,commitsRange,totalIssues,
+"":commitsRange?` (${formatRange(commitsRange)})`:` (${commonT.lastYear()})`;var renderCard4=(stats2,options={},username,repo=[],owner=[])=>{const{name,totalStars,totalCommits,commitsRange,totalIssues,
 totalPRs,totalPRsMerged,mergedPRsPercentage,totalReviews,totalDiscussionsStarted,totalDiscussionsAnswered,contributedTo:contributedTo2,allTimeContributedTo,totalPRsAuthored,totalPRsCommented,totalPRsReviewed,
 totalIssuesAuthored,totalIssuesCommented,totalContributions,rank}=stats2;const{hide:hide2=[],show_icons=false,hide_title=false,hide_border=false,card_width,hide_rank=false,include_all_commits=false,line_height=25,
 text_bold=true,custom_title,border_radius,number_format="short",number_precision,locale,disable_animations=false,rank_icon="default",show=[]}=options;const lheight=Number.parseInt(String(line_height),
@@ -4124,19 +4181,19 @@ STATS["contribs"]={icon:icons.repo,label:t.contribs(),value:contributedTo2,id:"c
 id:"all_time_contribs"}}const isLongLocale=locale?LONG_LOCALES.has(locale):false;const visibleStats=Object.entries(STATS).filter(([key])=>!hide2.includes(key));if(visibleStats.length===0&&hide_rank){throw new CardError(
 "Could not render stats card.",{code:"invalid_param",secondaryMessage:"Either stats or rank are required."})}const defaultTitle=visibleStats.length>0?t.title({name,apostrophe}):t.rankTitle({name,apostrophe});
 const longLabels=visibleStats.some(([,stat2])=>stat2.label.length>18);const height=Math.max(45+(visibleStats.length+1)*lheight,hide_rank?0:visibleStats.length>0?150:180);const progress=100-rank.percentile;
-const calculateTextWidth=()=>measureText(custom_title||defaultTitle);const iconWidth=show_icons&&visibleStats.length>0?16+1:0;const defaultCardWidth=hide_rank?CARD_DEFAULT_WIDTH5:visibleStats.length>0?
+const calculateTextWidth=()=>measureText(custom_title||defaultTitle);const iconWidth=show_icons&&visibleStats.length>0?16+1:0;const defaultCardWidth=hide_rank?CARD_DEFAULT_WIDTH6:visibleStats.length>0?
 RANK_CARD_DEFAULT_WIDTH:RANK_ONLY_CARD_DEFAULT_WIDTH;const fittedWidth=hide_rank?Math.max(defaultCardWidth,clampValue(50+calculateTextWidth()*2,CARD_MIN_WIDTH,Infinity)+iconWidth):defaultCardWidth;const width=card_width?
 Number.isNaN(card_width)?fittedWidth:card_width:fittedWidth;const widestLabel=visibleStats.length>0?Math.max(...visibleStats.map(([,stat2])=>measureText(`${stat2.label}:`,STAT_FONT_SIZE))):0;const valueAnchorX=Math.
-round(Math.max(width-CARD_PADDING_X2-STAT_ROW_X2-(hide_rank?0:RANK_GUTTER),(show_icons?LABEL_X_OFFSET2:0)+widestLabel+LABEL_VALUE_GAP2));const statItems=visibleStats.map(([,stat2],index)=>createTextNode(
+round(Math.max(width-CARD_PADDING_X3-STAT_ROW_X3-(hide_rank?0:RANK_GUTTER),(show_icons?LABEL_X_OFFSET3:0)+widestLabel+LABEL_VALUE_GAP3));const statItems=visibleStats.map(([,stat2],index)=>createTextNode(
 {icon:stat2.icon,label:stat2.label,value:stat2.value,id:stat2.id,unitSymbol:stat2.unitSymbol,index,showIcons:show_icons,shiftValuePos:29.01+(longLabels?50:0)+(isLongLocale?50:0),valueAnchorX,bold:text_bold,
 labelBold:false,numberFormat:number_format,numberPrecision:number_precision,link:stat2.link}));const card=new Card({customTitle:custom_title,defaultTitle,titlePrefixIcon:CARD_ICON.stats,width,height,border_radius,
-colors:{light:lightColors,dark:darkColors}});card.setHideBorder(hide_border);card.setHideTitle(hide_title);const cardStyles=({ringColor,textColor,iconColor})=>getStyles2({ringColor,textColor,iconColor,
-show_icons,progress});card.setCSS({light:cardStyles,dark:cardStyles});if(disable_animations){card.disableAnimations()}const calculateRankXTranslation=()=>visibleStats.length>0?width-CARD_PADDING_X2-RANK_GUTTER/
+colors:{light:lightColors,dark:darkColors}});card.setHideBorder(hide_border);card.setHideTitle(hide_title);const cardStyles=({ringColor,textColor,iconColor})=>getStyles3({ringColor,textColor,iconColor,
+show_icons,progress});card.setCSS({light:cardStyles,dark:cardStyles});if(disable_animations){card.disableAnimations()}const calculateRankXTranslation=()=>visibleStats.length>0?width-CARD_PADDING_X3-RANK_GUTTER/
 2+RANK_CIRCLE_CX_OFFSET:width/2+20-10;const rankCircle=!hide_rank&&el("g",{"data-testid":"rank-circle",transform:`translate(${calculateRankXTranslation()}, ${height/2-50})`},el("circle",{class:"rank-c\
 ircle-rim",cx:-RANK_CIRCLE_CX_OFFSET,cy:8,r:40}),el("circle",{class:"rank-circle",cx:-RANK_CIRCLE_CX_OFFSET,cy:8,r:40}),el("g",{class:"rank-text"},rankIcon(rank_icon,rank.level,rank.percentile)));const labels=visibleStats.
 map(([key,stat2])=>{if(key==="commits"){return`${t.commits()} ${getTotalCommitsRangeLabel(include_all_commits,commitsRange,commonT)} : ${stat2.value}`}return`${stat2.label}: ${stat2.value}`}).join(", ");
 card.setAccessibilityLabel({title:t.accessibilityTitle({title:card.title,level:rank.level}),desc:labels});return card.render([rankCircle,el("svg",{x:0,y:0},flexLayout({items:statItems,gap:lheight,direction:"\
-column"}))])};var renderStatsCard=Object.assign(renderCard3,{OPTIONS:{rank_icon:RANK_ICONS,show:SHOW_STATS2,hide:HIDE_STATS2,number_format:NUMBER_FORMATS}});var statsQuery=object({username:usernameParam,repo:safeListParam,owner:safeListParam,hide:listParam,hide_title:booleanParam,hide_border:booleanParam,card_width:looseIntParam,hide_rank:booleanParam,show_icons:booleanParam,
+column"}))])};var renderStatsCard=Object.assign(renderCard4,{OPTIONS:{rank_icon:RANK_ICONS,show:SHOW_STATS3,hide:HIDE_STATS3,number_format:NUMBER_FORMATS}});var statsQuery=object({username:usernameParam,repo:safeListParam,owner:safeListParam,hide:listParam,hide_title:booleanParam,hide_border:booleanParam,card_width:looseIntParam,hide_rank:booleanParam,show_icons:booleanParam,
 include_all_commits:booleanParam,from:fromParam,to:toParam,line_height:rawParam,text_bold:booleanParam,exclude_repo:listParam,custom_title:rawParam,locale:localeParam,disable_animations:booleanParam,border_radius:numberParam,
 number_format:rawParam,role:listParam,number_precision:looseIntParam,rank_icon:enumParam(renderStatsCard.OPTIONS.rank_icon),show:listParam,contribs_include_own_repos:booleanParam}).check(ORDERED_RANGE);
 var renderStats=cardHandler(statsQuery,{username:"username"},async({username,repo,owner,hide:hide2,hide_title,hide_border,card_width,hide_rank,show_icons,include_all_commits,from,to,line_height,text_bold,
@@ -4222,7 +4279,7 @@ length===1?[el("circle",{cx:centerX,cy:centerY,r:radius,stroke:colors[0]??DEFAUL
 e-width":strokeWidth})));return[createDonutLanguagesNode({langs,totalSize:totalLanguageSize,hideValues,statsFormat}),el("g",{transform:`translate(125, ${donutCenterTranslation(langs.length)})`},el("sv\
 g",{width,height:width},donutPaths))]};var noLanguagesDataNode=({text,layout})=>el("text",{x:layout==="pie"||layout==="donut-vertical"?CARD_PADDING2:0,y:11,class:"stat bold"},text);var getDefaultLanguagesCountByLayout=({
 layout,hide_progress})=>{if(layout==="compact"||hide_progress===true){return COMPACT_LAYOUT_DEFAULT_LANGS_COUNT}if(layout==="donut"){return DONUT_LAYOUT_DEFAULT_LANGS_COUNT}if(layout==="donut-vertical"){
-return DONUT_VERTICAL_LAYOUT_DEFAULT_LANGS_COUNT}if(layout==="pie"){return PIE_LAYOUT_DEFAULT_LANGS_COUNT}return NORMAL_LAYOUT_DEFAULT_LANGS_COUNT};var renderCard4=(topLangs2,options={})=>{const{hide_title=false,
+return DONUT_VERTICAL_LAYOUT_DEFAULT_LANGS_COUNT}if(layout==="pie"){return PIE_LAYOUT_DEFAULT_LANGS_COUNT}return NORMAL_LAYOUT_DEFAULT_LANGS_COUNT};var renderCard5=(topLangs2,options={})=>{const{hide_title=false,
 hide_border=false,card_width,hide:hide2,hide_progress,hide_values,layout,custom_title,locale,langs_count=getDefaultLanguagesCountByLayout({layout,hide_progress}),border_radius,disable_animations,stats_format="\
 percentages"}=options;const t=localize(langCardLocales,locale);const{langs,totalLanguageSize}=trimTopLanguages(topLangs2,langs_count,hide2);let width=card_width?Number.isNaN(card_width)?DEFAULT_CARD_WIDTH:
 card_width<MIN_CARD_WIDTH2?MIN_CARD_WIDTH2:card_width:DEFAULT_CARD_WIDTH;let height=calculateNormalLayoutHeight(langs.length);const{lightColors,darkColors}=getLightDarkColors(options);let finalLayout;
@@ -4238,7 +4295,7 @@ t":FONT_WEIGHT.semibold}),rule(".lang-name",{font:font("regular","micro"),fill:t
 slideInAnimation 1s ease-in-out forwards"}),rule(".lang-progress",{animation:"growWidthAnimation 0.6s ease-in-out forwards"}),rule(".progress-background",{fill:progBarBgColor})],dark:({textColor,progBarBgColor})=>[
 rule(".stat",{fill:textColor}),rule(".lang-name",{fill:textColor}),rule(".progress-background",{fill:progBarBgColor})]});card.setAccessibilityLabel({title:card.title,desc:langs.map(lang=>`${lang.name}\
  ${(lang.size/totalLanguageSize*100).toFixed(2)}%`).join(", ")});if(layout==="pie"||layout==="donut-vertical"){return card.render(finalLayout)}return card.render(el("svg",{"data-testid":"lang-items",x:CARD_PADDING2},
-finalLayout))};var renderTopLanguages=Object.assign(renderCard4,{OPTIONS:{layout:TOP_LANG_LAYOUTS,stats_format:TOP_LANG_STATS_FORMATS}});var TopLanguagesDocument=graphqlDocument(`
+finalLayout))};var renderTopLanguages=Object.assign(renderCard5,{OPTIONS:{layout:TOP_LANG_LAYOUTS,stats_format:TOP_LANG_STATS_FORMATS}});var TopLanguagesDocument=graphqlDocument(`
 query topLanguages($login: String!, $ownerAffiliations: [RepositoryAffiliation]) {
   user(login: $login) {
     repositories(ownerAffiliations: $ownerAffiliations, isFork: false, first: 100) {
@@ -4262,8 +4319,8 @@ fragment TopLanguage on LanguageEdge {
     color
     name
   }
-}`);var fetcher5=createGraphQLFetcher(TopLanguagesDocument,"token");var fetchTopLanguages=async({username,exclude_repo=[],size_weight=1,count_weight=0,ownerAffiliations=[]},config2)=>{if(!username){throw CardError.
-missingParam(["username"])}const affiliations=parseOwnerAffiliations(ownerAffiliations);const res=await retryer(fetcher5,{login:username,ownerAffiliations:affiliations},config2);if(res.data.errors){throw graphqlError(
+}`);var fetcher6=createGraphQLFetcher(TopLanguagesDocument,"token");var fetchTopLanguages=async({username,exclude_repo=[],size_weight=1,count_weight=0,ownerAffiliations=[]},config2)=>{if(!username){throw CardError.
+missingParam(["username"])}const affiliations=parseOwnerAffiliations(ownerAffiliations);const res=await retryer(fetcher6,{login:username,ownerAffiliations:affiliations},config2);if(res.data.errors){throw graphqlError(
 res.data.errors,res.statusText,"Something went wrong while trying to retrieve the language data using the GraphQL API.")}const repoToHide={};const allExcludedRepos=[...exclude_repo,...config2.excludeRepositories];
 for(const repoName of allExcludedRepos){repoToHide[repoName]=true}const repoNodes=(res.data.data.user?.repositories.nodes??[]).filter(node=>!!node&&!repoToHide[node.name]);let languageEdges=[];for(const repo of repoNodes){
 const edges=(repo.languages?.edges??[]).filter(edge=>!!edge);if(edges.length>0){languageEdges=[...edges,...languageEdges]}}const languageMap={};for(const edge of languageEdges){const existing=languageMap[edge.
@@ -4369,10 +4426,10 @@ if(!Number.isFinite(index)){throw new TypeError(`Invalid index: "${index}"`)}if(
 3)*150;return el("g",{class:"stagger",style:`animation-delay: ${staggerDelay}ms`,transform:"translate(25, 0)"},el("text",{class:"stat bold",y:12.5,"data-testid":id},`${label}:`),el("text",{class:"stat",
 x:hideProgress?HIDDEN_PROGRESSBAR_PADDING:PROGRESSBAR_PADDING+progressBarWidth,y:12.5},value),!hideProgress&&createProgressNode({x:110,y:4,progress:percent,width:progressBarWidth,delay:staggerDelay+300}))};
 var recalculatePercentages=languages=>{const totalSum=languages.reduce((sum,language)=>sum+language.percent,0);const weight=Number((100/totalSum).toFixed(2));for(const language of languages){language.
-percent=Number((language.percent*weight).toFixed(2))}};var getStyles3=({textColor})=>{if(!isPrefixedHexColor(textColor)){throw new Error(`Invalid text color: "${textColor}"`)}return[rule(".stat",{font:font(
+percent=Number((language.percent*weight).toFixed(2))}};var getStyles4=({textColor})=>{if(!isPrefixedHexColor(textColor)){throw new Error(`Invalid text color: "${textColor}"`)}return[rule(".stat",{font:font(
 "regular","body"),fill:textColor}),firefoxFontSize([".stat"],"small"),rule(".stagger",{opacity:0,animation:"fadeInAnimation 0.3s ease-in-out forwards"}),rule(".not_bold",{"font-weight":FONT_WEIGHT.regular}),
 rule(".bold",{"font-weight":FONT_WEIGHT.semibold})]};var progressBackground=(titleColor,textColor)=>textColor===titleColor?"#fff0":textColor;var normalizeCardWidth=({value,layout})=>{if(value===void 0||
-Number.isNaN(value)){return DEFAULT_CARD_WIDTH2}return Math.max(layout==="compact"?COMPACT_LAYOUT_MIN_WIDTH:MIN_CARD_WIDTH3,value)};var renderCard5=(stats2={},options={})=>{let{languages=[]}=stats2;const{
+Number.isNaN(value)){return DEFAULT_CARD_WIDTH2}return Math.max(layout==="compact"?COMPACT_LAYOUT_MIN_WIDTH:MIN_CARD_WIDTH3,value)};var renderCard6=(stats2={},options={})=>{let{languages=[]}=stats2;const{
 hide_title=false,hide_border=false,card_width,hide:hide2,line_height=DEFAULT_LINE_HEIGHT,hide_progress,custom_title,locale,layout,langs_count=languages.length,border_radius,display_format="time",disable_animations}=options;
 const normalizedWidth=normalizeCardWidth({value:card_width,layout});const shouldHideLangs=Array.isArray(hide2)&&hide2.length>0;if(shouldHideLangs){const languagesToHide=new Set(hide2.map(lang=>lowercaseTrim(
 lang)));languages=languages.filter(lang=>!languagesToHide.has(lowercaseTrim(lang.name)))}languages=languages.slice(0,langs_count);recalculatePercentages(languages);const t=localize(wakatimeCardLocales,
@@ -4387,12 +4444,12 @@ stats2.is_other_usage_visible?t.noCodingActivity():t.noCodeDetails():t.notPublic
 [noCodingActivityNode({text:stats2.is_coding_activity_visible?stats2.is_other_usage_visible?t.noCodingActivity():t.noCodeDetails():t.notPublic()})],gap:lheight,direction:"column"})}let titleText=t.title();
 switch(stats2.range){case"last_7_days":{titleText+=` (${t.last7Days()})`;break}case"last_year":{titleText+=` (${commonT.lastYear()})`;break}default:{break}}const card=new Card({customTitle:custom_title,
 defaultTitle:titleText,titlePrefixIcon:CARD_ICON.wakatime,width:normalizedWidth,height,border_radius,colors:{light:lightColors,dark:darkColors}});if(disable_animations){card.disableAnimations()}card.setHideBorder(
-hide_border);card.setHideTitle(hide_title);card.setCSS({light:({titleColor,textColor})=>[getStyles3({textColor}),atRule("@keyframes slideInAnimation",rule("from",{width:0}),rule("to",{width:"calc(100%\
+hide_border);card.setHideTitle(hide_title);card.setCSS({light:({titleColor,textColor})=>[getStyles4({textColor}),atRule("@keyframes slideInAnimation",rule("from",{width:0}),rule("to",{width:"calc(100%\
 -100px)"})),atRule("@keyframes growWidthAnimation",rule("from",{width:0}),rule("to",{width:"100%"})),rule(".lang-name",{font:font("regular","micro"),fill:textColor}),rule("#rect-mask rect",{animation:"\
 slideInAnimation 1s ease-in-out forwards"}),rule(".lang-progress",{animation:"growWidthAnimation 0.6s ease-in-out forwards",fill:titleColor}),rule(".progress-background",{fill:progressBackground(titleColor,
-textColor)})],dark:({titleColor,textColor})=>[getStyles3({textColor}),rule(".lang-name",{fill:textColor}),rule(".lang-progress",{fill:titleColor}),rule(".progress-background",{fill:progressBackground(
+textColor)})],dark:({titleColor,textColor})=>[getStyles4({textColor}),rule(".lang-name",{fill:textColor}),rule(".lang-progress",{fill:titleColor}),rule(".progress-background",{fill:progressBackground(
 titleColor,textColor)})]});card.setAccessibilityLabel({title:card.title,desc:filteredLanguages.length>0?filteredLanguages.map(lang=>`${lang.name}: ${formatLanguageValue({display_format,lang})}`).join(
-", "):t.noCodingActivity()});return card.render(el("svg",{x:0,y:0,width:"100%"},finalLayout))};var renderWakatimeCard=Object.assign(renderCard5,{OPTIONS:{layout:WAKATIME_LAYOUTS,display_format:DISPLAY_FORMATS}});var fetchWakatimeStats=async({username,api_domain},config2)=>{if(!username){throw CardError.missingParam(["username"])}const domain=api_domain?api_domain.replaceAll(/\/$/gi,""):"wakatime.com";const res=await httpRequest(
+", "):t.noCodingActivity()});return card.render(el("svg",{x:0,y:0,width:"100%"},finalLayout))};var renderWakatimeCard=Object.assign(renderCard6,{OPTIONS:{layout:WAKATIME_LAYOUTS,display_format:DISPLAY_FORMATS}});var fetchWakatimeStats=async({username,api_domain},config2)=>{if(!username){throw CardError.missingParam(["username"])}const domain=api_domain?api_domain.replaceAll(/\/$/gi,""):"wakatime.com";const res=await httpRequest(
 config2.fetch,`https://${domain}/api/v1/users/${username}/stats?is_including_today=true`);if(res.status===404){throw new CardError(`Could not resolve to a User with the login of '${username}'`,{code:"\
 not_found",secondaryMessage:WAKATIME_USER_NOT_FOUND})}if(res.status<200||res.status>299){throw new CardError(`Could not fetch the WakaTime stats of '${username}'`,{code:"upstream"})}return res.data.data};var wakatimeQuery=object({username:safeParam,hide_border:booleanParam,card_width:looseIntParam,line_height:rawParam,hide_title:booleanParam,hide_progress:booleanParam,custom_title:rawParam,locale:localeParam,
 layout:enumParam(renderWakatimeCard.OPTIONS.layout),langs_count:looseIntParam,hide:listParam,api_domain:rawParam,border_radius:numberParam,display_format:enumParam(renderWakatimeCard.OPTIONS.display_format),
@@ -4400,24 +4457,25 @@ disable_animations:booleanParam});var renderWakatime=cardHandler(wakatimeQuery,{
 api_domain,border_radius,display_format,disable_animations},colors,config2)=>{const stats2=await fetchWakatimeStats({username,api_domain},config2);return renderWakatimeCard(stats2,{...colors,custom_title,
 hide_title,hide_border,card_width,hide:hide2,line_height,hide_progress,border_radius,locale,layout,langs_count,display_format,disable_animations})});var wakatime=Object.assign(renderWakatime,{OPTIONS:renderWakatimeCard.
 OPTIONS});var parseCsv=value=>{const values=(value??"").split(",").map(entry=>entry.trim()).filter(entry=>entry!=="");return values.length>0?values:void 0};var parseFetchMultiPageStars=value=>{if(value==="true"){
-return Infinity}const limit=Number(value);return limit>0?limit:1};var parsePATsFromEnv=env=>Object.keys(env).filter(key=>/PAT_\d*$/.exec(key)).map(name=>({name,value:env[name]??""})).filter(pat=>pat.value!==
-"");var CardConfig=class _CardConfig{pats;usernameAllowlist;gistAllowlist;excludeRepositories;fetchMultiPageStars;fetch;constructor(init={}){this.pats=init.pats??[];this.usernameAllowlist=init.usernameAllowlist;
-this.gistAllowlist=init.gistAllowlist;this.excludeRepositories=init.excludeRepositories??[];this.fetchMultiPageStars=init.fetchMultiPageStars??1;this.fetch=init.fetch??defaultFetch}static fromEnv(env){
+return Infinity}const limit=Number(value);return limit>0?limit:1};var parsePATsFromEnv=env=>Object.keys(env).filter(key=>/^PAT_\d+$/.test(key)).toSorted().map(name=>({name,value:env[name]??""})).filter(
+pat=>pat.value!=="");var CardConfig=class _CardConfig{pats;usernameAllowlist;gistAllowlist;excludeRepositories;fetchMultiPageStars;fetch;constructor(init={}){this.pats=init.pats??[];this.usernameAllowlist=
+init.usernameAllowlist;this.gistAllowlist=init.gistAllowlist;this.excludeRepositories=init.excludeRepositories??[];this.fetchMultiPageStars=init.fetchMultiPageStars??1;this.fetch=init.fetch??defaultFetch}static fromEnv(env){
 return new _CardConfig({pats:parsePATsFromEnv(env),usernameAllowlist:parseCsv(env["ALLOWLIST"]),gistAllowlist:parseCsv(env["GIST_ALLOWLIST"]),excludeRepositories:parseCsv(env["EXCLUDE_REPO"])??[],fetchMultiPageStars:parseFetchMultiPageStars(
 env["FETCH_MULTI_PAGE_STARS"])})}isAllowed(id,kind){const list=kind==="gist"?this.gistAllowlist:this.usernameAllowlist;const wanted=id.toLowerCase();return list===void 0||list.some(allowed=>allowed.toLowerCase()===
 wanted)}with(overrides){return new _CardConfig({pats:this.pats,usernameAllowlist:this.usernameAllowlist,gistAllowlist:this.gistAllowlist,excludeRepositories:this.excludeRepositories,fetchMultiPageStars:this.
 fetchMultiPageStars,fetch:this.fetch,...overrides})}};var CARDS={stats:{handler:stats,requires:"username"},"top-langs":{handler:topLangs,requires:"username"},pin:{handler:pin,requires:"repo"},wakatime:{handler:wakatime,requires:"username"},gist:{handler:gist,
-requires:"id"},"contributed-to":{handler:contributedTo,requires:"username"},org:{handler:org,requires:"org"}};var isCardName=value=>Object.hasOwn(CARDS,value);var parseOptions=value=>{const trimmed=value.
-trim();if(!trimmed){return{}}if(trimmed.startsWith("{")){let parsed;try{parsed=JSON.parse(trimmed)}catch{throw new Error("Invalid JSON in options.")}if(typeof parsed!=="object"||parsed===null){throw new Error(
-"Invalid JSON in options.")}return Object.fromEntries(Object.entries(parsed).filter(([,entry])=>entry!==null&&entry!==void 0).map(([key,entry])=>[key,Array.isArray(entry)?entry.join(","):String(entry)]))}
-const params=new URLSearchParams(trimmed);return Object.fromEntries([...new Set(params.keys())].map(key=>[key,params.getAll(key).join(",")]))};var resolveCard=(card,options)=>{if(!isCardName(card)){throw new Error(
-`Unsupported card type: ${card}. Expected one of ${Object.keys(CARDS).join(", ")}.`)}const definition=CARDS[card];if(!options[definition.requires]){throw new Error(`${definition.requires} is required \
-for the ${card} card.`)}return definition};var run=async()=>{const card=getInput("card",{required:true}).toLowerCase();const options=parseOptions(getInput("options"));const repositoryOwner=process.env["\
-GITHUB_REPOSITORY_OWNER"];const account=card==="org"?"org":"username";if(!options[account]&&repositoryOwner){options[account]=repositoryOwner;warning(`${account} not provided; defaulting to repository\
- owner.`)}const{handler}=resolveCard(card,options);const token=getInput("token");const config2=new CardConfig({pats:token?[{name:"action input `token`",value:token}]:[]});const result=await handler(options,
-config2);if(result.status==="error"){throw new Error(result.retryable?`Card generation failed while fetching data: ${result.error.message}`:`Card generation failed: ${result.error.message}`)}if(!result.
-content){throw new Error("Card renderer returned empty output.")}const outputPath=getInput("path")||path.join("profile",`${card}.svg`);const resolved=path.resolve(process.cwd(),outputPath);await mkdir2(
-path.dirname(resolved),{recursive:true});await writeFile2(resolved,result.content,"utf8");info(`Wrote ${resolved}`);setOutput("path",outputPath)};try{await run()}catch(error2){setFailed(error2 instanceof Error?error2.message:String(error2))}
+requires:"id"},"contributed-to":{handler:contributedTo,requires:"username"},org:{handler:org,requires:"org"},"org-activity":{handler:orgActivity,requires:"org"}};var isCardName=value=>Object.hasOwn(CARDS,
+value);var parseOptions=value=>{const trimmed=value.trim();if(!trimmed){return{}}if(trimmed.startsWith("{")){let parsed;try{parsed=JSON.parse(trimmed)}catch{throw new Error("Invalid JSON in options.")}
+if(typeof parsed!=="object"||parsed===null){throw new Error("Invalid JSON in options.")}return Object.fromEntries(Object.entries(parsed).filter(([,entry])=>entry!==null&&entry!==void 0).map(([key,entry])=>[
+key,Array.isArray(entry)?entry.join(","):String(entry)]))}const params=new URLSearchParams(trimmed);return Object.fromEntries([...new Set(params.keys())].map(key=>[key,params.getAll(key).join(",")]))};
+var resolveCard=(card,options)=>{if(!isCardName(card)){throw new Error(`Unsupported card type: ${card}. Expected one of ${Object.keys(CARDS).join(", ")}.`)}const definition=CARDS[card];if(!options[definition.
+requires]){throw new Error(`${definition.requires} is required for the ${card} card.`)}return definition};var run=async()=>{const card=getInput("card",{required:true}).toLowerCase();const options=parseOptions(
+getInput("options"));const repositoryOwner=process.env["GITHUB_REPOSITORY_OWNER"];const account=card==="org"||card==="org-activity"?"org":"username";if(!options[account]&&repositoryOwner){options[account]=
+repositoryOwner;warning(`${account} not provided; defaulting to repository owner.`)}const{handler}=resolveCard(card,options);const token=getInput("token");const config2=new CardConfig({pats:token?[{name:"\
+action input `token`",value:token}]:[]});const result=await handler(options,config2);if(result.status==="error"){throw new Error(result.retryable?`Card generation failed while fetching data: ${result.
+error.message}`:`Card generation failed: ${result.error.message}`)}if(!result.content){throw new Error("Card renderer returned empty output.")}const outputPath=getInput("path")||path.join("profile",`${card}\
+.svg`);const resolved=path.resolve(process.cwd(),outputPath);await mkdir2(path.dirname(resolved),{recursive:true});await writeFile2(resolved,result.content,"utf8");info(`Wrote ${resolved}`);setOutput(
+"path",outputPath)};try{await run()}catch(error2){setFailed(error2 instanceof Error?error2.message:String(error2))}
 /*! Bundled license information:
 
 undici/lib/web/fetch/body.js:

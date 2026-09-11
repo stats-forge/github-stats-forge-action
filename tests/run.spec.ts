@@ -31,6 +31,7 @@ const mocks = vi.hoisted(() => {
       gist: card(),
       contributedTo: card(),
       org: card(),
+      orgActivity: card(),
     },
   };
 });
@@ -60,6 +61,7 @@ vi.mock(import('@stats-forge/github-stats-forge-core/api'), async (importOrigina
     gist: Object.assign(mocks.handlers.gist, actual.gist),
     contributedTo: Object.assign(mocks.handlers.contributedTo, actual.contributedTo),
     org: Object.assign(mocks.handlers.org, actual.org),
+    orgActivity: Object.assign(mocks.handlers.orgActivity, actual.orgActivity),
   };
 });
 
@@ -204,6 +206,19 @@ describe(run, () => {
     expect(mocks.handlers.org).toHaveBeenCalledWith({ org: 'stats-forge' }, expect.anything());
     expect(mocks.core.warning).toHaveBeenCalledWith(
       'org not provided; defaulting to repository owner.',
+    );
+  });
+
+  it('falls back to the repository owner for the org-activity card, also keyed on `org`', async () => {
+    mocks.inputs.set('card', 'org-activity');
+    mocks.inputs.set('options', '');
+    vi.stubEnv('GITHUB_REPOSITORY_OWNER', 'stats-forge');
+
+    await run();
+
+    expect(mocks.handlers.orgActivity).toHaveBeenCalledWith(
+      { org: 'stats-forge' },
+      expect.anything(),
     );
   });
 
