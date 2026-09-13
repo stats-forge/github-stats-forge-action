@@ -1,7 +1,7 @@
 import { mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
-import { getInput, info, setOutput, warning } from '@actions/core';
+import { getInput, info, setOutput } from '@actions/core';
 import {
   CardConfig,
   contributedTo,
@@ -155,7 +155,7 @@ export const run = async (): Promise<void> => {
   const account = isCardName(card) ? CARDS[card].account : undefined;
   if (account && !options[account] && repositoryOwner) {
     options[account] = repositoryOwner;
-    warning(`${account} not provided; defaulting to repository owner.`);
+    info(`${account} not provided; defaulting to repository owner.`);
   }
 
   const { handler } = resolveCard(card, options);
