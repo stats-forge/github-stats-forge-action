@@ -2980,16 +2980,18 @@ prog_bar_bg_color,"#ddd");if(typeof titleColor!=="string"||typeof textColor!=="s
 const colors={};for(const key of BASE_COLOR_KEYS){const value=params[`${key}${suffix}`];if(value!==void 0){colors[key]=value}}return colors};var MODE_OVERRIDE_KEYS=THEME_VARIANTS.flatMap(variant=>BASE_COLOR_KEYS.
 map(key=>`${key}_${variant}`));var getLightDarkColors=params=>{if(!MODE_OVERRIDE_KEYS.some(key=>params[key]!==void 0)){return{lightColors:getCardColors(params),darkColors:null}}return{lightColors:getCardColors(
 {...params,...extractLightDarkColors(params,"_light")}),darkColors:getCardColors({...params,...extractLightDarkColors(params,"_dark")})}};var COLOR_PARAM_KEYS=[...BASE_COLOR_KEYS,...THEME_VARIANTS.flatMap(
-variant=>BASE_COLOR_KEYS.map(key=>`${key}_${variant}`))];var THEME_PARAM_KEYS=["theme",...THEME_VARIANTS.map(variant=>`theme_${variant}`)];var GITHUB_EPOCH_YEAR=2008;var GITHUB_USERNAME_PATTERN=/^[a-z\d](?:[a-z\d]|-(?=[a-z\d])){0,38}$/i;var OWNER_AFFILIATIONS=["OWNER","COLLABORATOR","ORGANIZATION_MEMBER"];var TRY_AGAIN_LATER="Please try again later";var NOT_ALLOWED="This deployment does not serve that account";var RETRYABLE={invalid_param:false,missing_param:false,not_allowed:false,not_found:false,no_tokens:true,
-rate_limited:true,upstream:true};var SECONDARY_ERROR_MESSAGES={rate_limited:"You can deploy own instance or wait until public will be no longer limited",no_tokens:"Please add an env variable called PA\
-T_1 with your GitHub API token in your deployment environment",upstream:TRY_AGAIN_LATER};var CardError=class _CardError extends Error{code;secondaryMessage;param;constructor(message,init){super(message);
-this.name="CardError";this.code=init.code;this.param=init.param;this.secondaryMessage=init.secondaryMessage??SECONDARY_ERROR_MESSAGES[init.code]}get retryable(){return RETRYABLE[this.code]}static invalidParam(param,secondaryMessage){
-return new _CardError("Something went wrong",{code:"invalid_param",secondaryMessage,param})}static missingParam(params,secondaryMessage){const named=params.map(param=>`"${param}"`).join(", ");return new _CardError(
-`Missing params ${named} make sure you pass the parameters in URL`,{code:"missing_param",secondaryMessage,param:params[0]})}static notAllowed(param){return new _CardError("Not allowed",{code:"not_allo\
-wed",secondaryMessage:NOT_ALLOWED,param})}static from(err){if(err instanceof _CardError){return err}if(err instanceof Error){return new _CardError(err.message,{code:"upstream"})}return new _CardError(
-"An unknown error occurred",{code:"upstream"})}};var INVALID_AFFILIATION=`Invalid owner affiliations. Valid values are: ${OWNER_AFFILIATIONS.join(", ")}`;var WAKATIME_USER_NOT_FOUND="Make sure you hav\
-e a public WakaTime profile";var USER_NOT_FOUND="Make sure the provided username is not an organization";var ORGANIZATION_NOT_FOUND="Make sure the provided organization exists and is not a user";var REPO_NOT_FOUND="\
-Make sure the provided username and repository are correct";var GIST_NOT_FOUND="Make sure the provided gist ID is correct";var kFormatter=(num,precision)=>{const abs=Math.abs(num);const sign=Math.sign(num);if(typeof precision==="number"&&!Number.isNaN(precision)){return`${(sign*(abs/1e3)).toFixed(precision)}k`}if(abs<1e3){
+variant=>BASE_COLOR_KEYS.map(key=>`${key}_${variant}`))];var THEME_PARAM_KEYS=["theme",...THEME_VARIANTS.map(variant=>`theme_${variant}`)];var GITHUB_EPOCH_YEAR=2008;var GITHUB_USERNAME_PATTERN=/^[a-z\d](?:[a-z\d]|-(?=[a-z\d])){0,38}$/i;var OWNER_AFFILIATIONS=["OWNER","COLLABORATOR","ORGANIZATION_MEMBER"];var TRY_AGAIN_LATER="Please try again later";var NOT_ALLOWED="This deployment does not serve that account";var RETRYABLE={forbidden:true,invalid_param:false,missing_param:false,not_allowed:false,not_found:false,
+no_tokens:true,rate_limited:true,upstream:true};var SECONDARY_ERROR_MESSAGES={rate_limited:"You can deploy own instance or wait until public will be no longer limited",no_tokens:"Please add an env var\
+iable called PAT_1 with your GitHub API token in your deployment environment",upstream:TRY_AGAIN_LATER};var CardError=class _CardError extends Error{code;secondaryMessage;param;constructor(message,init){
+super(message);this.name="CardError";this.code=init.code;this.param=init.param;this.secondaryMessage=init.secondaryMessage??SECONDARY_ERROR_MESSAGES[init.code]}get retryable(){return RETRYABLE[this.code]}static forbidden(secondaryMessage){
+return new _CardError("Missing token permission",{code:"forbidden",secondaryMessage})}static invalidParam(param,secondaryMessage){return new _CardError("Something went wrong",{code:"invalid_param",secondaryMessage,
+param})}static missingParam(params,secondaryMessage){const named=params.map(param=>`"${param}"`).join(", ");return new _CardError(`Missing params ${named} make sure you pass the parameters in URL`,{code:"\
+missing_param",secondaryMessage,param:params[0]})}static notAllowed(param){return new _CardError("Not allowed",{code:"not_allowed",secondaryMessage:NOT_ALLOWED,param})}static from(err){if(err instanceof
+_CardError){return err}if(err instanceof Error){return new _CardError(err.message,{code:"upstream"})}return new _CardError("An unknown error occurred",{code:"upstream"})}};var INVALID_AFFILIATION=`Inv\
+alid owner affiliations. Valid values are: ${OWNER_AFFILIATIONS.join(", ")}`;var WAKATIME_USER_NOT_FOUND="Make sure you have a public WakaTime profile";var USER_NOT_FOUND="Make sure the provided usern\
+ame is not an organization";var MEMBERS_FORBIDDEN='The token needs the organization "Members" permission, or drop "show=members"';var ISSUES_FORBIDDEN='The token needs read access to issues, or hide "\
+issues_opened" and "issues_closed"';var ORGANIZATION_NOT_FOUND="Make sure the provided organization exists and is not a user";var REPO_NOT_FOUND="Make sure the provided username and repository are cor\
+rect";var GIST_NOT_FOUND="Make sure the provided gist ID is correct";var kFormatter=(num,precision)=>{const abs=Math.abs(num);const sign=Math.sign(num);if(typeof precision==="number"&&!Number.isNaN(precision)){return`${(sign*(abs/1e3)).toFixed(precision)}k`}if(abs<1e3){
 return sign*abs}return`${sign*Number.parseFloat((abs/1e3).toFixed(1))}k`};var formatBytes=bytes=>{if(bytes<0){throw new Error("Bytes must be a non-negative number")}if(bytes===0){return"0 B"}const sizes=[
 "B","KB","MB","GB","TB","PB","EB"];const base=1024;const i=Math.floor(Math.log(bytes)/Math.log(base));const unit=sizes[i];if(unit===void 0){throw new Error("Bytes is too large to convert to a human-re\
 adable string")}return`${(bytes/base**i).toFixed(1)} ${unit}`};var emojiMap_default={"100":"\u{1F4AF}","1234":"\u{1F522}",interrobang:"\u2049\uFE0F",tm:"\u2122\uFE0F",information_source:"\u2139\uFE0F",left_right_arrow:"\u2194\uFE0F",arrow_up_down:"\u2195\uFE0F",arrow_upper_left:"\
@@ -3669,20 +3671,22 @@ fragment OrgRepoInfo on Repository {
 }`);var fetcher2=createGraphQLFetcher(GetOrganizationDocument,"token");var urlExample="/api/org?org=ORG_NAME";var ORGANIZATION_ERROR="Something went wrong while trying to retrieve the organization data us\
 ing the GraphQL API.";var MAX_REPO_PAGES=5;var topLanguage=repos=>{const counts=new Map;for(const{primaryLanguage}of repos){if(primaryLanguage){const seen=counts.get(primaryLanguage.name);counts.set(primaryLanguage.
 name,{color:primaryLanguage.color,count:(seen?.count??0)+1})}}let top=null;let max=0;for(const[name,{color,count}]of counts){if(count>max){max=count;top={name,color}}}return top};var onlyMembersForbidden=errors=>errors.
-every(error2=>error2.type==="FORBIDDEN"&&error2.path?.at(-1)==="membersWithRole");var fetchOrganization=async({org:org2},config2)=>{if(!org2){throw CardError.missingParam(["org"],urlExample)}if(!GITHUB_USERNAME_PATTERN.
-test(org2)){throw new CardError("Invalid organization provided.",{code:"invalid_param",param:"org"})}const repos=[];let organization;let after=null;let pages=0;let membersForbidden=false;do{const res=await retryer(
-fetcher2,{login:org2,after},config2);if(res.data.errors){if(res.data.errors[0]?.type==="NOT_FOUND"){throw new CardError("Organization not found",{code:"not_found",secondaryMessage:ORGANIZATION_NOT_FOUND})}
-if(!onlyMembersForbidden(res.data.errors)){throw graphqlError(res.data.errors,res.statusText,ORGANIZATION_ERROR)}logger.log(res.data.errors[0]?.message);membersForbidden=true}organization=res.data.data.
-organization??void 0;if(!organization){throw new CardError("Organization not found",{code:"not_found",secondaryMessage:ORGANIZATION_NOT_FOUND})}repos.push(...(organization.repositories.nodes??[]).filter(
-node=>node!==null));const{hasNextPage,endCursor}=organization.repositories.pageInfo;after=hasNextPage?endCursor:null;pages+=1}while(after!==null&&pages<MAX_REPO_PAGES);const sum=count=>repos.reduce((total,repo)=>total+
-count(repo),0);return{login:organization.login,name:organization.name||organization.login,description:organization.description,createdAt:organization.createdAt,publicRepos:organization.repositories.totalCount,
-totalStars:sum(repo=>repo.stargazerCount),totalForks:sum(repo=>repo.forkCount),totalWatchers:sum(repo=>repo.watchers.totalCount),openIssues:sum(repo=>repo.issues.totalCount),openPRs:sum(repo=>repo.pullRequests.
-totalCount),totalReleases:sum(repo=>repo.releases.totalCount),totalCommits:sum(repo=>{const target=repo.defaultBranchRef?.target;return target!==null&&target!==void 0&&"history"in target?target.history.
-totalCount:0}),publicMembers:membersForbidden?null:organization.membersWithRole.totalCount,topLanguage:topLanguage(repos),truncated:after!==null}};var orgQuery=object({org:usernameParam,hide:listParam,show:listParam,show_icons:booleanParam,hide_title:booleanParam,hide_border:booleanParam,hide_description:booleanParam,card_width:looseIntParam,line_height:rawParam,
+every(error2=>error2.type==="FORBIDDEN"&&error2.path?.at(-1)==="membersWithRole");var fetchOrganization=async({org:org2,require_members=false},config2)=>{if(!org2){throw CardError.missingParam(["org"],
+urlExample)}if(!GITHUB_USERNAME_PATTERN.test(org2)){throw new CardError("Invalid organization provided.",{code:"invalid_param",param:"org"})}const repos=[];let organization;let after=null;let pages=0;
+let membersForbidden=false;do{const res=await retryer(fetcher2,{login:org2,after},config2);if(res.data.errors){if(res.data.errors[0]?.type==="NOT_FOUND"){throw new CardError("Organization not found",{
+code:"not_found",secondaryMessage:ORGANIZATION_NOT_FOUND})}if(!onlyMembersForbidden(res.data.errors)){throw graphqlError(res.data.errors,res.statusText,ORGANIZATION_ERROR)}if(require_members){throw CardError.
+forbidden(MEMBERS_FORBIDDEN)}if(!membersForbidden){logger.error(`Member count dropped: this token may not read the members of ${org2}. Grant it the organization \`Members\` permission to draw that row. \
+GitHub said: ${res.data.errors[0]?.message??"Forbidden"}`)}membersForbidden=true}organization=res.data.data.organization??void 0;if(!organization){throw new CardError("Organization not found",{code:"n\
+ot_found",secondaryMessage:ORGANIZATION_NOT_FOUND})}repos.push(...(organization.repositories.nodes??[]).filter(node=>node!==null));const{hasNextPage,endCursor}=organization.repositories.pageInfo;after=
+hasNextPage?endCursor:null;pages+=1}while(after!==null&&pages<MAX_REPO_PAGES);const sum=count=>repos.reduce((total,repo)=>total+count(repo),0);return{login:organization.login,name:organization.name||organization.
+login,description:organization.description,createdAt:organization.createdAt,publicRepos:organization.repositories.totalCount,totalStars:sum(repo=>repo.stargazerCount),totalForks:sum(repo=>repo.forkCount),
+totalWatchers:sum(repo=>repo.watchers.totalCount),openIssues:sum(repo=>repo.issues.totalCount),openPRs:sum(repo=>repo.pullRequests.totalCount),totalReleases:sum(repo=>repo.releases.totalCount),totalCommits:sum(
+repo=>{const target=repo.defaultBranchRef?.target;return target!==null&&target!==void 0&&"history"in target?target.history.totalCount:0}),publicMembers:membersForbidden?null:organization.membersWithRole.
+totalCount,topLanguage:topLanguage(repos),truncated:after!==null}};var orgQuery=object({org:usernameParam,hide:listParam,show:listParam,show_icons:booleanParam,hide_title:booleanParam,hide_border:booleanParam,hide_description:booleanParam,card_width:looseIntParam,line_height:rawParam,
 custom_title:rawParam,disable_animations:booleanParam,number_format:rawParam,text_bold:booleanParam,locale:localeParam,border_radius:numberParam});var renderOrg=cardHandler(orgQuery,{org:"username"},async({
 org:org2,hide:hide2,show,show_icons,hide_title,hide_border,hide_description,card_width,line_height,custom_title,disable_animations,number_format,text_bold,locale,border_radius},colors,config2)=>{const organizationData=await fetchOrganization(
-{org:org2},config2);return renderOrganizationCard(organizationData,{...colors,hide:hide2,show,show_icons,hide_title,hide_border,hide_description,card_width,line_height,custom_title,disable_animations,
-number_format,text_bold,locale,border_radius})});var org=Object.assign(renderOrg,{OPTIONS:renderOrganizationCard.OPTIONS});var orgActivityCardLocales=defineLocales({title:{en:`{name}'{apostrophe} organization activity`},titleUnnamed:{en:"Organization activity"},lastDays:{en:{one:"last {count} day",other:"last {count} days"}},
+{org:org2,require_members:show.includes("members")},config2);return renderOrganizationCard(organizationData,{...colors,hide:hide2,show,show_icons,hide_title,hide_border,hide_description,card_width,line_height,
+custom_title,disable_animations,number_format,text_bold,locale,border_radius})});var org=Object.assign(renderOrg,{OPTIONS:renderOrganizationCard.OPTIONS});var orgActivityCardLocales=defineLocales({title:{en:`{name}'{apostrophe} organization activity`},titleUnnamed:{en:"Organization activity"},lastDays:{en:{one:"last {count} day",other:"last {count} days"}},
 prsOpened:{en:"PRs opened"},prsMerged:{en:"PRs merged"},issuesOpened:{en:"Issues opened"},issuesClosed:{en:"Issues closed"},discussions:{en:"Discussions opened"},commits:{en:"Commits"}});var CARD_DEFAULT_WIDTH4=CARD_WIDTH.wide;var CARD_PADDING_X2=25;var STAT_ROW_X2=25;var LABEL_X_OFFSET2=25;var LABEL_VALUE_GAP2=16;var TITLE_FONT_SIZE2=FONT_SIZE.title;var TITLE_ICON_COLUMN2=25;var SHOW_STATS2=[
 "discussions","commits"];var HIDE_STATS2=["prs_opened","prs_merged","issues_opened","issues_closed"];var defaultTitleFor2=(t,name,days,contentWidth)=>{const window=` (${t.lastDays({count:days})})`;const apostrophe=/s$/i.
 test(name.trim())?"":"s";const named=`${t.title({name,apostrophe})}${window}`;return measureText(named,TITLE_FONT_SIZE2)<=contentWidth?named:`${t.titleUnnamed()}${window}`};var getStyles2=({textColor,
@@ -3691,17 +3695,18 @@ s"}),rule(".not_bold",{"font-weight":FONT_WEIGHT.regular,opacity:.75}),rule(".bo
 var renderCard2=(data,options={})=>{const{name,days,prsOpened,prsMerged,issuesOpened,issuesClosed,discussionsOpened,commits}=data;const{hide:hide2=[],show=[],show_icons=true,hide_title=false,hide_border=false,
 card_width,line_height=25,text_bold=true,custom_title,border_radius,number_format="short",locale,disable_animations=false}=options;const lheight=Number.parseInt(String(line_height),10);const{lightColors,
 darkColors}=getLightDarkColors(options);const shows=stat2=>show.includes(stat2);const t=localize(orgActivityCardLocales,locale);const STATS={prs_opened:{icon:icons.prs,label:t.prsOpened(),value:prsOpened,
-id:"prs_opened"},prs_merged:{icon:icons.prs_merged,label:t.prsMerged(),value:prsMerged,id:"prs_merged"},issues_opened:{icon:icons.issues,label:t.issuesOpened(),value:issuesOpened,id:"issues_opened"},issues_closed:{
-icon:icons.discussions_answered,label:t.issuesClosed(),value:issuesClosed,id:"issues_closed"}};if(shows("discussions")){STATS["discussions"]={icon:icons.discussions_started,label:t.discussions(),value:discussionsOpened,
-id:"discussions"}}if(shows("commits")&&commits!==null){STATS["commits"]={icon:icons.commits,label:t.commits(),value:commits,id:"commits"}}const visibleStats=Object.entries(STATS).filter(([key])=>!hide2.
-includes(key));if(visibleStats.length===0){throw new CardError("Could not render organization activity card.",{code:"invalid_param",secondaryMessage:"At least one stat is required."})}const width=card_width&&
-!Number.isNaN(card_width)?card_width:CARD_DEFAULT_WIDTH4;const height=45+(visibleStats.length+1)*lheight;const widestLabel=Math.max(...visibleStats.map(([,stat2])=>measureText(`${stat2.label}:`,FONT_SIZE.
-body)));const valueAnchorX=Math.round(Math.max(width-CARD_PADDING_X2-STAT_ROW_X2,(show_icons?LABEL_X_OFFSET2:0)+widestLabel+LABEL_VALUE_GAP2));const statItems=visibleStats.map(([,stat2],index)=>createTextNode(
-{icon:stat2.icon,label:stat2.label,value:stat2.value,id:stat2.id,index,showIcons:show_icons,shiftValuePos:0,valueAnchorX,bold:text_bold,labelBold:false,numberFormat:number_format}));const card=new Card(
-{customTitle:custom_title,defaultTitle:defaultTitleFor2(t,name,days,width-2*CARD_PADDING_X2-TITLE_ICON_COLUMN2),titlePrefixIcon:CARD_ICON.orgActivity,width,height,border_radius,colors:{light:lightColors,
-dark:darkColors}});card.setHideBorder(hide_border);card.setHideTitle(hide_title);const cardStyles=({textColor,iconColor})=>getStyles2({textColor,iconColor,show_icons});card.setCSS({light:cardStyles,dark:cardStyles});
-if(disable_animations){card.disableAnimations()}card.setAccessibilityLabel({title:card.title,desc:visibleStats.map(([,stat2])=>`${stat2.label}: ${String(stat2.value)}`).join(", ")});return card.render(
-flexLayout({items:statItems,gap:lheight,direction:"column"}))};var renderOrgActivityCard=Object.assign(renderCard2,{OPTIONS:{show:SHOW_STATS2,hide:HIDE_STATS2,number_format:NUMBER_FORMATS}});var GetOrganizationActivityDocument=graphqlDocument(`
+id:"prs_opened"},prs_merged:{icon:icons.prs_merged,label:t.prsMerged(),value:prsMerged,id:"prs_merged"}};if(issuesOpened!==null){STATS["issues_opened"]={icon:icons.issues,label:t.issuesOpened(),value:issuesOpened,
+id:"issues_opened"}}if(issuesClosed!==null){STATS["issues_closed"]={icon:icons.discussions_answered,label:t.issuesClosed(),value:issuesClosed,id:"issues_closed"}}if(shows("discussions")){STATS["discus\
+sions"]={icon:icons.discussions_started,label:t.discussions(),value:discussionsOpened,id:"discussions"}}if(shows("commits")&&commits!==null){STATS["commits"]={icon:icons.commits,label:t.commits(),value:commits,
+id:"commits"}}const visibleStats=Object.entries(STATS).filter(([key])=>!hide2.includes(key));if(visibleStats.length===0){throw new CardError("Could not render organization activity card.",{code:"inval\
+id_param",secondaryMessage:"At least one stat is required."})}const width=card_width&&!Number.isNaN(card_width)?card_width:CARD_DEFAULT_WIDTH4;const height=45+(visibleStats.length+1)*lheight;const widestLabel=Math.
+max(...visibleStats.map(([,stat2])=>measureText(`${stat2.label}:`,FONT_SIZE.body)));const valueAnchorX=Math.round(Math.max(width-CARD_PADDING_X2-STAT_ROW_X2,(show_icons?LABEL_X_OFFSET2:0)+widestLabel+
+LABEL_VALUE_GAP2));const statItems=visibleStats.map(([,stat2],index)=>createTextNode({icon:stat2.icon,label:stat2.label,value:stat2.value,id:stat2.id,index,showIcons:show_icons,shiftValuePos:0,valueAnchorX,
+bold:text_bold,labelBold:false,numberFormat:number_format}));const card=new Card({customTitle:custom_title,defaultTitle:defaultTitleFor2(t,name,days,width-2*CARD_PADDING_X2-TITLE_ICON_COLUMN2),titlePrefixIcon:CARD_ICON.
+orgActivity,width,height,border_radius,colors:{light:lightColors,dark:darkColors}});card.setHideBorder(hide_border);card.setHideTitle(hide_title);const cardStyles=({textColor,iconColor})=>getStyles2({
+textColor,iconColor,show_icons});card.setCSS({light:cardStyles,dark:cardStyles});if(disable_animations){card.disableAnimations()}card.setAccessibilityLabel({title:card.title,desc:visibleStats.map(([,stat2])=>`${stat2.
+label}: ${String(stat2.value)}`).join(", ")});return card.render(flexLayout({items:statItems,gap:lheight,direction:"column"}))};var renderOrgActivityCard=Object.assign(renderCard2,{OPTIONS:{show:SHOW_STATS2,
+hide:HIDE_STATS2,number_format:NUMBER_FORMATS}});var GetOrganizationActivityDocument=graphqlDocument(`
 query getOrganizationActivity($login: String!, $prsOpened: String!, $prsMerged: String!, $issuesOpened: String!, $issuesClosed: String!, $discussions: String!) {
   organization(login: $login) {
     login
@@ -3713,32 +3718,42 @@ query getOrganizationActivity($login: String!, $prsOpened: String!, $prsMerged: 
   prsMerged: search(query: $prsMerged, type: ISSUE) {
     issueCount
   }
-  issuesOpened: search(query: $issuesOpened, type: ISSUE) {
+  issuesOpened: search(query: $issuesOpened, type: ISSUE, first: 1) {
     issueCount
+    nodes {
+      __typename
+    }
   }
-  issuesClosed: search(query: $issuesClosed, type: ISSUE) {
+  issuesClosed: search(query: $issuesClosed, type: ISSUE, first: 1) {
     issueCount
+    nodes {
+      __typename
+    }
   }
   discussions: search(query: $discussions, type: DISCUSSION) {
     discussionCount
   }
 }`);var fetcher3=createGraphQLFetcher(GetOrganizationActivityDocument,"token");var urlExample2="/api/org-activity?org=ORG_NAME";var ORGANIZATION_ACTIVITY_ERROR="Something went wrong while trying to retrie\
 ve the organization activity using the GraphQL API.";var MS_PER_DAY2=24*60*60*1e3;var DEFAULT_DAYS=30;var MAX_DAYS=365;var lastDays=days=>{const now=new Date;const to=new Date(Date.UTC(now.getUTCFullYear(),
-now.getUTCMonth(),now.getUTCDate()));return{from:new Date(to.getTime()-(days-1)*MS_PER_DAY2),to}};var fetchCommitCount=({org:org2,range},token,{fetch:fetch2})=>{const query=`org:${org2}+author-date:${toSearchDate(
-range.from)}..${toSearchDate(range.to)}`;return httpRequest(fetch2,`https://api.github.com/search/commits?per_page=1&q=${query}`,{method:"GET",headers:{"Content-Type":"application/json",Accept:"applic\
-ation/vnd.github.cloak-preview",Authorization:`token ${token}`}})};var fetchOrgActivity=async({org:org2,days,include_commits=false},config2)=>{if(!org2){throw CardError.missingParam(["org"],urlExample2)}
-if(!GITHUB_USERNAME_PATTERN.test(org2)){throw new CardError("Invalid organization provided.",{code:"invalid_param",param:"org"})}const window=days!==void 0&&Number.isFinite(days)?clampValue(days,1,MAX_DAYS):
-DEFAULT_DAYS;const range=lastDays(window);const within=`${toSearchDate(range.from)}..${toSearchDate(range.to)}`;const scope=`org:${org2}`;const res=await retryer(fetcher3,{login:org2,prsOpened:`${scope}\
- is:pr created:${within}`,prsMerged:`${scope} is:pr merged:${within}`,issuesOpened:`${scope} is:issue created:${within}`,issuesClosed:`${scope} is:issue closed:${within}`,discussions:`${scope} created\
-:${within}`},config2);if(res.data.errors){if(res.data.errors[0]?.type==="NOT_FOUND"){throw new CardError("Organization not found",{code:"not_found",secondaryMessage:ORGANIZATION_NOT_FOUND})}throw graphqlError(
-res.data.errors,res.statusText,ORGANIZATION_ACTIVITY_ERROR)}const{data}=res.data;if(!data.organization){throw new CardError("Organization not found",{code:"not_found",secondaryMessage:ORGANIZATION_NOT_FOUND})}
-let commits=null;if(include_commits){const commitRes=await retryer(fetchCommitCount,{org:org2,range},config2);const total=commitRes.data.total_count;if(typeof total==="number"){commits=total}else{logger.
-error(`GitHub error: ${JSON.stringify(commitRes.data)}`)}}return{login:data.organization.login,name:data.organization.name||data.organization.login,range,days:window,prsOpened:data.prsOpened.issueCount,
-prsMerged:data.prsMerged.issueCount,issuesOpened:data.issuesOpened.issueCount,issuesClosed:data.issuesClosed.issueCount,discussionsOpened:data.discussions.discussionCount,commits}};var orgActivityQuery=object({org:usernameParam,days:looseIntParam,hide:listParam,show:listParam,show_icons:booleanParam,hide_title:booleanParam,hide_border:booleanParam,card_width:looseIntParam,line_height:rawParam,
+now.getUTCMonth(),now.getUTCDate()));return{from:new Date(to.getTime()-(days-1)*MS_PER_DAY2),to}};var issuesRefused=(...searches)=>searches.some(search=>search.issueCount>0&&search.nodes?.[0]?.__typename!==
+"Issue");var fetchCommitCount=({org:org2,range},token,{fetch:fetch2})=>{const query=`org:${org2}+author-date:${toSearchDate(range.from)}..${toSearchDate(range.to)}`;return httpRequest(fetch2,`https://\
+api.github.com/search/commits?per_page=1&q=${query}`,{method:"GET",headers:{"Content-Type":"application/json",Accept:"application/vnd.github.cloak-preview",Authorization:`token ${token}`}})};var fetchOrgActivity=async({
+org:org2,days,include_commits=false,require_issues=true},config2)=>{if(!org2){throw CardError.missingParam(["org"],urlExample2)}if(!GITHUB_USERNAME_PATTERN.test(org2)){throw new CardError("Invalid org\
+anization provided.",{code:"invalid_param",param:"org"})}const window=days!==void 0&&Number.isFinite(days)?clampValue(days,1,MAX_DAYS):DEFAULT_DAYS;const range=lastDays(window);const within=`${toSearchDate(
+range.from)}..${toSearchDate(range.to)}`;const scope=`org:${org2}`;const res=await retryer(fetcher3,{login:org2,prsOpened:`${scope} is:pr created:${within}`,prsMerged:`${scope} is:pr merged:${within}`,
+issuesOpened:`${scope} is:issue created:${within}`,issuesClosed:`${scope} is:issue closed:${within}`,discussions:`${scope} created:${within}`},config2);if(res.data.errors){if(res.data.errors[0]?.type===
+"NOT_FOUND"){throw new CardError("Organization not found",{code:"not_found",secondaryMessage:ORGANIZATION_NOT_FOUND})}throw graphqlError(res.data.errors,res.statusText,ORGANIZATION_ACTIVITY_ERROR)}const{
+data}=res.data;if(!data.organization){throw new CardError("Organization not found",{code:"not_found",secondaryMessage:ORGANIZATION_NOT_FOUND})}const issuesUnavailable=issuesRefused(data.issuesOpened,data.
+issuesClosed);if(issuesUnavailable){if(require_issues){throw CardError.forbidden(ISSUES_FORBIDDEN)}logger.error(`Issue counts dropped: this token may not read issues, so GitHub answered the issue sear\
+ches for ${org2} with pull requests. Grant the token read access to issues to draw those two rows.`)}let commits=null;if(include_commits){const commitRes=await retryer(fetchCommitCount,{org:org2,range},
+config2);const total=commitRes.data.total_count;if(typeof total==="number"){commits=total}else{logger.error(`GitHub error: ${JSON.stringify(commitRes.data)}`)}}return{login:data.organization.login,name:data.
+organization.name||data.organization.login,range,days:window,prsOpened:data.prsOpened.issueCount,prsMerged:data.prsMerged.issueCount,issuesOpened:issuesUnavailable?null:data.issuesOpened.issueCount,issuesClosed:issuesUnavailable?
+null:data.issuesClosed.issueCount,discussionsOpened:data.discussions.discussionCount,commits}};var orgActivityQuery=object({org:usernameParam,days:looseIntParam,hide:listParam,show:listParam,show_icons:booleanParam,hide_title:booleanParam,hide_border:booleanParam,card_width:looseIntParam,line_height:rawParam,
 custom_title:rawParam,disable_animations:booleanParam,number_format:rawParam,text_bold:booleanParam,locale:localeParam,border_radius:numberParam});var renderOrgActivity=cardHandler(orgActivityQuery,{org:"\
 username"},async({org:org2,days,hide:hide2,show,show_icons,hide_title,hide_border,card_width,line_height,custom_title,disable_animations,number_format,text_bold,locale,border_radius},colors,config2)=>{
-const data=await fetchOrgActivity({org:org2,days,include_commits:show.includes("commits")},config2);return renderOrgActivityCard(data,{...colors,hide:hide2,show,show_icons,hide_title,hide_border,card_width,
-line_height,custom_title,disable_animations,number_format,text_bold,locale,border_radius})});var orgActivity=Object.assign(renderOrgActivity,{OPTIONS:renderOrgActivityCard.OPTIONS});var repoCardLocales=defineLocales({noDescription:{en:"No description provided"},unspecifiedLanguage:{en:"Unspecified"},template:{en:"Template",ar:"\u0642\u0627\u0644\u0628",az:"\u015Eablon",bg:"\u0428\u0430\u0431\u043B\u043E\u043D",
+const data=await fetchOrgActivity({org:org2,days,include_commits:show.includes("commits"),require_issues:!hide2.includes("issues_opened")||!hide2.includes("issues_closed")},config2);return renderOrgActivityCard(
+data,{...colors,hide:hide2,show,show_icons,hide_title,hide_border,card_width,line_height,custom_title,disable_animations,number_format,text_bold,locale,border_radius})});var orgActivity=Object.assign(
+renderOrgActivity,{OPTIONS:renderOrgActivityCard.OPTIONS});var repoCardLocales=defineLocales({noDescription:{en:"No description provided"},unspecifiedLanguage:{en:"Unspecified"},template:{en:"Template",ar:"\u0642\u0627\u0644\u0628",az:"\u015Eablon",bg:"\u0428\u0430\u0431\u043B\u043E\u043D",
 bn:"\u099F\u09C7\u09AE\u09AA\u09CD\u09B2\u09C7\u099F",ca:"Plantilla",cn:"\u6A21\u677F","zh-tw":"\u6A21\u677F",cs:"\u0160ablona",de:"Vorlage",sw:"Kigezo",ur:"\u0633\u0627\u0646\u0686\u06C1",es:"Plantil\
 la",fa:"\u0627\u0644\u06AF\u0648",fi:"Malli",fr:"Mod\xE8le",hi:"\u0916\u093E\u0915\u093E",sa:"\u092A\u094D\u0930\u093E\u0930\u0942\u092A\u092E\u094D",hu:"Sablon",it:"Template",ja:"\u30C6\u30F3\u30D7\u30EC\u30FC\u30C8",
 kr:"\uD15C\uD50C\uB9BF",nl:"Sjabloon","pt-pt":"Modelo","pt-br":"Modelo",np:"\u091F\u0947\u092E\u094D\u092A\u0932\u0947\u091F",el:"\u03A0\u03C1\u03CC\u03C4\u03C5\u03C0\u03BF",ro:"\u0218ablon",ru:"\u0428\u0430\u0431\u043B\u043E\
