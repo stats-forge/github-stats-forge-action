@@ -72,4 +72,26 @@ describe(parseOptions, () => {
   it('rejects malformed JSON instead of parsing it as a query string', () => {
     expect(() => parseOptions('{"username": octocat}')).toThrow('Invalid JSON in options.');
   });
+
+  it('rejects a nested object, which would have rendered as [object Object]', () => {
+    expect(() => parseOptions('{"theme":{"bg":"dark"}}')).toThrow(
+      'Option `theme` must be text, a number, a boolean, or a list of those.',
+    );
+  });
+
+  it('rejects a list of objects, flattened just as silently', () => {
+    expect(() => parseOptions('{"hide":[{"a":1}]}')).toThrow(
+      'Option `hide` must be text, a number, a boolean, or a list of those.',
+    );
+  });
+
+  it('rejects a null inside a list, which would have joined as an empty entry', () => {
+    expect(() => parseOptions('{"hide":["stars",null]}')).toThrow(
+      'Option `hide` must be text, a number, a boolean, or a list of those.',
+    );
+  });
+
+  it('rejects a top-level array instead of reading it as one long query key', () => {
+    expect(() => parseOptions('["stars","issues"]')).toThrow('Options must be a JSON object.');
+  });
 });

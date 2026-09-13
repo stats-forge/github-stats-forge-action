@@ -4465,17 +4465,19 @@ env["FETCH_MULTI_PAGE_STARS"])})}isAllowed(id,kind){const list=kind==="gist"?thi
 wanted)}with(overrides){return new _CardConfig({pats:this.pats,usernameAllowlist:this.usernameAllowlist,gistAllowlist:this.gistAllowlist,excludeRepositories:this.excludeRepositories,fetchMultiPageStars:this.
 fetchMultiPageStars,fetch:this.fetch,...overrides})}};var FETCH_FAILURES=new Set(["rate_limited","upstream"]);var defineCard=(handler,requires)=>({handler,requires,account:Object.keys(handler.IDENTITIES).find(param=>handler.IDENTITIES[param]==="username")});
 var CARDS={stats:defineCard(stats,"username"),"top-langs":defineCard(topLangs,"username"),pin:defineCard(pin,"repo"),wakatime:defineCard(wakatime,"username"),gist:defineCard(gist,"id"),"contributed-to":defineCard(
-contributedTo,"username"),org:defineCard(org,"org"),"org-activity":defineCard(orgActivity,"org")};var isCardName=value=>Object.hasOwn(CARDS,value);var parseOptions=value=>{const trimmed=value.trim();if(!trimmed){
-return{}}if(trimmed.startsWith("{")){let parsed;try{parsed=JSON.parse(trimmed)}catch{throw new Error("Invalid JSON in options.")}if(typeof parsed!=="object"||parsed===null){throw new Error("Invalid JS\
-ON in options.")}return Object.fromEntries(Object.entries(parsed).filter(([,entry])=>entry!==null&&entry!==void 0).map(([key,entry])=>[key,Array.isArray(entry)?entry.join(","):String(entry)]))}const params=new URLSearchParams(
-trimmed);return Object.fromEntries([...new Set(params.keys())].map(key=>[key,params.getAll(key).join(",")]))};var resolveCard=(card,options)=>{if(!isCardName(card)){throw new Error(`Unsupported card t\
-ype: ${card}. Expected one of ${Object.keys(CARDS).join(", ")}.`)}const definition=CARDS[card];if(!options[definition.requires]){throw new Error(`${definition.requires} is required for the ${card} car\
-d.`)}return definition};var run=async()=>{const card=getInput("card",{required:true}).toLowerCase();const options=parseOptions(getInput("options"));const repositoryOwner=process.env["GITHUB_REPOSITORY\
-_OWNER"];const account=isCardName(card)?CARDS[card].account:void 0;if(account&&!options[account]&&repositoryOwner){options[account]=repositoryOwner;warning(`${account} not provided; defaulting to repo\
-sitory owner.`)}const{handler}=resolveCard(card,options);const token=getInput("token");const config2=new CardConfig({pats:token?[{name:"action input `token`",value:token}]:[]});const result=await handler(
-options,config2);if(result.status==="error"){throw new Error(FETCH_FAILURES.has(result.error.code)?`Card generation failed while fetching data: ${result.error.message}`:`Card generation failed: ${result.
-error.message}`)}if(!result.content){throw new Error("Card renderer returned empty output.")}const outputPath=getInput("path")||path.join("profile",`${card}.svg`);const resolved=path.resolve(process.cwd(),
-outputPath);await mkdir2(path.dirname(resolved),{recursive:true});await writeFile2(resolved,result.content,"utf8");info(`Wrote ${resolved}`);setOutput("path",outputPath)};try{await run()}catch(error2){setFailed(error2 instanceof Error?error2.message:String(error2))}
+contributedTo,"username"),org:defineCard(org,"org"),"org-activity":defineCard(orgActivity,"org")};var isCardName=value=>Object.hasOwn(CARDS,value);var isScalar=entry=>typeof entry==="string"||typeof entry===
+"number"||typeof entry==="boolean";var flattenOption=(key,entry)=>{const values=Array.isArray(entry)?entry:[entry];if(!values.every(value=>isScalar(value))){throw new Error(`Option \`${key}\` must be t\
+ext, a number, a boolean, or a list of those.`)}return values.join(",")};var parseOptions=value=>{const trimmed=value.trim();if(!trimmed){return{}}if(trimmed.startsWith("{")||trimmed.startsWith("[")){
+let parsed;try{parsed=JSON.parse(trimmed)}catch{throw new Error("Invalid JSON in options.")}if(typeof parsed!=="object"||parsed===null||Array.isArray(parsed)){throw new Error("Options must be a JSON o\
+bject.")}return Object.fromEntries(Object.entries(parsed).filter(([,entry])=>entry!==null&&entry!==void 0).map(([key,entry])=>[key,flattenOption(key,entry)]))}const params=new URLSearchParams(trimmed);
+return Object.fromEntries([...new Set(params.keys())].map(key=>[key,params.getAll(key).join(",")]))};var resolveCard=(card,options)=>{if(!isCardName(card)){throw new Error(`Unsupported card type: ${card}\
+. Expected one of ${Object.keys(CARDS).join(", ")}.`)}const definition=CARDS[card];if(!options[definition.requires]){throw new Error(`${definition.requires} is required for the ${card} card.`)}return definition};
+var run=async()=>{const card=getInput("card",{required:true}).toLowerCase();const options=parseOptions(getInput("options"));const repositoryOwner=process.env["GITHUB_REPOSITORY_OWNER"];const account=isCardName(
+card)?CARDS[card].account:void 0;if(account&&!options[account]&&repositoryOwner){options[account]=repositoryOwner;warning(`${account} not provided; defaulting to repository owner.`)}const{handler}=resolveCard(
+card,options);const token=getInput("token");const config2=new CardConfig({pats:token?[{name:"action input `token`",value:token}]:[]});const result=await handler(options,config2);if(result.status==="er\
+ror"){throw new Error(FETCH_FAILURES.has(result.error.code)?`Card generation failed while fetching data: ${result.error.message}`:`Card generation failed: ${result.error.message}`)}if(!result.content){
+throw new Error("Card renderer returned empty output.")}const outputPath=getInput("path")||path.join("profile",`${card}.svg`);const resolved=path.resolve(process.cwd(),outputPath);await mkdir2(path.dirname(
+resolved),{recursive:true});await writeFile2(resolved,result.content,"utf8");info(`Wrote ${resolved}`);setOutput("path",outputPath)};try{await run()}catch(error2){setFailed(error2 instanceof Error?error2.message:String(error2))}
 /*! Bundled license information:
 
 undici/lib/web/fetch/body.js:

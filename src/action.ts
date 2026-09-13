@@ -62,12 +62,31 @@ type CardName = keyof typeof CARDS;
 
 const isCardName = (value: string): value is CardName => Object.hasOwn(CARDS, value);
 
+const isScalar = (entry: unknown): entry is string | number | boolean =>
+  typeof entry === 'string' || typeof entry === 'number' || typeof entry === 'boolean';
+
+/**
+ * @param key The option the value was given for, named so the error can point at it.
+ * @param entry One JSON value from the options object.
+ * @returns The value as the renderer takes it, a list joined on commas.
+ * @throws {Error} If the value is a nested object or array, which `String` would
+ *         flatten to `[object Object]` and send as if it were a real option.
+ */
+const flattenOption = (key: string, entry: unknown): string => {
+  const values = Array.isArray(entry) ? entry : [entry];
+  if (!values.every((value) => isScalar(value))) {
+    throw new Error(`Option \`${key}\` must be text, a number, a boolean, or a list of those.`);
+  }
+  return values.join(',');
+};
+
 /**
  * Parse the `options` input, either a query string or a JSON object.
  *
  * @param value Raw `options` input.
  * @returns Parsed options, every value a string.
- * @throws {Error} If the value starts with `{` but is not valid JSON.
+ * @throws {Error} If the value opens as JSON but is not an object of values a
+ *         card option can carry.
  */
 export const parseOptions = (value: string): Record<string, string> => {
   const trimmed = value.trim();
@@ -75,20 +94,22 @@ export const parseOptions = (value: string): Record<string, string> => {
     return {};
   }
 
-  if (trimmed.startsWith('{')) {
+  // `[` is caught here rather than left to the query string, where it would
+  // become a key nobody typed.
+  if (trimmed.startsWith('{') || trimmed.startsWith('[')) {
     let parsed: unknown;
     try {
       parsed = JSON.parse(trimmed);
     } catch {
       throw new Error('Invalid JSON in options.');
     }
-    if (typeof parsed !== 'object' || parsed === null) {
-      throw new Error('Invalid JSON in options.');
+    if (typeof parsed !== 'object' || parsed === null || Array.isArray(parsed)) {
+      throw new Error('Options must be a JSON object.');
     }
     return Object.fromEntries(
       Object.entries(parsed)
         .filter(([, entry]) => entry !== null && entry !== undefined)
-        .map(([key, entry]) => [key, Array.isArray(entry) ? entry.join(',') : String(entry)]),
+        .map(([key, entry]) => [key, flattenOption(key, entry)]),
     );
   }
 
