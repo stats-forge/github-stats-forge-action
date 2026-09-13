@@ -78,7 +78,7 @@ Rendering in your own Actions run spends your own token budget, fails loudly in 
 | `path`    | no       | `profile/<card>.svg` | Output path, including the filename.                                                                                                 |
 | `token`   | no       | `github.token`       | GitHub token (PAT or `GITHUB_TOKEN`). For private repo stats use a PAT with `repo` and `read:user`; for any gist, a PAT with `gist`. |
 
-The account option defaults to the repository owner when omitted: `org` for the org and org-activity cards, `username` for the rest.
+The account option defaults to the repository owner when omitted: `org` for the org and org-activity cards, `username` for the rest. The `gist` and `wakatime` cards are excluded: a gist is keyed on its id, and a WakaTime username is not a GitHub login.
 
 `token` defaults to the workflow's `github.token`, which is enough for public data.
 A card covering private repositories, or a gist, needs a PAT passed explicitly.

@@ -16,6 +16,30 @@ describe(resolveCard, () => {
     expect(resolveCard(card, options)).toBeDefined();
   });
 
+  it.each([
+    ['stats', { username: 'octocat' }, 'username'],
+    ['top-langs', { username: 'octocat' }, 'username'],
+    ['pin', { repo: 'github-stats-forge' }, 'username'],
+    ['contributed-to', { username: 'octocat' }, 'username'],
+    ['org', { org: 'stats-forge' }, 'org'],
+    ['org-activity', { org: 'stats-forge' }, 'org'],
+  ])(
+    'reads the %s card account option off the identities core declares',
+    (card, options, account) => {
+      expect(resolveCard(card, options).account).toBe(account);
+    },
+  );
+
+  it.each([
+    ['gist', { id: 'bbfce31e0217a3689c8d' }],
+    ['wakatime', { username: 'octocat' }],
+  ])(
+    'leaves %s without one: core guards it by something other than a GitHub login',
+    (card, options) => {
+      expect(resolveCard(card, options).account).toBeUndefined();
+    },
+  );
+
   it('names the supported cards when given one it does not know', () => {
     expect(() => resolveCard('stat', { username: 'octocat' })).toThrow(
       'Unsupported card type: stat. Expected one of stats, top-langs, pin, wakatime, gist, contributed-to, org, org-activity.',

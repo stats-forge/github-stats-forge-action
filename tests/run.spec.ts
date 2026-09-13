@@ -172,62 +172,75 @@ describe(run, () => {
     );
   });
 
-  it('falls back to the repository owner, and says that it did', async () => {
-    mocks.inputs.set('options', '');
-    vi.stubEnv('GITHUB_REPOSITORY_OWNER', 'stats-forge');
+  describe('the repository-owner fallback', () => {
+    beforeEach(() => {
+      vi.stubEnv('GITHUB_REPOSITORY_OWNER', 'stats-forge');
+    });
 
-    await run();
+    it.each([
+      ['stats', 'stats', 'username'],
+      ['org', 'org', 'org'],
+      ['org-activity', 'orgActivity', 'org'],
+    ] as const)(
+      'fills the %s card account option, and says that it did',
+      async (card, handler, account) => {
+        mocks.inputs.set('card', card);
+        mocks.inputs.set('options', '');
 
-    expect(mocks.handlers.stats).toHaveBeenCalledWith(
-      { username: 'stats-forge' },
-      expect.anything(),
+        await run();
+
+        expect(mocks.handlers[handler]).toHaveBeenCalledWith(
+          { [account]: 'stats-forge' },
+          expect.anything(),
+        );
+        expect(mocks.core.warning).toHaveBeenCalledWith(
+          `${account} not provided; defaulting to repository owner.`,
+        );
+      },
     );
-    expect(mocks.core.warning).toHaveBeenCalledWith(
-      'username not provided; defaulting to repository owner.',
-    );
-  });
 
-  it('keeps an explicit username over the repository owner', async () => {
-    vi.stubEnv('GITHUB_REPOSITORY_OWNER', 'stats-forge');
+    it('keeps an explicit username over the repository owner', async () => {
+      await run();
 
-    await run();
+      expect(mocks.handlers.stats).toHaveBeenCalledWith({ username: 'octocat' }, expect.anything());
+      expect(mocks.core.warning).not.toHaveBeenCalled();
+    });
 
-    expect(mocks.handlers.stats).toHaveBeenCalledWith({ username: 'octocat' }, expect.anything());
-    expect(mocks.core.warning).not.toHaveBeenCalled();
-  });
+    it('does not hand the gist card a username it has no param for', async () => {
+      mocks.inputs.set('card', 'gist');
+      mocks.inputs.set('options', 'id=bbfce31e0217a3689c8d');
 
-  it('falls back to the repository owner for the org card, which is keyed on `org`', async () => {
-    mocks.inputs.set('card', 'org');
-    mocks.inputs.set('options', '');
-    vi.stubEnv('GITHUB_REPOSITORY_OWNER', 'stats-forge');
+      await run();
 
-    await run();
+      expect(mocks.handlers.gist).toHaveBeenCalledWith(
+        { id: 'bbfce31e0217a3689c8d' },
+        expect.anything(),
+      );
+      expect(mocks.core.warning).not.toHaveBeenCalled();
+    });
 
-    expect(mocks.handlers.org).toHaveBeenCalledWith({ org: 'stats-forge' }, expect.anything());
-    expect(mocks.core.warning).toHaveBeenCalledWith(
-      'org not provided; defaulting to repository owner.',
-    );
-  });
+    it('fails the gist card for a missing id, which a username does not stand in for', async () => {
+      mocks.inputs.set('card', 'gist');
+      mocks.inputs.set('options', 'username=octocat');
 
-  it('falls back to the repository owner for the org-activity card, also keyed on `org`', async () => {
-    mocks.inputs.set('card', 'org-activity');
-    mocks.inputs.set('options', '');
-    vi.stubEnv('GITHUB_REPOSITORY_OWNER', 'stats-forge');
+      await expect(run()).rejects.toThrow('id is required for the gist card.');
+      expect(mocks.handlers.gist).not.toHaveBeenCalled();
+    });
 
-    await run();
+    it('asks for the wakatime username rather than guessing it from the repository owner', async () => {
+      mocks.inputs.set('card', 'wakatime');
+      mocks.inputs.set('options', '');
 
-    expect(mocks.handlers.orgActivity).toHaveBeenCalledWith(
-      { org: 'stats-forge' },
-      expect.anything(),
-    );
-  });
+      await expect(run()).rejects.toThrow('username is required for the wakatime card.');
+      expect(mocks.handlers.wakatime).not.toHaveBeenCalled();
+    });
 
-  it('does not apply the owner fallback to a card that wants another option', async () => {
-    mocks.inputs.set('card', 'pin');
-    mocks.inputs.set('options', '');
-    vi.stubEnv('GITHUB_REPOSITORY_OWNER', 'stats-forge');
+    it('does not apply to a card that wants another option', async () => {
+      mocks.inputs.set('card', 'pin');
+      mocks.inputs.set('options', '');
 
-    await expect(run()).rejects.toThrow('repo is required for the pin card.');
+      await expect(run()).rejects.toThrow('repo is required for the pin card.');
+    });
   });
 
   it('rejects an unknown card before calling any handler', async () => {
