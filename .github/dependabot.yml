@@ -1,0 +1,25 @@
+version: 2
+
+updates:
+  # Keeps the pinned SHAs in `.github/workflows` current.
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: ci
+
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    # Conventional subjects, so release-please reads them.
+    commit-message:
+      prefix: chore
+      include: scope
+    # Dev only: a runtime bump rewrites `dist/`, which Dependabot cannot rebuild.
+    allow:
+      - dependency-type: development
+    groups:
+      dev-dependencies:
+        dependency-type: development
