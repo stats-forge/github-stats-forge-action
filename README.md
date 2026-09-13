@@ -88,7 +88,3 @@ The account option defaults to the repository owner: `org` for the org and org-a
 | Output | Description                                      |
 | ------ | ------------------------------------------------ |
 | `path` | Path the SVG was written to, as given in `path`. |
-
-## Contributing
-
-See [CONTRIBUTING.md](.github/CONTRIBUTING.md) for local development, the test layout, and why `dist/` is committed.
