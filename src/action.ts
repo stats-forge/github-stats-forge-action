@@ -2,14 +2,12 @@ import { mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
 import { getInput, info, setOutput, warning } from '@actions/core';
-// A build-time dependency.
-// esbuild bundles it into dist/index.js, so nothing installs at run time and the
-// action tag pins the version.
 import {
   CardConfig,
   contributedTo,
   gist,
   org,
+  orgActivity,
   pin,
   stats,
   topLangs,
@@ -34,6 +32,7 @@ const CARDS = {
   gist: { handler: gist, requires: 'id' },
   'contributed-to': { handler: contributedTo, requires: 'username' },
   org: { handler: org, requires: 'org' },
+  'org-activity': { handler: orgActivity, requires: 'org' },
 } satisfies Record<string, CardDefinition>;
 
 type CardName = keyof typeof CARDS;
@@ -108,8 +107,8 @@ export const run = async (): Promise<void> => {
   const options = parseOptions(getInput('options'));
 
   const repositoryOwner = process.env['GITHUB_REPOSITORY_OWNER'];
-  // The org card is keyed on `org`; every other card names its account `username`.
-  const account = card === 'org' ? 'org' : 'username';
+  // The org cards are keyed on `org`; every other card names its account `username`.
+  const account = card === 'org' || card === 'org-activity' ? 'org' : 'username';
   if (!options[account] && repositoryOwner) {
     options[account] = repositoryOwner;
     warning(`${account} not provided; defaulting to repository owner.`);
