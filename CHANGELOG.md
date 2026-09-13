@@ -1,5 +1,30 @@
 # Changelog
 
+## [0.6.0](https://github.com/stats-forge/github-stats-forge-action/compare/v0.5.0...v0.6.0) (2026-09-13)
+
+
+### Features
+
+* update `@stats-forge/github-stats-forge-core` to 0.7 ([#20](https://github.com/stats-forge/github-stats-forge-action/issues/20)) ([ad93114](https://github.com/stats-forge/github-stats-forge-action/commit/ad93114b34563b94b2083d9ce952ac82276c2096))
+
+
+### Bug Fixes
+
+* classify card errors by code, not by `retryable` ([#21](https://github.com/stats-forge/github-stats-forge-action/issues/21)) ([3b72642](https://github.com/stats-forge/github-stats-forge-action/commit/3b72642552221fffbf1d0a1e1289ac8b82664e68))
+* default the `token` input to `github.token` ([#23](https://github.com/stats-forge/github-stats-forge-action/issues/23)) ([8e60bcc](https://github.com/stats-forge/github-stats-forge-action/commit/8e60bccf4261aad9dfc1aebcbb0a40829d22492a))
+* log the repository-owner default instead of warning about it ([#26](https://github.com/stats-forge/github-stats-forge-action/issues/26)) ([310e190](https://github.com/stats-forge/github-stats-forge-action/commit/310e190d3296e13c7fbd30f335995e44a68f3e71))
+* read each card's account option off the identities core declares ([#24](https://github.com/stats-forge/github-stats-forge-action/issues/24)) ([b920a9f](https://github.com/stats-forge/github-stats-forge-action/commit/b920a9f2e6c3d37eb929ea23d9d830bfde728331))
+* reject nested option values instead of sending `[object Object]` ([#25](https://github.com/stats-forge/github-stats-forge-action/issues/25)) ([f676e68](https://github.com/stats-forge/github-stats-forge-action/commit/f676e68cb20fbe9cd39a128ce127e06b06fe40d6))
+
+
+### Documentation
+
+* document the path and token defaults in action.yml ([#31](https://github.com/stats-forge/github-stats-forge-action/issues/31)) ([8aeef81](https://github.com/stats-forge/github-stats-forge-action/commit/8aeef81f064bceec6a093f68937453f8cb030f4b))
+* drop the Contributing section from the README ([#29](https://github.com/stats-forge/github-stats-forge-action/issues/29)) ([6d92f7e](https://github.com/stats-forge/github-stats-forge-action/commit/6d92f7e32f80f419c936cf3baddee4ec990ab194))
+* note pinning the action to a commit SHA ([#27](https://github.com/stats-forge/github-stats-forge-action/issues/27)) ([d331ab6](https://github.com/stats-forge/github-stats-forge-action/commit/d331ab6523ecfde91b0692f9c16b7ef443842a25))
+* simplify CONTRIBUTING ([#30](https://github.com/stats-forge/github-stats-forge-action/issues/30)) ([c7856d5](https://github.com/stats-forge/github-stats-forge-action/commit/c7856d5417cc707f6c645212b35550adbb80c7cf))
+* simplify the README prose ([#28](https://github.com/stats-forge/github-stats-forge-action/issues/28)) ([7eac748](https://github.com/stats-forge/github-stats-forge-action/commit/7eac748598a4cbbbe4ab34a170b839c0077ec2a6))
+
 ## [0.5.0](https://github.com/stats-forge/github-stats-forge-action/compare/v0.4.0...v0.5.0) (2026-09-11)
 
 
