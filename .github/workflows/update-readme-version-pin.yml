@@ -2,8 +2,7 @@ name: Update README version pin
 run-name: Update README version pin to ${{ inputs.target || github.event.release.tag_name }}
 
 # The README example pins the action by SHA, so every release has to move it.
-# The `main` ruleset requires CI before a ref moves, so the change goes through
-# an auto-merged PR rather than a direct push.
+# The `main` ruleset requires CI, so it goes through a PR rather than a push.
 on:
   release:
     types:
@@ -25,8 +24,7 @@ jobs:
     name: Update README version pin
     environment: release
 
-    # Nobody should be told to pin a prerelease.
-    # Null, and so allowed, on a dispatch.
+    # Nobody should be told to pin a prerelease. Null, and so allowed, on a dispatch.
     if: ${{ !github.event.release.prerelease }}
 
     runs-on: ubuntu-latest
@@ -34,12 +32,10 @@ jobs:
     timeout-minutes: 5
 
     permissions:
-      contents: read # the app token, not GITHUB_TOKEN, pushes the branch and opens the PR
+      contents: read # the app token, not GITHUB_TOKEN, does the writing
 
     steps:
-      # A GitHub App token, not GITHUB_TOKEN: events from the default token do
-      # not start other workflows, so CI would never run on the PR and the
-      # ruleset would never let it merge.
+      # GITHUB_TOKEN events start no workflows, and the ruleset needs CI to merge.
       - name: Setup release helper
         id: release-helper
         uses: marcalexiei/github-actions/setup-github-app-user-bot@b24da7e3c0e4a66a97cb28e39499c37873a593b7 # v2.3.0
@@ -72,7 +68,7 @@ jobs:
           # Matches `@v0`, `@<sha>` and `@<sha> # vX.Y.Z` alike.
           sed -i -E "s|(uses: ${REPO}@)[^ ]+( # v[0-9.]+)?|\1${sha} # ${TAG}|" README.md
 
-      # No PR when the README already pins the tag: the action skips on a clean tree.
+      # A clean tree opens no PR.
       # `chore`, not `docs`: release-please would list it in the next changelog.
       - name: Create Pull Request if the README changed
         id: create_pr
