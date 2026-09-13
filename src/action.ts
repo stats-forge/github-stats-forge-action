@@ -13,9 +13,13 @@ import {
   topLangs,
   wakatime,
 } from '@stats-forge/github-stats-forge-core/api';
-import type { ApiResult } from '@stats-forge/github-stats-forge-core/api';
+import type { ApiResult, ErrorCode } from '@stats-forge/github-stats-forge-core/api';
 
 type Handler = (query: Record<string, string>, config: CardConfig) => Promise<ApiResult>;
+
+// `retryable` cannot stand in for these: core also marks `no_tokens` retryable,
+// and a missing `token` input is not the network's fault.
+const FETCH_FAILURES: ReadonlySet<ErrorCode> = new Set(['rate_limited', 'upstream']);
 
 interface CardDefinition {
   handler: Handler;
@@ -126,10 +130,9 @@ export const run = async (): Promise<void> => {
   // A data-fetch error is never thrown, only answered as `status: "error"` with
   // the failure drawn onto a card.
   // Writing that would replace a good card with an apology, so it fails instead.
-  // Only a retryable failure came from fetching.
   if (result.status === 'error') {
     throw new Error(
-      result.retryable
+      FETCH_FAILURES.has(result.error.code)
         ? `Card generation failed while fetching data: ${result.error.message}`
         : `Card generation failed: ${result.error.message}`,
     );
