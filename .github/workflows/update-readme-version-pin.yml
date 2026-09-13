@@ -54,8 +54,28 @@ jobs:
           ref: main
           persist-credentials: false
 
+      # From GitHub Releases, verified against the build provenance the pinact
+      # release workflow signs, and kept out of the checkout so nothing stray
+      # ends up in the PR.
+      - name: Install pinact
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PINACT_VERSION: v5.0.0
+        working-directory: ${{ runner.temp }}
+        run: |
+          asset=pinact_linux_amd64.tar.gz
+          gh release download -R suzuki-shunsuke/pinact "${PINACT_VERSION}" -p "${asset}"
+          gh attestation verify "${asset}" -R suzuki-shunsuke/pinact \
+            --signer-workflow suzuki-shunsuke/go-release-workflow/.github/workflows/release.yaml
+          mkdir -p bin
+          tar -xzf "${asset}" -C bin pinact
+          echo "${PWD}/bin" >> "${GITHUB_PATH}"
+
+      # The tag goes in by hand, pinact turns it into `@<sha> # vX.Y.Z`.
+      # `--include` leaves the other actions in the example as they are.
       - name: Pin the example
         env:
+          GITHUB_TOKEN: ${{ github.token }}
           REPO: ${{ github.repository }}
         run: |
           case "${TAG}" in
@@ -66,11 +86,8 @@ jobs:
               ;;
           esac
 
-          git fetch --depth=1 origin "refs/tags/${TAG}:refs/tags/${TAG}"
-          sha="$(git rev-parse --verify "refs/tags/${TAG}^{commit}")"
-
-          # Matches `@v0`, `@<sha>` and `@<sha> # vX.Y.Z` alike.
-          sed -i -E "s|(uses: ${REPO}@)[^ ]+( # v[0-9.]+)?|\1${sha} # ${TAG}|" README.md
+          sed -i -E "s|(uses: ${REPO}@)[^ ]+( # v[0-9.]+)?|\1${TAG}|" README.md
+          pinact run --include "^${REPO}$" README.md
 
       # No PR when the README already pins the tag: the action skips on a clean tree.
       # `chore`, not `docs`: release-please would list it in the next changelog.
@@ -81,6 +98,7 @@ jobs:
           BOT_USER: '${{ steps.release-helper.outputs.bot-name }} <${{ steps.release-helper.outputs.bot-email }}>'
         with:
           token: ${{ steps.release-helper.outputs.token }}
+          add-paths: README.md
           commit-message: 'chore: pin the README example to ${{ env.TAG }}'
           author: ${{ env.BOT_USER }}
           committer: ${{ env.BOT_USER }}
