@@ -4,13 +4,6 @@ Generate GitHub stats cards as SVG files in a GitHub Actions run. No server, no 
 
 ## Usage
 
-> [!TIP]
-> Pin a [full commit SHA](https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions#using-third-party-actions) rather than `@v0`. Tags move, and `dist/` is committed, so the SHA pins the code that runs.
->
-> ```yaml
-> - uses: stats-forge/github-stats-forge-action@a9de909a0295de1d1e85be7d14af52ecc64050e0 # v0.5.0
-> ```
-
 ```yaml
 name: Stats cards
 on:
