@@ -15,7 +15,10 @@ import {
 } from '@stats-forge/github-stats-forge-core/api';
 import type { ApiResult, ErrorCode } from '@stats-forge/github-stats-forge-core/api';
 
-type Handler = (query: Record<string, string>, config: CardConfig) => Promise<ApiResult>;
+type Handler = ((query: Record<string, string>, config: CardConfig) => Promise<ApiResult>) & {
+  /** Which of the card's params name an identity, and which allowlist guards each. */
+  IDENTITIES: Readonly<Record<string, string | undefined>>;
+};
 
 // `retryable` cannot stand in for these: core also marks `no_tokens` retryable,
 // and a missing `token` input is not the network's fault.
@@ -25,18 +28,34 @@ interface CardDefinition {
   handler: Handler;
   /** The option this card cannot render without. */
   requires: string;
+  /** The option naming a GitHub account, filled from the repository owner when omitted. */
+  account: string | undefined;
 }
+
+/**
+ * @param handler The card's endpoint.
+ * @param requires The option it cannot render without.
+ * @returns The card, its account option read from the identity core guards by GitHub login —
+ *          so a gist, keyed on its id, and wakatime, keyed on a WakaTime profile, declare none.
+ */
+const defineCard = (handler: Handler, requires: string): CardDefinition => ({
+  handler,
+  requires,
+  account: Object.keys(handler.IDENTITIES).find(
+    (param) => handler.IDENTITIES[param] === 'username',
+  ),
+});
 
 /** Adding a card is a one-line change here. */
 const CARDS = {
-  stats: { handler: stats, requires: 'username' },
-  'top-langs': { handler: topLangs, requires: 'username' },
-  pin: { handler: pin, requires: 'repo' },
-  wakatime: { handler: wakatime, requires: 'username' },
-  gist: { handler: gist, requires: 'id' },
-  'contributed-to': { handler: contributedTo, requires: 'username' },
-  org: { handler: org, requires: 'org' },
-  'org-activity': { handler: orgActivity, requires: 'org' },
+  stats: defineCard(stats, 'username'),
+  'top-langs': defineCard(topLangs, 'username'),
+  pin: defineCard(pin, 'repo'),
+  wakatime: defineCard(wakatime, 'username'),
+  gist: defineCard(gist, 'id'),
+  'contributed-to': defineCard(contributedTo, 'username'),
+  org: defineCard(org, 'org'),
+  'org-activity': defineCard(orgActivity, 'org'),
 } satisfies Record<string, CardDefinition>;
 
 type CardName = keyof typeof CARDS;
@@ -111,9 +130,9 @@ export const run = async (): Promise<void> => {
   const options = parseOptions(getInput('options'));
 
   const repositoryOwner = process.env['GITHUB_REPOSITORY_OWNER'];
-  // The org cards are keyed on `org`; every other card names its account `username`.
-  const account = card === 'org' || card === 'org-activity' ? 'org' : 'username';
-  if (!options[account] && repositoryOwner) {
+  // Before `resolveCard`, which is what the fallback has to satisfy.
+  const account = isCardName(card) ? CARDS[card].account : undefined;
+  if (account && !options[account] && repositoryOwner) {
     options[account] = repositoryOwner;
     warning(`${account} not provided; defaulting to repository owner.`);
   }
