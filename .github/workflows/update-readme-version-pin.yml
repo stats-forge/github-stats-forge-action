@@ -1,0 +1,100 @@
+name: Update README version pin
+run-name: Update README version pin to ${{ inputs.target || github.event.release.tag_name }}
+
+# The README example pins the action by SHA, so every release has to move it.
+# The `main` ruleset requires CI before a ref moves, so the change goes through
+# an auto-merged PR rather than a direct push.
+on:
+  release:
+    types:
+      - published
+  workflow_dispatch:
+    inputs:
+      target:
+        description: The release to pin, e.g. v0.1.0
+        required: true
+        type: string
+
+permissions: {}
+
+env:
+  TAG: ${{ inputs.target || github.event.release.tag_name }}
+
+jobs:
+  update-readme-version-pin:
+    name: Update README version pin
+    environment: release
+
+    # Nobody should be told to pin a prerelease.
+    # Null, and so allowed, on a dispatch.
+    if: ${{ !github.event.release.prerelease }}
+
+    runs-on: ubuntu-latest
+
+    timeout-minutes: 5
+
+    permissions:
+      contents: read # the app token, not GITHUB_TOKEN, pushes the branch and opens the PR
+
+    steps:
+      # A GitHub App token, not GITHUB_TOKEN: events from the default token do
+      # not start other workflows, so CI would never run on the PR and the
+      # ruleset would never let it merge.
+      - name: Setup release helper
+        id: release-helper
+        uses: marcalexiei/github-actions/setup-github-app-user-bot@b24da7e3c0e4a66a97cb28e39499c37873a593b7 # v2.3.0
+        with:
+          app-id: ${{ vars.RELEASE_HELPER_APP_ID }}
+          private-key: ${{ secrets.RELEASE_HELPER_PRIVATE_KEY }}
+
+      # `ref` is explicit because a release event checks out the tag.
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: main
+          persist-credentials: false
+
+      - name: Pin the example
+        env:
+          REPO: ${{ github.repository }}
+        run: |
+          case "${TAG}" in
+            v[0-9]*.[0-9]*.[0-9]*) ;;
+            *)
+              echo "::error::${TAG} is not a vX.Y.Z release tag."
+              exit 1
+              ;;
+          esac
+
+          git fetch --depth=1 origin "refs/tags/${TAG}:refs/tags/${TAG}"
+          sha="$(git rev-parse --verify "refs/tags/${TAG}^{commit}")"
+
+          # Matches `@v0`, `@<sha>` and `@<sha> # vX.Y.Z` alike.
+          sed -i -E "s|(uses: ${REPO}@)[^ ]+( # v[0-9.]+)?|\1${sha} # ${TAG}|" README.md
+
+      # No PR when the README already pins the tag: the action skips on a clean tree.
+      # `chore`, not `docs`: release-please would list it in the next changelog.
+      - name: Create Pull Request if the README changed
+        id: create_pr
+        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
+        env:
+          BOT_USER: '${{ steps.release-helper.outputs.bot-name }} <${{ steps.release-helper.outputs.bot-email }}>'
+        with:
+          token: ${{ steps.release-helper.outputs.token }}
+          commit-message: 'chore: pin the README example to ${{ env.TAG }}'
+          author: ${{ env.BOT_USER }}
+          committer: ${{ env.BOT_USER }}
+          branch: 'update-readme-version-pin/${{ env.TAG }}'
+          delete-branch: true
+          title: 'chore: pin the README example to ${{ env.TAG }}'
+          body: >-
+            The [update-readme-version-pin](${{ github.server_url }}/${{ github.repository }}/actions/workflows/update-readme-version-pin.yml)
+            workflow points the `uses:` lines in the README at the commit ${{ env.TAG }} was cut from.
+          labels: 'documentation'
+
+      - name: Enable auto-merge
+        if: ${{ steps.create_pr.outputs.pull-request-number }} # the PR might not have been opened
+        run: gh pr merge --squash --auto "${PULL_REQUEST_NUMBER}"
+        env:
+          GH_TOKEN: ${{ steps.release-helper.outputs.token }}
+          PULL_REQUEST_NUMBER: ${{ steps.create_pr.outputs.pull-request-number }}
