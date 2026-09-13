@@ -80,6 +80,9 @@ Rendering in your own Actions run spends your own token budget, fails loudly in 
 
 The account option defaults to the repository owner when omitted: `org` for the org and org-activity cards, `username` for the rest.
 
+`token` defaults to the workflow's `github.token`, which is enough for public data.
+A card covering private repositories, or a gist, needs a PAT passed explicitly.
+
 ## Outputs
 
 | Output | Description                                                |
