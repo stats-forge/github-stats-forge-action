@@ -279,6 +279,22 @@ describe(run, () => {
     await expect(run()).rejects.toThrow('Card generation failed: Could not fetch user');
   });
 
+  it('does not blame the network for a missing token, which core reports as retryable', async () => {
+    mocks.handlers.stats.mockResolvedValueOnce({
+      status: 'error',
+      retryable: true,
+      error: {
+        code: 'no_tokens',
+        message: 'No GitHub API tokens found',
+        secondaryMessage: undefined,
+        param: undefined,
+      },
+      content: '<svg>Something went wrong</svg>',
+    });
+
+    await expect(run()).rejects.toThrow('Card generation failed: No GitHub API tokens found');
+  });
+
   it('does not blame the network for an option the renderer rejected', async () => {
     mocks.handlers.stats.mockResolvedValueOnce({
       status: 'error',

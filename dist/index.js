@@ -4463,19 +4463,19 @@ init.usernameAllowlist;this.gistAllowlist=init.gistAllowlist;this.excludeReposit
 return new _CardConfig({pats:parsePATsFromEnv(env),usernameAllowlist:parseCsv(env["ALLOWLIST"]),gistAllowlist:parseCsv(env["GIST_ALLOWLIST"]),excludeRepositories:parseCsv(env["EXCLUDE_REPO"])??[],fetchMultiPageStars:parseFetchMultiPageStars(
 env["FETCH_MULTI_PAGE_STARS"])})}isAllowed(id,kind){const list=kind==="gist"?this.gistAllowlist:this.usernameAllowlist;const wanted=id.toLowerCase();return list===void 0||list.some(allowed=>allowed.toLowerCase()===
 wanted)}with(overrides){return new _CardConfig({pats:this.pats,usernameAllowlist:this.usernameAllowlist,gistAllowlist:this.gistAllowlist,excludeRepositories:this.excludeRepositories,fetchMultiPageStars:this.
-fetchMultiPageStars,fetch:this.fetch,...overrides})}};var CARDS={stats:{handler:stats,requires:"username"},"top-langs":{handler:topLangs,requires:"username"},pin:{handler:pin,requires:"repo"},wakatime:{handler:wakatime,requires:"username"},gist:{handler:gist,
-requires:"id"},"contributed-to":{handler:contributedTo,requires:"username"},org:{handler:org,requires:"org"},"org-activity":{handler:orgActivity,requires:"org"}};var isCardName=value=>Object.hasOwn(CARDS,
-value);var parseOptions=value=>{const trimmed=value.trim();if(!trimmed){return{}}if(trimmed.startsWith("{")){let parsed;try{parsed=JSON.parse(trimmed)}catch{throw new Error("Invalid JSON in options.")}
-if(typeof parsed!=="object"||parsed===null){throw new Error("Invalid JSON in options.")}return Object.fromEntries(Object.entries(parsed).filter(([,entry])=>entry!==null&&entry!==void 0).map(([key,entry])=>[
-key,Array.isArray(entry)?entry.join(","):String(entry)]))}const params=new URLSearchParams(trimmed);return Object.fromEntries([...new Set(params.keys())].map(key=>[key,params.getAll(key).join(",")]))};
-var resolveCard=(card,options)=>{if(!isCardName(card)){throw new Error(`Unsupported card type: ${card}. Expected one of ${Object.keys(CARDS).join(", ")}.`)}const definition=CARDS[card];if(!options[definition.
-requires]){throw new Error(`${definition.requires} is required for the ${card} card.`)}return definition};var run=async()=>{const card=getInput("card",{required:true}).toLowerCase();const options=parseOptions(
-getInput("options"));const repositoryOwner=process.env["GITHUB_REPOSITORY_OWNER"];const account=card==="org"||card==="org-activity"?"org":"username";if(!options[account]&&repositoryOwner){options[account]=
-repositoryOwner;warning(`${account} not provided; defaulting to repository owner.`)}const{handler}=resolveCard(card,options);const token=getInput("token");const config2=new CardConfig({pats:token?[{name:"\
-action input `token`",value:token}]:[]});const result=await handler(options,config2);if(result.status==="error"){throw new Error(result.retryable?`Card generation failed while fetching data: ${result.
-error.message}`:`Card generation failed: ${result.error.message}`)}if(!result.content){throw new Error("Card renderer returned empty output.")}const outputPath=getInput("path")||path.join("profile",`${card}\
-.svg`);const resolved=path.resolve(process.cwd(),outputPath);await mkdir2(path.dirname(resolved),{recursive:true});await writeFile2(resolved,result.content,"utf8");info(`Wrote ${resolved}`);setOutput(
-"path",outputPath)};try{await run()}catch(error2){setFailed(error2 instanceof Error?error2.message:String(error2))}
+fetchMultiPageStars,fetch:this.fetch,...overrides})}};var FETCH_FAILURES=new Set(["rate_limited","upstream"]);var CARDS={stats:{handler:stats,requires:"username"},"top-langs":{handler:topLangs,requires:"username"},pin:{handler:pin,requires:"repo"},wakatime:{
+handler:wakatime,requires:"username"},gist:{handler:gist,requires:"id"},"contributed-to":{handler:contributedTo,requires:"username"},org:{handler:org,requires:"org"},"org-activity":{handler:orgActivity,
+requires:"org"}};var isCardName=value=>Object.hasOwn(CARDS,value);var parseOptions=value=>{const trimmed=value.trim();if(!trimmed){return{}}if(trimmed.startsWith("{")){let parsed;try{parsed=JSON.parse(
+trimmed)}catch{throw new Error("Invalid JSON in options.")}if(typeof parsed!=="object"||parsed===null){throw new Error("Invalid JSON in options.")}return Object.fromEntries(Object.entries(parsed).filter(
+([,entry])=>entry!==null&&entry!==void 0).map(([key,entry])=>[key,Array.isArray(entry)?entry.join(","):String(entry)]))}const params=new URLSearchParams(trimmed);return Object.fromEntries([...new Set(
+params.keys())].map(key=>[key,params.getAll(key).join(",")]))};var resolveCard=(card,options)=>{if(!isCardName(card)){throw new Error(`Unsupported card type: ${card}. Expected one of ${Object.keys(CARDS).
+join(", ")}.`)}const definition=CARDS[card];if(!options[definition.requires]){throw new Error(`${definition.requires} is required for the ${card} card.`)}return definition};var run=async()=>{const card=getInput(
+"card",{required:true}).toLowerCase();const options=parseOptions(getInput("options"));const repositoryOwner=process.env["GITHUB_REPOSITORY_OWNER"];const account=card==="org"||card==="org-activity"?"or\
+g":"username";if(!options[account]&&repositoryOwner){options[account]=repositoryOwner;warning(`${account} not provided; defaulting to repository owner.`)}const{handler}=resolveCard(card,options);const token=getInput(
+"token");const config2=new CardConfig({pats:token?[{name:"action input `token`",value:token}]:[]});const result=await handler(options,config2);if(result.status==="error"){throw new Error(FETCH_FAILURES.
+has(result.error.code)?`Card generation failed while fetching data: ${result.error.message}`:`Card generation failed: ${result.error.message}`)}if(!result.content){throw new Error("Card renderer retur\
+ned empty output.")}const outputPath=getInput("path")||path.join("profile",`${card}.svg`);const resolved=path.resolve(process.cwd(),outputPath);await mkdir2(path.dirname(resolved),{recursive:true});await writeFile2(
+resolved,result.content,"utf8");info(`Wrote ${resolved}`);setOutput("path",outputPath)};try{await run()}catch(error2){setFailed(error2 instanceof Error?error2.message:String(error2))}
 /*! Bundled license information:
 
 undici/lib/web/fetch/body.js:
