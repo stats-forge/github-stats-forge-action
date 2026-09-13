@@ -2,7 +2,7 @@ import { mkdtemp, readFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 
-import type { InputOptions, info, setOutput, warning } from '@actions/core';
+import type { InputOptions, info, setOutput } from '@actions/core';
 import type { ApiResult } from '@stats-forge/github-stats-forge-core/api';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import type { Mock } from 'vitest';
@@ -21,7 +21,6 @@ const mocks = vi.hoisted(() => {
     core: {
       info: vi.fn<typeof info>(),
       setOutput: vi.fn<typeof setOutput>(),
-      warning: vi.fn<typeof warning>(),
     },
     handlers: {
       stats: card(),
@@ -193,7 +192,7 @@ describe(run, () => {
           { [account]: 'stats-forge' },
           expect.anything(),
         );
-        expect(mocks.core.warning).toHaveBeenCalledWith(
+        expect(mocks.core.info).toHaveBeenCalledWith(
           `${account} not provided; defaulting to repository owner.`,
         );
       },
@@ -203,7 +202,9 @@ describe(run, () => {
       await run();
 
       expect(mocks.handlers.stats).toHaveBeenCalledWith({ username: 'octocat' }, expect.anything());
-      expect(mocks.core.warning).not.toHaveBeenCalled();
+      expect(mocks.core.info).not.toHaveBeenCalledWith(
+        expect.stringContaining('defaulting to repository owner'),
+      );
     });
 
     it('does not hand the gist card a username it has no param for', async () => {
@@ -216,7 +217,9 @@ describe(run, () => {
         { id: 'bbfce31e0217a3689c8d' },
         expect.anything(),
       );
-      expect(mocks.core.warning).not.toHaveBeenCalled();
+      expect(mocks.core.info).not.toHaveBeenCalledWith(
+        expect.stringContaining('defaulting to repository owner'),
+      );
     });
 
     it('fails the gist card for a missing id, which a username does not stand in for', async () => {
