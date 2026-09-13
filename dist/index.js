@@ -4490,8 +4490,8 @@ var run=async()=>{const card=getInput("card",{required:true}).toLowerCase();cons
 card)?CARDS[card].account:void 0;if(account&&!options[account]&&repositoryOwner){options[account]=repositoryOwner;info(`${account} not provided; defaulting to repository owner.`)}const{handler}=resolveCard(
 card,options);const token=getInput("token");const config2=new CardConfig({pats:token?[{name:"action input `token`",value:token}]:[]});const result=await handler(options,config2);if(result.status==="er\
 ror"){throw new Error(FETCH_FAILURES.has(result.error.code)?`Card generation failed while fetching data: ${result.error.message}`:`Card generation failed: ${result.error.message}`)}if(!result.content){
-throw new Error("Card renderer returned empty output.")}const outputPath=getInput("path")||path.join("profile",`${card}.svg`);const resolved=path.resolve(process.cwd(),outputPath);await mkdir2(path.dirname(
-resolved),{recursive:true});await writeFile2(resolved,result.content,"utf8");info(`Wrote ${resolved}`);setOutput("path",outputPath)};try{await run()}catch(error2){setFailed(error2 instanceof Error?error2.message:String(error2))}
+throw new Error("Card renderer returned empty output.")}const outputPath=getInput("path")||path.posix.join("profile",`${card}.svg`);const resolved=path.resolve(process.cwd(),outputPath);await mkdir2(path.
+dirname(resolved),{recursive:true});await writeFile2(resolved,result.content,"utf8");info(`Wrote ${resolved}`);setOutput("path",outputPath)};try{await run()}catch(error2){setFailed(error2 instanceof Error?error2.message:String(error2))}
 /*! Bundled license information:
 
 undici/lib/web/fetch/body.js:

@@ -181,7 +181,8 @@ export const run = async (): Promise<void> => {
     throw new Error('Card renderer returned empty output.');
   }
 
-  const outputPath = getInput('path') || path.join('profile', `${card}.svg`);
+  // Documented as `profile/<card>.svg`, so the output must not pick up `\` on Windows.
+  const outputPath = getInput('path') || path.posix.join('profile', `${card}.svg`);
   const resolved = path.resolve(process.cwd(), outputPath);
   await mkdir(path.dirname(resolved), { recursive: true });
   await writeFile(resolved, result.content, 'utf8');
