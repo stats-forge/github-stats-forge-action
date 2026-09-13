@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.2](https://github.com/stats-forge/github-stats-forge-action/compare/v0.6.1...v0.6.2) (2026-09-13)
+
+
+### Bug Fixes
+
+* report the default `path` output with forward slashes on Windows ([#45](https://github.com/stats-forge/github-stats-forge-action/issues/45)) ([51df532](https://github.com/stats-forge/github-stats-forge-action/commit/51df53254a03f6a4f110e9aac894560033c2005d))
+
 ## [0.6.1](https://github.com/stats-forge/github-stats-forge-action/compare/v0.6.0...v0.6.1) (2026-09-13)
 
 
