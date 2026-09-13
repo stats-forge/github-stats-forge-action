@@ -1,11 +1,11 @@
 # github-stats-forge-action
 
-Generate GitHub stats cards as SVG files inside a GitHub Actions run — no server, no shared instance, no proxy between your README and your data.
+Generate GitHub stats cards as SVG files in a GitHub Actions run. No server, no shared instance, no proxy between your README and your data.
 
 ## Usage
 
 > [!TIP]
-> Pin a [full commit SHA](https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions#using-third-party-actions) rather than `@v0`: tags move, and `dist/` is committed, so the SHA fixes the code that runs.
+> Pin a [full commit SHA](https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions#using-third-party-actions) rather than `@v0`. Tags move, and `dist/` is committed, so the SHA pins the code that runs.
 >
 > ```yaml
 > - uses: stats-forge/github-stats-forge-action@a9de909a0295de1d1e85be7d14af52ecc64050e0 # v0.5.0
@@ -63,32 +63,31 @@ Then in your README:
 ```
 
 One card per step.
-`options` takes **the same query string** you already have in your README image URL, so migrating is copy-paste: take everything from `?` onward and pick an output path.
+`options` takes **the same query string** as the hosted image URL, so migrating is copy-paste: everything from `?` onward, plus an output path.
 
 ## Why files instead of a URL
 
-A hosted instance serves everyone from one shared PAT pool, so a busy instance rate-limits every user at once, and a card that fails to render shows a broken image in your README.
-Rendering in your own Actions run spends your own token budget, fails loudly in a job log, and the committed SVG keeps working even if every instance goes away.
+A hosted instance shares one PAT pool, so heavy traffic rate-limits everyone at once and your README shows a broken image.
+Your own run spends your own token, fails visibly in the job log, and leaves a committed SVG that keeps working if the instance goes away.
 
 ## Inputs
 
-| Input     | Required | Default              | Description                                                                                                                          |
-| --------- | -------- | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
-| `card`    | yes      | —                    | `stats`, `top-langs`, `pin`, `wakatime`, `gist`, `contributed-to`, `org` or `org-activity`.                                          |
-| `options` | no       | `""`                 | Card options as a query string (`key=value&...`) or JSON. Repeated keys are joined with commas.                                      |
-| `path`    | no       | `profile/<card>.svg` | Output path, including the filename.                                                                                                 |
-| `token`   | no       | `github.token`       | GitHub token (PAT or `GITHUB_TOKEN`). For private repo stats use a PAT with `repo` and `read:user`; for any gist, a PAT with `gist`. |
+| Input     | Required | Default              | Description                                                                                          |
+| --------- | -------- | -------------------- | ---------------------------------------------------------------------------------------------------- |
+| `card`    | yes      | —                    | `stats`, `top-langs`, `pin`, `wakatime`, `gist`, `contributed-to`, `org` or `org-activity`.          |
+| `options` | no       | `""`                 | Query string (`key=value&...`) or JSON. Repeated keys join with commas.                              |
+| `path`    | no       | `profile/<card>.svg` | Output path, including the filename.                                                                 |
+| `token`   | no       | `github.token`       | GitHub token. Private repo stats need a PAT with `repo` and `read:user`; gists need one with `gist`. |
 
-The account option defaults to the repository owner when omitted: `org` for the org and org-activity cards, `username` for the rest. The `gist` and `wakatime` cards are excluded: a gist is keyed on its id, and a WakaTime username is not a GitHub login.
+The account option defaults to the repository owner: `org` for the org and org-activity cards, `username` for the rest. Not for `gist`, keyed on its id, or `wakatime`, keyed on a WakaTime profile rather than a GitHub login.
 
-`token` defaults to the workflow's `github.token`, which is enough for public data.
-A card covering private repositories, or a gist, needs a PAT passed explicitly.
+`token` defaults to the workflow's `github.token`, enough for public data. Private repositories and gists need an explicit PAT.
 
 ## Outputs
 
-| Output | Description                                                |
-| ------ | ---------------------------------------------------------- |
-| `path` | Path the SVG was written to, as given in the `path` input. |
+| Output | Description                                      |
+| ------ | ------------------------------------------------ |
+| `path` | Path the SVG was written to, as given in `path`. |
 
 ## Contributing
 
