@@ -85,7 +85,6 @@ describe(run, () => {
   afterEach(() => {
     vi.unstubAllEnvs();
     vi.restoreAllMocks();
-    vi.clearAllMocks();
   });
 
   it('writes the rendered card to the requested path', async () => {
