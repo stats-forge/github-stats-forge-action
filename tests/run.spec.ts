@@ -109,6 +109,8 @@ describe(run, () => {
     await run();
 
     await expect(writtenCard('profile/top-langs.svg')).resolves.toBe('<svg>card</svg>');
+    // The same on every OS: the README tells people to paste this into markdown.
+    expect(mocks.core.setOutput).toHaveBeenCalledWith('path', 'profile/top-langs.svg');
   });
 
   it('outputs the path as given, not resolved, so a commit step can use it', async () => {
