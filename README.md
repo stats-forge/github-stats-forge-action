@@ -2,10 +2,14 @@
 
 Generate GitHub stats cards as SVG files inside a GitHub Actions run — no server, no shared instance, no proxy between your README and your data.
 
-> Part of [stats-forge](https://github.com/stats-forge).
-> The rendering packages are a fork of [anuraghazra/github-readme-stats](https://github.com/anuraghazra/github-readme-stats) via [stats-organization/github-stats-extended](https://github.com/stats-organization/github-stats-extended), both MIT.
-
 ## Usage
+
+> [!TIP]
+> Pin a [full commit SHA](https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions#using-third-party-actions) rather than `@v0`: tags move, and `dist/` is committed, so the SHA fixes the code that runs.
+>
+> ```yaml
+> - uses: stats-forge/github-stats-forge-action@a9de909a0295de1d1e85be7d14af52ecc64050e0 # v0.5.0
+> ```
 
 ```yaml
 name: Stats cards
@@ -17,9 +21,6 @@ on:
     #        │ │ ┌───────────── day of the month (1 - 31)
     #        │ │ │ ┌───────────── month (1 - 12 or JAN-DEC)
     #        │ │ │ │ ┌───────────── day of the week (0 - 6 or SUN-SAT)
-    #        │ │ │ │ │
-    #        │ │ │ │ │
-    #        │ │ │ │ │
     #        * * * * *
     - cron: '0 3 * * *'
 
@@ -30,7 +31,7 @@ jobs:
   cards:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
 
       - uses: stats-forge/github-stats-forge-action@v0
         with:
