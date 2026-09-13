@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.1](https://github.com/stats-forge/github-stats-forge-action/compare/v0.6.0...v0.6.1) (2026-09-13)
+
+
+### Bug Fixes
+
+* update `@stats-forge/github-stats-forge-core` to 0.7.1 ([#41](https://github.com/stats-forge/github-stats-forge-action/issues/41)) ([53421b4](https://github.com/stats-forge/github-stats-forge-action/commit/53421b47961be73861c25bfd85f9576cfe261df1))
+
 ## [0.6.0](https://github.com/stats-forge/github-stats-forge-action/compare/v0.5.0...v0.6.0) (2026-09-13)
 
 
