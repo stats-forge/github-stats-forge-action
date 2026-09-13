@@ -8,6 +8,9 @@ updates:
       interval: weekly
     commit-message:
       prefix: ci
+    # A release that is pulled in its first week never reaches a workflow here.
+    cooldown:
+      default-days: 7
 
   - package-ecosystem: npm
     directory: /
@@ -17,9 +20,15 @@ updates:
     commit-message:
       prefix: chore
       include: scope
+    cooldown:
+      default-days: 7
     # Dev only: a runtime bump rewrites `dist/`, which Dependabot cannot rebuild.
     allow:
       - dependency-type: development
+    ignore:
+      # `engines` decides which major this runs on, so the types follow it rather than lead.
+      - dependency-name: '@types/node'
+        update-types: ['version-update:semver-major']
     groups:
       dev-dependencies:
         dependency-type: development
