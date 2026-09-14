@@ -86,7 +86,7 @@ jobs:
         if: ${{ steps.changesets.outputs.published == 'true' }}
         # The tag is already out; a failed comment must not fail the release.
         continue-on-error: true
-        uses: marcalexiei/changesets-release-commenter@c7071dc8e547518405da96ef70f91b43f51ab280 # v0.2.1
+        uses: marcalexiei/changesets-release-commenter@80366b79332f7311aa9be1679c6abfbe75d73f0e # v0.2.2
         with:
           github-token: ${{ steps.release-helper.outputs.token }}
           published-packages: ${{ steps.changesets.outputs.published-packages }}
