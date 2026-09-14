@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.7.1
+
+### Patch Changes
+
+- [#59](https://github.com/stats-forge/github-stats-forge-action/pull/59) [`9a4a80a`](https://github.com/stats-forge/github-stats-forge-action/commit/9a4a80a50f5871eb3650d1a3e060f78aa94cd4be) Thanks [@marcalexiei](https://github.com/marcalexiei)! - Release automation moved from release-please to Changesets. Nothing changes for the action itself.
+
 ## [0.7.0](https://github.com/stats-forge/github-stats-forge-action/compare/v0.6.2...v0.7.0) (2026-09-14)
 
 ### ⚠ BREAKING CHANGES
