@@ -10,7 +10,7 @@ import { readFileSync } from 'node:fs';
  * `changesets/action` learns what was published.
  */
 
-const run = (command: string, ...args: string[]): void => {
+const run = (command: string, ...args: Array<string>): void => {
   execFileSync(command, args, { stdio: 'inherit' });
 };
 

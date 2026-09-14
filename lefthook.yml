@@ -16,6 +16,7 @@ pre-commit:
       glob:
         - 'src/**/*.ts'
         - 'tests/**/*.ts'
+        - 'scripts/**/*.ts'
         - '*.config.ts'
       run: pnpm exec oxlint {staged_files}
 
