@@ -14,8 +14,8 @@ interface Run {
 }
 
 /**
- * Run the committed bundle the way the runner does: `node dist/index.js`, with
- * the inputs in the environment.
+ * Run the bundle the way the runner does: `node dist/index.js`, with the inputs
+ * in the environment.
  *
  * Only failure paths are exercised, since reaching the renderer needs the
  * network.
@@ -54,7 +54,7 @@ const runBundle = async (inputs: Record<string, string>): Promise<Run> => {
 describe('dist/index.js', () => {
   beforeAll(async () => {
     await access(bundle).catch(() => {
-      throw new Error('dist/index.js is missing — run `pnpm build`, and commit the result');
+      throw new Error('dist/index.js is missing — run `pnpm build`');
     });
   });
 

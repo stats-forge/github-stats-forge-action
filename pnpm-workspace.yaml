@@ -1,8 +1,8 @@
 # No `packages:` key: this repo ships a single package.
 # The file exists for the settings below, shared with `github-stats-forge`.
 
-# The bundle ships from the repo, so a range would let `dist/` and the manifest
-# disagree about what was built.
+# A range would let the bundle a release builds drift from the manifest it was
+# reviewed against.
 savePrefix: ''
 
 # `onlyBuiltDependencies` in pnpm 10; renamed and turned into a map in 11.

@@ -1,11 +1,9 @@
 name: Release
 
-# Release-please keeps a release PR open with the pending bump and changelog.
-# Merging it is what tags and publishes.
-#
-# workflow_run is restricted to the main branch and guarded at the job level
-# with `github.event.workflow_run.head_repository.full_name == github.repository`
-# to prevent fork PRs from triggering the release job.
+# Release-please keeps a release PR open; merging it drafts the release, which
+# `publish-bundle` then tags and publishes.
+# `workflow_run` is limited to main, and the job checks the head repository, so
+# no fork PR reaches it.
 on:
   workflow_run: # zizmor: ignore[dangerous-triggers]
     workflows:
@@ -36,15 +34,18 @@ jobs:
       contents: write # required to create releases and tags
       pull-requests: write # required to create and update release PRs
 
+    outputs:
+      releases_created: ${{ steps.release-please.outputs.releases_created }}
+      tag_name: ${{ steps.release-please.outputs.tag_name }}
+      sha: ${{ steps.release-please.outputs.sha }}
+
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
 
-      # A GitHub App token, not GITHUB_TOKEN.
-      # Events from the default token do not start other workflows, so CI would
-      # never run on the release PR.
+      # GITHUB_TOKEN events start no workflows, so CI would never run on the release PR.
       - name: Setup release helper
         id: release-helper
         uses: marcalexiei/github-actions/setup-github-app-user-bot@b24da7e3c0e4a66a97cb28e39499c37873a593b7 # v2.3.0
@@ -61,11 +62,83 @@ jobs:
           BOT_EMAIL: ${{ steps.release-helper.outputs.bot-email }}
 
       - name: Release please
+        id: release-please
         uses: googleapis/release-please-action@45996ed1f6d02564a971a2fa1b5860e934307cf7 # v5.0.0
         with:
           token: ${{ steps.release-helper.outputs.token }}
           config-file: release-please-config.json
           manifest-file: release-please-manifest.json
+
+  # `dist/` is not committed, so the bundle is built here and committed onto the
+  # released commit; that child is what `vX.Y.Z` tags.
+  # The release stays a draft, and so untagged, until that lands: publishing it
+  # last is what starts the workflows that move `v0` and pin the README.
+  publish-bundle:
+    name: Publish the bundle
+    environment: release
+
+    needs: release
+    if: ${{ needs.release.outputs.releases_created == 'true' }}
+
+    runs-on: ubuntu-latest
+
+    timeout-minutes: 10
+
+    permissions:
+      contents: read # the app token, not GITHUB_TOKEN, does the writing
+
+    env:
+      TAG: ${{ needs.release.outputs.tag_name }}
+
+    steps:
+      - name: Setup release helper
+        id: release-helper
+        uses: marcalexiei/github-actions/setup-github-app-user-bot@b24da7e3c0e4a66a97cb28e39499c37873a593b7 # v2.3.0
+        with:
+          app-id: ${{ vars.RELEASE_HELPER_APP_ID }}
+          private-key: ${{ secrets.RELEASE_HELPER_PRIVATE_KEY }}
+
+      # The released SHA, not `main`: anything merged since is not in this release.
+      # Credentials are persisted on purpose: the tag push needs them.
+      - name: Checkout the released commit
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1 # zizmor: ignore[artipacked]
+        with:
+          ref: ${{ needs.release.outputs.sha }}
+          token: ${{ steps.release-helper.outputs.token }}
+
+      - name: Install dependencies
+        uses: marcalexiei/github-actions/setup-node-and-pnpm@b24da7e3c0e4a66a97cb28e39499c37873a593b7 # v2.3.0
+
+      - name: Build the bundle
+        run: pnpm run build
+
+      # `--force`, because `.gitignore` holds `dist/`. The commit lands on no branch.
+      - name: Tag the bundle
+        env:
+          BOT_NAME: ${{ steps.release-helper.outputs.bot-name }}
+          BOT_EMAIL: ${{ steps.release-helper.outputs.bot-email }}
+        run: |
+          # A re-run has the tag already, and it is the bundle everyone fetched.
+          if git ls-remote --exit-code --tags origin "refs/tags/${TAG}" >/dev/null; then
+            echo "::notice::${TAG} already exists; publishing it as it stands."
+            exit 0
+          fi
+
+          git config user.name "${BOT_NAME}"
+          git config user.email "${BOT_EMAIL}"
+
+          git add --force dist
+          git commit --message "${TAG}"
+          git tag "${TAG}"
+          git push origin "refs/tags/${TAG}"
+
+          echo "::notice::${TAG} points at $(git rev-parse HEAD)."
+
+      # The tag now exists, so publishing keeps it instead of cutting its own.
+      - name: Publish the release
+        env:
+          GH_TOKEN: ${{ steps.release-helper.outputs.token }}
+        run: gh release edit "${TAG}" --draft=false
 
   on-ci-fail:
     name: 'Failure'

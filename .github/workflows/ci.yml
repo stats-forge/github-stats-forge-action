@@ -22,6 +22,10 @@ jobs:
       - name: Install dependencies
         uses: marcalexiei/github-actions/setup-node-and-pnpm@b24da7e3c0e4a66a97cb28e39499c37873a593b7 # v2.3.0
 
+      # `dist/` is not committed, and `tests/dist.spec.ts` runs it.
+      - name: Build the bundle
+        run: pnpm run build
+
       - name: Format
         run: pnpm run format:check
 
@@ -34,24 +38,6 @@ jobs:
 
       - name: Unused files, exports and dependencies
         run: pnpm run lint:knip
-
-      # The committed bundle must match the sources it was built from.
-      # Otherwise the action ships code nobody reviewed.
-      # Built before the tests, so the bundle they exercise is this commit's.
-      - name: Build the bundle
-        run: pnpm run build
-
-      - name: Fail if dist/ is stale
-        # `--intent-to-add` stages the paths without their content, putting a
-        # never-committed dist/ into the diff.
-        # Plain `git diff` sees only tracked files, so it would pass on a bundle
-        # that was never added.
-        run: |
-          git add --intent-to-add dist/
-          git diff --exit-code --stat -- dist/ || {
-            echo "::error::dist/ is out of date. Run 'pnpm build' and commit the result."
-            exit 1
-          }
 
       - name: Test
         run: pnpm run test
@@ -67,9 +53,17 @@ jobs:
         with:
           persist-credentials: false
 
+      - name: Install dependencies
+        uses: marcalexiei/github-actions/setup-node-and-pnpm@b24da7e3c0e4a66a97cb28e39499c37873a593b7 # v2.3.0
+
+      # `./` below runs the workspace copy, so it needs the bundle built here.
+      # `$/` cannot: it fetches this commit, which no longer carries one.
+      - name: Build the bundle
+        run: pnpm run build
+
       - name: Generate stats card
         id: generate
-        uses: $/
+        uses: ./ # zizmor: ignore[self-repository]
         with:
           card: stats
           options: username=octocat

@@ -27,16 +27,12 @@ It covers only failure paths, since rendering a real card needs a token; the `ac
 A `pre-commit` hook formats and lints staged files, then runs the tests.
 `prepare` installs it, so `pnpm install` is enough.
 
-## The committed bundle
+## The bundle
 
-`dist/` is committed on purpose: the action runs `dist/index.js` straight from the repo, with nothing installed at run time.
-A change to `src/` is only half a change; rebuild and commit the bundle with it:
+The action runs `dist/index.js` straight from the repo, with nothing installed at run time, but `dist/` is not committed: it is git-ignored and built at release time onto the commit the tag points at.
+So `main` holds no bundle, and no tagged commit is ever without one.
 
-```bash
-pnpm build && git add dist/
-```
-
-CI rebuilds and diffs `dist/`, failing if the committed bundle does not match its sources.
+Locally, `pnpm build` writes it; the `pre-commit` hook rebuilds it whenever `src/` changes, because the tests run it.
 
 ## License
 
@@ -57,7 +53,12 @@ Nothing is published to npm; the action is consumed by tag.
    `fix:` gives a patch, `feat:` a minor, `!` or a `BREAKING CHANGE:` footer a major.
 2. Release-please keeps a `chore: release` PR open with the version bump and generated `CHANGELOG.md`, updating it as more commits land.
 3. Merge that PR.
-   Release-please tags `vX.Y.Z` and publishes the GitHub release, then `update-major-tag.yml` moves the floating `vX` that people pin.
+   Release-please drafts the GitHub release, which creates no tag.
+   The `publish-bundle` job then builds `dist/`, commits it on top of the released commit, tags that child `vX.Y.Z`, and publishes the draft.
+   Publishing is what starts `update-major-tag.yml`, which moves the floating `vX` that people pin, and `update-readme-version-pin.yml`.
+
+   A failure before publishing leaves a draft release and no tag, so nobody consumes a commit without a bundle.
+   To recover, fix the cause and re-run the job; the draft is picked up by tag name.
 
 To roll back, run `update-major-tag.yml` by hand: pick the major and give it an earlier release tag on that same major.
 Everyone pinned to `vX` moves back, and the `vX.Y.Z` tag and its release are untouched.

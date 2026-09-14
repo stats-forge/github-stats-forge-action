@@ -5,7 +5,7 @@ pre-commit:
   jobs:
     - name: format
       glob: '*.{js,jsx,ts,tsx,json,jsonc,yaml,yml,md}'
-      # `--no-error-on-unmatched-pattern`: a commit touching only the bundle
+      # `--no-error-on-unmatched-pattern`: a commit touching only `CHANGELOG.md`
       # stages files `ignorePatterns` excludes.
       # That is not a reason to reject it.
       run: pnpm exec oxfmt --write --no-error-on-unmatched-pattern {staged_files}
@@ -19,14 +19,10 @@ pre-commit:
         - '*.config.ts'
       run: pnpm exec oxlint {staged_files}
 
+    # Unglobbed: `dist/` is git-ignored, so a branch switch leaves the `test` job
+    # below without the bundle it runs.
     - name: build
-      glob:
-        - 'src/**'
-        - 'esbuild.config.ts'
-        - 'package.json'
-        - 'pnpm-lock.yaml'
-      # the bundle ships from the repo, so it belongs in the commit that changed it
-      run: pnpm run build && git add dist/
+      run: pnpm run build
 
     - name: test
       run: pnpm test
