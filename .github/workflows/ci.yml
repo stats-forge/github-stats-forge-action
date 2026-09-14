@@ -56,13 +56,14 @@ jobs:
       - name: Install dependencies
         uses: marcalexiei/github-actions/setup-node-and-pnpm@b24da7e3c0e4a66a97cb28e39499c37873a593b7 # v2.3.0
 
-      # `uses: ./` runs `dist/index.js` from the checkout, which has none.
+      # `./` below runs the workspace copy, so it needs the bundle built here.
+      # `$/` cannot: it fetches this commit, which no longer carries one.
       - name: Build the bundle
         run: pnpm run build
 
       - name: Generate stats card
         id: generate
-        uses: $/
+        uses: ./ # zizmor: ignore[self-repository]
         with:
           card: stats
           options: username=octocat
