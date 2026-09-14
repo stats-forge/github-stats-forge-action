@@ -24,7 +24,7 @@ jobs:
   cards:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - uses: stats-forge/github-stats-forge-action@f2037b098e4bbcbaa6b0e97966746ea32b9fa8b1 # v0.8.0
         with:
