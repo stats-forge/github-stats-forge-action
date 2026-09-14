@@ -89,9 +89,6 @@ jobs:
         uses: marcalexiei/changesets-release-commenter@2a3487749191bc6c2fb258fcdf8225e817938f72 # v0.1.4
         with:
           github-token: ${{ steps.release-helper.outputs.token }}
-          # A conventional subject, like the rest of the history.
-          pr-title: 'chore: release'
-          commit-message: 'chore: release'
           published-packages: ${{ steps.changesets.outputs.published-packages }}
 
   on-ci-fail:
