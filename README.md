@@ -65,12 +65,12 @@ Your own run spends your own token, fails visibly in the job log, and leaves a c
 
 ## Inputs
 
-| Input     | Required | Default              | Description                                                                                          |
-| --------- | -------- | -------------------- | ---------------------------------------------------------------------------------------------------- |
-| `card`    | yes      | —                    | `stats`, `top-langs`, `pin`, `wakatime`, `gist`, `contributed-to`, `org` or `org-activity`.          |
-| `options` | no       | `""`                 | Query string (`key=value&...`) or JSON. Repeated keys join with commas.                              |
-| `path`    | no       | `profile/<card>.svg` | Output path, including the filename.                                                                 |
-| `token`   | no       | `github.token`       | GitHub token. Private repo stats need a PAT with `repo` and `read:user`; gists need one with `gist`. |
+| Input     | Required | Default        | Description                                                                                          |
+| --------- | -------- | -------------- | ---------------------------------------------------------------------------------------------------- |
+| `card`    | yes      | —              | `stats`, `top-langs`, `pin`, `wakatime`, `gist`, `contributed-to`, `org` or `org-activity`.          |
+| `options` | no       | `""`           | Query string (`key=value&...`) or JSON. Repeated keys join with commas.                              |
+| `path`    | yes      | —              | Output path, including the filename.                                                                 |
+| `token`   | no       | `github.token` | GitHub token. Private repo stats need a PAT with `repo` and `read:user`; gists need one with `gist`. |
 
 The account option defaults to the repository owner: `org` for the org and org-activity cards, `username` for the rest. Not for `gist`, keyed on its id, or `wakatime`, keyed on a WakaTime profile rather than a GitHub login.
 

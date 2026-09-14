@@ -80,6 +80,7 @@ describe(run, () => {
     mocks.inputs.clear();
     mocks.inputs.set('card', 'stats');
     mocks.inputs.set('options', 'username=octocat');
+    mocks.inputs.set('path', 'profile/stats.svg');
   });
 
   afterEach(() => {
@@ -101,16 +102,6 @@ describe(run, () => {
     await run();
 
     await expect(writtenCard('deeply/nested/output/stats.svg')).resolves.toBe('<svg>card</svg>');
-  });
-
-  it('defaults the path to profile/<card>.svg', async () => {
-    mocks.inputs.set('card', 'top-langs');
-
-    await run();
-
-    await expect(writtenCard('profile/top-langs.svg')).resolves.toBe('<svg>card</svg>');
-    // The same on every OS: the README tells people to paste this into markdown.
-    expect(mocks.core.setOutput).toHaveBeenCalledWith('path', 'profile/top-langs.svg');
   });
 
   it('outputs the path as given, not resolved, so a commit step can use it', async () => {
@@ -345,5 +336,13 @@ describe(run, () => {
     mocks.inputs.delete('card');
 
     await expect(run()).rejects.toThrow('Input required and not supplied: card');
+  });
+
+  // Before the render, so the failure costs no API call.
+  it('requires the path input', async () => {
+    mocks.inputs.delete('path');
+
+    await expect(run()).rejects.toThrow('Input required and not supplied: path');
+    expect(mocks.handlers.stats).not.toHaveBeenCalled();
   });
 });

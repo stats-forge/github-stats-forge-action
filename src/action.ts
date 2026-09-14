@@ -148,6 +148,8 @@ export const resolveCard = (card: string, options: Record<string, string>): Card
  */
 export const run = async (): Promise<void> => {
   const card = getInput('card', { required: true }).toLowerCase();
+  // Read before the render, so a missing one costs no API call.
+  const outputPath = getInput('path', { required: true });
   const options = parseOptions(getInput('options'));
 
   const repositoryOwner = process.env['GITHUB_REPOSITORY_OWNER'];
@@ -181,8 +183,6 @@ export const run = async (): Promise<void> => {
     throw new Error('Card renderer returned empty output.');
   }
 
-  // Documented as `profile/<card>.svg`, so the output must not pick up `\` on Windows.
-  const outputPath = getInput('path') || path.posix.join('profile', `${card}.svg`);
   const resolved = path.resolve(process.cwd(), outputPath);
   await mkdir(path.dirname(resolved), { recursive: true });
   await writeFile(resolved, result.content, 'utf8');
