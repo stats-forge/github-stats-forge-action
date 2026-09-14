@@ -61,6 +61,8 @@ jobs:
           BOT_NAME: ${{ steps.release-helper.outputs.bot-name }}
           BOT_EMAIL: ${{ steps.release-helper.outputs.bot-email }}
 
+      # The pull request phase is a job of its own, further down, because it
+      # cannot run until the tag exists.
       - name: Release please
         id: release-please
         uses: googleapis/release-please-action@45996ed1f6d02564a971a2fa1b5860e934307cf7 # v5.0.0
@@ -68,6 +70,7 @@ jobs:
           token: ${{ steps.release-helper.outputs.token }}
           config-file: release-please-config.json
           manifest-file: release-please-manifest.json
+          skip-github-pull-request: true
 
   # `dist/` is not committed, so the bundle is built here and committed onto the
   # released commit; that child is what `vX.Y.Z` tags.
@@ -139,6 +142,49 @@ jobs:
         env:
           GH_TOKEN: ${{ steps.release-helper.outputs.token }}
         run: gh release edit "${TAG}" --draft=false
+
+  # Release-please works out what is unreleased by anchoring on the last release.
+  # A draft carries no tag to anchor on, and this phase would then propose the
+  # whole history, so it waits until `publish-bundle` has tagged.
+  release-pr:
+    name: Release PR
+    environment: release
+
+    needs:
+      - release
+      - publish-bundle
+    # `publish-bundle` skips when there is nothing to release, and the release PR
+    # still has to be opened or updated. A failure means no tag, so nothing here.
+    if: ${{ !cancelled() && needs.release.result == 'success' && needs.publish-bundle.result != 'failure' }}
+
+    runs-on: ubuntu-latest
+
+    timeout-minutes: 5
+
+    permissions:
+      contents: write # required to push the release branch
+      pull-requests: write # required to create and update release PRs
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Setup release helper
+        id: release-helper
+        uses: marcalexiei/github-actions/setup-github-app-user-bot@b24da7e3c0e4a66a97cb28e39499c37873a593b7 # v2.3.0
+        with:
+          app-id: ${{ vars.RELEASE_HELPER_APP_ID }}
+          private-key: ${{ secrets.RELEASE_HELPER_PRIVATE_KEY }}
+
+      - name: Release please
+        uses: googleapis/release-please-action@45996ed1f6d02564a971a2fa1b5860e934307cf7 # v5.0.0
+        with:
+          token: ${{ steps.release-helper.outputs.token }}
+          config-file: release-please-config.json
+          manifest-file: release-please-manifest.json
+          skip-github-release: true
 
   on-ci-fail:
     name: 'Failure'
