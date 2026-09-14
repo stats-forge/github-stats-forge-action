@@ -59,7 +59,11 @@ describe('dist/index.js', () => {
   });
 
   it('reports a missing required option as a failure, not a crash', async () => {
-    const { code, stdout } = await runBundle({ card: 'stats', options: '' });
+    const { code, stdout } = await runBundle({
+      card: 'stats',
+      options: '',
+      path: 'profile/stats.svg',
+    });
 
     expect(stdout).toContain('::error::username is required for the stats card.');
     expect(code).toBe(1);
@@ -69,6 +73,7 @@ describe('dist/index.js', () => {
     const { stdout } = await runBundle({
       card: 'starts',
       options: 'username=octocat',
+      path: 'profile/stats.svg',
     });
 
     expect(stdout).toContain('::error::Unsupported card type: starts.');
