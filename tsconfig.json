@@ -24,6 +24,7 @@
   "include": [
     "src",
     "tests",
+    "scripts",
     "esbuild.config.ts",
     "oxfmt.config.ts",
     "oxlint.config.ts",
