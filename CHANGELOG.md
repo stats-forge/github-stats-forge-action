@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.7.0](https://github.com/stats-forge/github-stats-forge-action/compare/v0.6.2...v0.7.0) (2026-09-14)
+
+
+### ⚠ BREAKING CHANGES
+
+* `path` is required. Steps that relied on the default have to name their output file.
+
+### Features
+
+* make the `path` input required ([#51](https://github.com/stats-forge/github-stats-forge-action/issues/51)) ([26ffe1f](https://github.com/stats-forge/github-stats-forge-action/commit/26ffe1f972b2e8c9961bad10d681771b880898bf))
+
 ## [0.6.2](https://github.com/stats-forge/github-stats-forge-action/compare/v0.6.1...v0.6.2) (2026-09-13)
 
 
