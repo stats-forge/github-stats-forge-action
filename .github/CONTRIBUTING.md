@@ -56,6 +56,7 @@ Nothing is published to npm; the action is consumed by tag.
    Release-please drafts the GitHub release, which creates no tag.
    The `publish-bundle` job then builds `dist/`, commits it on top of the released commit, tags that child `vX.Y.Z`, and publishes the draft.
    Publishing is what starts `update-major-tag.yml`, which moves the floating `vX` that people pin, and `update-readme-version-pin.yml`.
+   The `release-pr` job runs release-please's other half last, once the tag it anchors on exists.
 
    A failure before publishing leaves a draft release and no tag, so nobody consumes a commit without a bundle.
    To recover, fix the cause and re-run the job; the draft is picked up by tag name.
