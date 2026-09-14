@@ -46,20 +46,20 @@ Issues with the cards themselves belong in [github-stats-forge](https://github.c
 
 ## Releasing
 
-Releases are automated by [release-please](https://github.com/googleapis/release-please-action), driven by [Conventional Commits](https://www.conventionalcommits.org).
+Releases are automated by [Changesets](https://github.com/changesets/changesets).
 Nothing is published to npm; the action is consumed by tag.
 
-1. Merge work into `main` with conventional commit subjects.
-   `fix:` gives a patch, `feat:` a minor, `!` or a `BREAKING CHANGE:` footer a major.
-2. Release-please keeps a `chore: release` PR open with the version bump and generated `CHANGELOG.md`, updating it as more commits land.
+1. Add a changeset to any pull request that changes what the action does: `pnpm changeset`.
+   It writes a file under `.changeset/` naming the bump and the line the changelog will carry.
+   A pull request that changes nothing for consumers needs none.
+2. Changesets keeps a `Version Packages` PR open with the pending bump and generated `CHANGELOG.md`, updating it as more changesets land.
 3. Merge that PR.
-   Release-please drafts the GitHub release, which creates no tag.
-   The `publish-bundle` job then builds `dist/`, commits it on top of the released commit, tags that child `vX.Y.Z`, and publishes the draft.
-   Publishing is what starts `update-major-tag.yml`, which moves the floating `vX` that people pin, and `update-readme-version-pin.yml`.
-   The `release-pr` job runs release-please's other half last, once the tag it anchors on exists.
+   `pnpm release` then builds `dist/`, commits it on top of the released commit, tags that child `vX.Y.Z` and pushes the tag, and `changesets/action` creates the GitHub release for it.
+   Creating the release is what starts `update-major-tag.yml`, which moves the floating `vX` that people pin, and `update-readme-version-pin.yml`.
+   The pull requests that release shipped, and the issues they close, are then commented on by [changesets-release-commenter](https://github.com/marcalexiei/changesets-release-commenter).
 
-   A failure before publishing leaves a draft release and no tag, so nobody consumes a commit without a bundle.
-   To recover, fix the cause and re-run the job; the draft is picked up by tag name.
+The next version comes from the changesets in the tree rather than from tag ancestry, which is what lets `vX.Y.Z` name a bundle commit that is not on `main`.
+Release-please could not: it resolves the latest release to a SHA and walks `main` looking for it.
 
 To roll back, run `update-major-tag.yml` by hand: pick the major and give it an earlier release tag on that same major.
 Everyone pinned to `vX` moves back, and the `vX.Y.Z` tag and its release are untouched.
@@ -70,4 +70,4 @@ Add a new major to the dropdown when you first cut one.
 The release workflow runs on `workflow_run` after CI, and only when CI passed, so a red commit never reaches a release.
 
 The release job needs a `release` environment holding `RELEASE_HELPER_APP_ID` and `RELEASE_HELPER_PRIVATE_KEY`.
-It uses a GitHub App token rather than `GITHUB_TOKEN`, whose events do not start other workflows: CI would never run on the release PR.
+It uses a GitHub App token rather than `GITHUB_TOKEN`, whose events do not start other workflows: CI would never run on the version PR.

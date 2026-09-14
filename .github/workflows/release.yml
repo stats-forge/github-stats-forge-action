@@ -1,7 +1,7 @@
 name: Release
 
-# Release-please keeps a release PR open; merging it drafts the release, which
-# `publish-bundle` then tags and publishes.
+# Changesets keeps a version PR open with the pending bump and changelog.
+# Merging it is what tags and publishes.
 # `workflow_run` is limited to main, and the job checks the head repository, so
 # no fork PR reaches it.
 on:
@@ -28,72 +28,13 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    timeout-minutes: 5
-
-    permissions:
-      contents: write # required to create releases and tags
-      pull-requests: write # required to create and update release PRs
-
-    outputs:
-      releases_created: ${{ steps.release-please.outputs.releases_created }}
-      tag_name: ${{ steps.release-please.outputs.tag_name }}
-      sha: ${{ steps.release-please.outputs.sha }}
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          persist-credentials: false
-
-      # GITHUB_TOKEN events start no workflows, so CI would never run on the release PR.
-      - name: Setup release helper
-        id: release-helper
-        uses: marcalexiei/github-actions/setup-github-app-user-bot@b24da7e3c0e4a66a97cb28e39499c37873a593b7 # v2.3.0
-        with:
-          app-id: ${{ vars.RELEASE_HELPER_APP_ID }}
-          private-key: ${{ secrets.RELEASE_HELPER_PRIVATE_KEY }}
-
-      - name: Configure git user for GitHub App
-        run: |
-          git config --global user.name '${BOT_NAME}'
-          git config --global user.email '${BOT_EMAIL}'
-        env:
-          BOT_NAME: ${{ steps.release-helper.outputs.bot-name }}
-          BOT_EMAIL: ${{ steps.release-helper.outputs.bot-email }}
-
-      # The pull request phase is a job of its own, further down, because it
-      # cannot run until the tag exists.
-      - name: Release please
-        id: release-please
-        uses: googleapis/release-please-action@45996ed1f6d02564a971a2fa1b5860e934307cf7 # v5.0.0
-        with:
-          token: ${{ steps.release-helper.outputs.token }}
-          config-file: release-please-config.json
-          manifest-file: release-please-manifest.json
-          skip-github-pull-request: true
-
-  # `dist/` is not committed, so the bundle is built here and committed onto the
-  # released commit; that child is what `vX.Y.Z` tags.
-  # The release stays a draft, and so untagged, until that lands: publishing it
-  # last is what starts the workflows that move `v0` and pin the README.
-  publish-bundle:
-    name: Publish the bundle
-    environment: release
-
-    needs: release
-    if: ${{ needs.release.outputs.releases_created == 'true' }}
-
-    runs-on: ubuntu-latest
-
     timeout-minutes: 10
 
     permissions:
       contents: read # the app token, not GITHUB_TOKEN, does the writing
 
-    env:
-      TAG: ${{ needs.release.outputs.tag_name }}
-
     steps:
+      # GITHUB_TOKEN events start no workflows, so CI would never run on the version PR.
       - name: Setup release helper
         id: release-helper
         uses: marcalexiei/github-actions/setup-github-app-user-bot@b24da7e3c0e4a66a97cb28e39499c37873a593b7 # v2.3.0
@@ -101,90 +42,51 @@ jobs:
           app-id: ${{ vars.RELEASE_HELPER_APP_ID }}
           private-key: ${{ secrets.RELEASE_HELPER_PRIVATE_KEY }}
 
-      # The released SHA, not `main`: anything merged since is not in this release.
-      # Credentials are persisted on purpose: the tag push needs them.
-      - name: Checkout the released commit
+      # Full history, because the commenter reads the changesets the release consumed.
+      # Credentials are persisted on purpose: `pnpm release` pushes the tag.
+      - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1 # zizmor: ignore[artipacked]
         with:
-          ref: ${{ needs.release.outputs.sha }}
+          ref: main
+          fetch-depth: 0
           token: ${{ steps.release-helper.outputs.token }}
 
-      - name: Install dependencies
-        uses: marcalexiei/github-actions/setup-node-and-pnpm@b24da7e3c0e4a66a97cb28e39499c37873a593b7 # v2.3.0
-
-      - name: Build the bundle
-        run: pnpm run build
-
-      # `--force`, because `.gitignore` holds `dist/`. The commit lands on no branch.
-      - name: Tag the bundle
+      - name: Configure git user for GitHub App
         env:
           BOT_NAME: ${{ steps.release-helper.outputs.bot-name }}
           BOT_EMAIL: ${{ steps.release-helper.outputs.bot-email }}
         run: |
-          # A re-run has the tag already, and it is the bundle everyone fetched.
-          if git ls-remote --exit-code --tags origin "refs/tags/${TAG}" >/dev/null; then
-            echo "::notice::${TAG} already exists; publishing it as it stands."
-            exit 0
-          fi
-
           git config user.name "${BOT_NAME}"
           git config user.email "${BOT_EMAIL}"
 
-          git add --force dist
-          git commit --message "${TAG}"
-          git tag "${TAG}"
-          git push origin "refs/tags/${TAG}"
+      - name: Install dependencies
+        uses: marcalexiei/github-actions/setup-node-and-pnpm@b24da7e3c0e4a66a97cb28e39499c37873a593b7 # v2.3.0
 
-          echo "::notice::${TAG} points at $(git rev-parse HEAD)."
+      # `dist/` is not committed, so `pnpm release` commits this build onto the tag.
+      - name: Build the bundle
+        run: pnpm run build
 
-      # The tag now exists, so publishing keeps it instead of cutting its own.
-      - name: Publish the release
-        env:
-          GH_TOKEN: ${{ steps.release-helper.outputs.token }}
-        run: gh release edit "${TAG}" --draft=false
-
-  # Release-please works out what is unreleased by anchoring on the last release.
-  # A draft carries no tag to anchor on, and this phase would then propose the
-  # whole history, so it waits until `publish-bundle` has tagged.
-  release-pr:
-    name: Release PR
-    environment: release
-
-    needs:
-      - release
-      - publish-bundle
-    # `publish-bundle` skips when there is nothing to release, and the release PR
-    # still has to be opened or updated. A failure means no tag, so nothing here.
-    if: ${{ !cancelled() && needs.release.result == 'success' && needs.publish-bundle.result != 'failure' }}
-
-    runs-on: ubuntu-latest
-
-    timeout-minutes: 5
-
-    permissions:
-      contents: write # required to push the release branch
-      pull-requests: write # required to create and update release PRs
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      # Opens or updates the version PR, or, when that PR has just landed, runs
+      # `pnpm release` and creates the GitHub release for the tag it pushed.
+      # Publishing is what starts the workflows that move `v0` and pin the README.
+      - name: Changesets
+        id: changesets
+        uses: changesets/action@ae32849d5ba541f9ae29e40e22a623bc13562f51 # v2.1.2
         with:
-          persist-credentials: false
+          github-token: ${{ steps.release-helper.outputs.token }}
+          # `CHANGELOG.md` is no longer exempt from the formatter, and the
+          # version PR has to pass the same CI as everything else.
+          version-script: pnpm run changeset:version
+          publish-script: pnpm run release
 
-      - name: Setup release helper
-        id: release-helper
-        uses: marcalexiei/github-actions/setup-github-app-user-bot@b24da7e3c0e4a66a97cb28e39499c37873a593b7 # v2.3.0
+      - name: Comment on the shipped pull requests and issues
+        if: ${{ steps.changesets.outputs.published == 'true' }}
+        # The tag is already out; a failed comment must not fail the release.
+        continue-on-error: true
+        uses: marcalexiei/changesets-release-commenter@2a3487749191bc6c2fb258fcdf8225e817938f72 # v0.1.4
         with:
-          app-id: ${{ vars.RELEASE_HELPER_APP_ID }}
-          private-key: ${{ secrets.RELEASE_HELPER_PRIVATE_KEY }}
-
-      - name: Release please
-        uses: googleapis/release-please-action@45996ed1f6d02564a971a2fa1b5860e934307cf7 # v5.0.0
-        with:
-          token: ${{ steps.release-helper.outputs.token }}
-          config-file: release-please-config.json
-          manifest-file: release-please-manifest.json
-          skip-github-release: true
+          github-token: ${{ steps.release-helper.outputs.token }}
+          published-packages: ${{ steps.changesets.outputs.published-packages }}
 
   on-ci-fail:
     name: 'Failure'

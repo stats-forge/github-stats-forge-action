@@ -2,7 +2,7 @@
   "$schema": "./node_modules/knip/schema.json",
   // `src/index.ts` is a default entry.
   // It is also what `action.yml` runs, once bundled into `dist/index.js`.
-  "project": ["src/**/*.ts"],
+  "project": ["src/**/*.ts", "scripts/**/*.ts"],
   "vitest": {
     "entry": ["tests/*.spec.ts"],
   },
