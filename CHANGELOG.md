@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.8.0
+
+### Minor Changes
+
+- [#66](https://github.com/stats-forge/github-stats-forge-action/pull/66) [`26faecf`](https://github.com/stats-forge/github-stats-forge-action/commit/26faecf487738a81d4015c077450fec41591c3dd) Thanks [@marcalexiei](https://github.com/marcalexiei)! - Render with `@stats-forge/github-stats-forge-core@0.8.0`. Cards no longer carry a bottom padding that grew with `line_height` — the space under the last row is a fixed 18px, so regenerated cards come out slightly shorter — and the all-time contributions walk now recovers from gateway timeouts, `RESOURCE_LIMITS_EXCEEDED` and empty responses instead of failing the card.
+
 ## 0.7.1
 
 ### Patch Changes
