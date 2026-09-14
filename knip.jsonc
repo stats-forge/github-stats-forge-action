@@ -3,10 +3,6 @@
   // `src/index.ts` is a default entry.
   // It is also what `action.yml` runs, once bundled into `dist/index.js`.
   "project": ["src/**/*.ts"],
-  // Build output, not source.
-  // knip hints "Remove from ignore" while `dist/` is absent, but with the bundle
-  // present, dropping this makes it scan the whole bundle and report its requires.
-  "ignore": ["dist/**"],
   "vitest": {
     "entry": ["tests/*.spec.ts"],
   },

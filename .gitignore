@@ -3,6 +3,5 @@ node_modules
 coverage
 *.tsbuildinfo
 
-# `dist/` is deliberately NOT ignored.
-# The action runs the committed bundle straight from the repo, so `pnpm build`
-# output must be checked in.
+# Built at release time, onto the commit the tag points at, by `release.yml`.
+dist

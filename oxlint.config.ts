@@ -8,8 +8,6 @@ export default defineConfig({
   extends: [baseConfig, typescriptConfig],
   // `typescriptConfig` holds rules that need types, which oxlint-tsgolint reads.
   options: { typeAware: true },
-  // The committed bundle: generated, and 1.1mb of it.
-  ignorePatterns: ['dist'],
   overrides: [
     {
       files: ['**/*.spec.ts'],

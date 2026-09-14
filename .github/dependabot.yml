@@ -22,9 +22,6 @@ updates:
       include: scope
     cooldown:
       default-days: 7
-    # Dev only: a runtime bump rewrites `dist/`, which Dependabot cannot rebuild.
-    allow:
-      - dependency-type: development
     ignore:
       # `engines` decides which major this runs on, so the types follow it rather than lead.
       - dependency-name: '@types/node'
