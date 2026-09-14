@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.8.1
+
+### Patch Changes
+
+- [#71](https://github.com/stats-forge/github-stats-forge-action/pull/71) [`7391e08`](https://github.com/stats-forge/github-stats-forge-action/commit/7391e08913fa34b48c5afc9bf3b52de9aece3e92) Thanks [@marcalexiei](https://github.com/marcalexiei)! - docs: pin `actions/checkout` in the usage example
+
 ## 0.8.0
 
 ### Minor Changes
