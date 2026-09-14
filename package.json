@@ -25,7 +25,7 @@
   },
   "dependencies": {
     "@actions/core": "3.0.1",
-    "@stats-forge/github-stats-forge-core": "0.7.1"
+    "@stats-forge/github-stats-forge-core": "0.8.0"
   },
   "devDependencies": {
     "@changesets/changelog-github": "1.0.1",
