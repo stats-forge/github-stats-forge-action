@@ -33,6 +33,10 @@ jobs:
     permissions:
       contents: read # the app token, not GITHUB_TOKEN, does the writing
 
+    outputs:
+      published: ${{ steps.changesets.outputs.published }}
+      publishedPackages: ${{ steps.changesets.outputs['published-packages'] }}
+
     steps:
       # GITHUB_TOKEN events start no workflows, so CI would never run on the version PR.
       - name: Setup release helper
@@ -42,7 +46,7 @@ jobs:
           app-id: ${{ vars.RELEASE_HELPER_APP_ID }}
           private-key: ${{ secrets.RELEASE_HELPER_PRIVATE_KEY }}
 
-      # Full history, because the commenter reads the changesets the release consumed.
+      # Full history, so `changeset git-tag` sees the tags already released.
       # Credentials are persisted on purpose: `pnpm release` pushes the tag.
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1 # zizmor: ignore[artipacked]
@@ -82,14 +86,44 @@ jobs:
           version-script: pnpm run changeset:version
           publish-script: pnpm run release
 
-      - name: Comment on the shipped pull requests and issues
-        if: ${{ steps.changesets.outputs.published == 'true' }}
-        # The tag is already out; a failed comment must not fail the release.
-        continue-on-error: true
+  # Its own job, so a comment that fails is a red job to re-run rather than an error swallowed
+  # inside a green release: the tag is already out by the time it runs.
+  comment:
+    name: Comment
+    environment: release # where the release helper's credentials live
+
+    needs: release
+    if: ${{ needs.release.outputs.published == 'true' }}
+
+    runs-on: ubuntu-latest
+
+    timeout-minutes: 5
+
+    permissions:
+      contents: read # required to check out the repository
+
+    steps:
+      # The app's token, not the default one: it carries issues:write, and the comments
+      # then come from the same bot that opened the version PR.
+      - name: Setup release helper
+        id: release-helper
+        uses: marcalexiei/github-actions/setup-github-app-user-bot@b24da7e3c0e4a66a97cb28e39499c37873a593b7 # v2.3.0
+        with:
+          app-id: ${{ vars.RELEASE_HELPER_APP_ID }}
+          private-key: ${{ secrets.RELEASE_HELPER_PRIVATE_KEY }}
+
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+          persist-credentials: false
+          fetch-depth: 0 # the commenter reads the history before the release commit
+
+      - name: Comment on shipped PRs and issues
         uses: marcalexiei/changesets-release-commenter@80366b79332f7311aa9be1679c6abfbe75d73f0e # v0.2.2
         with:
           github-token: ${{ steps.release-helper.outputs.token }}
-          published-packages: ${{ steps.changesets.outputs.published-packages }}
+          published-packages: ${{ needs.release.outputs.publishedPackages }}
 
   on-ci-fail:
     name: 'Failure'
