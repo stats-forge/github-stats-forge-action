@@ -170,8 +170,8 @@ importers:
         specifier: 3.0.1
         version: 3.0.1
       '@stats-forge/github-stats-forge-core':
-        specifier: 0.8.0
-        version: 0.8.0
+        specifier: 0.8.1
+        version: 0.8.1
     devDependencies:
       '@changesets/changelog-github':
         specifier: 1.0.1
@@ -1120,8 +1120,8 @@ packages:
   '@rolldown/pluginutils@1.0.1':
     resolution: {integrity: sha512-2j9bGt5Jh8hj+vPtgzPtl72j0yRxHAyumoo6TNfAjsLB04UtpSvPbPcDcBMxz7n+9CYB0c1GxQFxYRg2jimqGw==}
 
-  '@stats-forge/github-stats-forge-core@0.8.0':
-    resolution: {integrity: sha512-fGDdpyfVJP7TfZuuNZMmBhPeuwofgAD5T6YWts1gmvhhTDm7W6gMgRE2t+TTJ5f0Qi4VWJAcKtcXDfMUemozUQ==}
+  '@stats-forge/github-stats-forge-core@0.8.1':
+    resolution: {integrity: sha512-WlZArCIC5b+FAwfUzv50v3shymhBQAeBqCTnYn35uxeCLJOuJDx4JTgOdFWJtRE65OkfOK8+6iTG5n0xSaR/7w==}
     engines: {node: ^24 || >=26}
 
   '@tybys/wasm-util@0.10.3':
@@ -2319,7 +2319,7 @@ snapshots:
 
   '@rolldown/pluginutils@1.0.1': {}
 
-  '@stats-forge/github-stats-forge-core@0.8.0':
+  '@stats-forge/github-stats-forge-core@0.8.1':
     dependencies:
       zod: 4.5.4
 
