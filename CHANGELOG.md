@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.8.2
+
+### Patch Changes
+
+- [#77](https://github.com/stats-forge/github-stats-forge-action/pull/77) [`a034604`](https://github.com/stats-forge/github-stats-forge-action/commit/a03460452857d3d3004fc2c1bc9ff58a41e54fdf) Thanks [@marcalexiei](https://github.com/marcalexiei)! - Render with `@stats-forge/github-stats-forge-core@0.8.1`. The stats card's rank ring and the wakatime compact bar are centred properly, and a transport failure is retried with the same token after a backoff instead of failing the card at once.
+
 ## 0.8.1
 
 ### Patch Changes
