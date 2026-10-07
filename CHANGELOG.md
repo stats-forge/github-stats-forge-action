@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.8.3
+
+### Patch Changes
+
+- [#84](https://github.com/stats-forge/github-stats-forge-action/pull/84) [`432482b`](https://github.com/stats-forge/github-stats-forge-action/commit/432482bbb134869c13887811e3a3718d945c7054) Thanks [@marcalexiei](https://github.com/marcalexiei)! - Render with `@stats-forge/github-stats-forge-core@0.8.3`. A language spelled with different casing than linguist uses now gets its brand color instead of the default gray, and language colors are regenerated from upstream linguist. The repository pin card now fades in like the other cards, and `disable_animations` turns the animation off on the pin and gist cards too.
+
 ## 0.8.2
 
 ### Patch Changes
