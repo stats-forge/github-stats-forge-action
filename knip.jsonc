@@ -4,6 +4,6 @@
   // It is also what `action.yml` runs, once bundled into `dist/index.js`.
   "project": ["src/**/*.ts", "scripts/**/*.ts"],
   "vitest": {
-    "entry": ["tests/*.spec.ts"],
-  },
+    "entry": ["tests/*.spec.ts"]
+  }
 }

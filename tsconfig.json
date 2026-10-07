@@ -17,8 +17,7 @@
 
     "noEmit": true,
 
-    // Only for vitest 5.0.0's dangling .d.ts references; fixed upstream, drop on 5.0.1.
-    // https://github.com/vitest-dev/vitest/issues/11140
+    // Only for tinybench, which vitest pulls in: its types name a DOM type and `lib` has no DOM.
     "skipLibCheck": true
   },
   "include": [
