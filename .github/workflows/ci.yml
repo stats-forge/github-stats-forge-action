@@ -20,7 +20,7 @@ jobs:
           persist-credentials: false
 
       - name: Install dependencies
-        uses: marcalexiei/github-actions/setup-node-and-pnpm@b24da7e3c0e4a66a97cb28e39499c37873a593b7 # v2.3.0
+        uses: marcalexiei/github-actions/setup-node-and-pnpm@9ded13ab164dfe9b64cc973d440b629ec1940d8d # v2.4.0
 
       # `dist/` is not committed, and `tests/dist.spec.ts` runs it.
       - name: Build the bundle
@@ -54,7 +54,9 @@ jobs:
           persist-credentials: false
 
       - name: Install dependencies
-        uses: marcalexiei/github-actions/setup-node-and-pnpm@b24da7e3c0e4a66a97cb28e39499c37873a593b7 # v2.3.0
+        uses: marcalexiei/github-actions/setup-node-and-pnpm@9ded13ab164dfe9b64cc973d440b629ec1940d8d # v2.4.0
+        with:
+          save-cache: false
 
       # `./` below runs the workspace copy, so it needs the bundle built here.
       # `$/` cannot: it fetches this commit, which no longer carries one.
