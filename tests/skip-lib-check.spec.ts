@@ -24,15 +24,13 @@ const typecheckWithoutSkipLibCheck = (): Promise<string> =>
   });
 
 describe('tsconfig.json', () => {
-  // `skipLibCheck` is there only for the dangling references vitest 5.0.0 ships.
-  // The fix is merged upstream, so this goes red once it is released.
-  // https://github.com/vitest-dev/vitest/issues/11140
-  it('still needs skipLibCheck for vitest', async () => {
+  // `skipLibCheck` is there only for the DOM type tinybench's declarations name.
+  it('still needs skipLibCheck for tinybench', async () => {
     const output = await typecheckWithoutSkipLibCheck();
 
     expect(
       output,
-      'vitest no longer breaks `tsc` — drop `skipLibCheck` from tsconfig.json and delete this test',
-    ).toContain('@vitest/expect');
+      'tinybench no longer breaks `tsc` — drop `skipLibCheck` from tsconfig.json and delete this test',
+    ).toContain('tinybench');
   });
 });
