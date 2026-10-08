@@ -17,12 +17,13 @@ on:
     #        * * * * *
     - cron: '0 3 * * *'
 
-permissions:
-  contents: write
+permissions: {}
 
 jobs:
   cards:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write # to push the refreshed cards
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
