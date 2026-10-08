@@ -4,31 +4,31 @@
 
 ### Patch Changes
 
-- [#84](https://github.com/stats-forge/github-stats-forge-action/pull/84) [`432482b`](https://github.com/stats-forge/github-stats-forge-action/commit/432482bbb134869c13887811e3a3718d945c7054) Thanks [@marcalexiei](https://github.com/marcalexiei)! - Render with `@stats-forge/github-stats-forge-core@0.8.3`. A language spelled with different casing than linguist uses now gets its brand color instead of the default gray, and language colors are regenerated from upstream linguist. The repository pin card now fades in like the other cards, and `disable_animations` turns the animation off on the pin and gist cards too.
+- [#84](https://github.com/stats-forge/github-stats-forge-action/pull/84) [`432482b`](https://github.com/stats-forge/github-stats-forge-action/commit/432482bbb134869c13887811e3a3718d945c7054) - Render with `@stats-forge/github-stats-forge-core@0.8.3`. A language spelled with different casing than linguist uses now gets its brand color instead of the default gray, and language colors are regenerated from upstream linguist. The repository pin card now fades in like the other cards, and `disable_animations` turns the animation off on the pin and gist cards too.
 
 ## 0.8.2
 
 ### Patch Changes
 
-- [#77](https://github.com/stats-forge/github-stats-forge-action/pull/77) [`a034604`](https://github.com/stats-forge/github-stats-forge-action/commit/a03460452857d3d3004fc2c1bc9ff58a41e54fdf) Thanks [@marcalexiei](https://github.com/marcalexiei)! - Render with `@stats-forge/github-stats-forge-core@0.8.1`. The stats card's rank ring and the wakatime compact bar are centred properly, and a transport failure is retried with the same token after a backoff instead of failing the card at once.
+- [#77](https://github.com/stats-forge/github-stats-forge-action/pull/77) [`a034604`](https://github.com/stats-forge/github-stats-forge-action/commit/a03460452857d3d3004fc2c1bc9ff58a41e54fdf) - Render with `@stats-forge/github-stats-forge-core@0.8.1`. The stats card's rank ring and the wakatime compact bar are centred properly, and a transport failure is retried with the same token after a backoff instead of failing the card at once.
 
 ## 0.8.1
 
 ### Patch Changes
 
-- [#71](https://github.com/stats-forge/github-stats-forge-action/pull/71) [`7391e08`](https://github.com/stats-forge/github-stats-forge-action/commit/7391e08913fa34b48c5afc9bf3b52de9aece3e92) Thanks [@marcalexiei](https://github.com/marcalexiei)! - docs: pin `actions/checkout` in the usage example
+- [#71](https://github.com/stats-forge/github-stats-forge-action/pull/71) [`7391e08`](https://github.com/stats-forge/github-stats-forge-action/commit/7391e08913fa34b48c5afc9bf3b52de9aece3e92) - docs: pin `actions/checkout` in the usage example
 
 ## 0.8.0
 
 ### Minor Changes
 
-- [#66](https://github.com/stats-forge/github-stats-forge-action/pull/66) [`26faecf`](https://github.com/stats-forge/github-stats-forge-action/commit/26faecf487738a81d4015c077450fec41591c3dd) Thanks [@marcalexiei](https://github.com/marcalexiei)! - Render with `@stats-forge/github-stats-forge-core@0.8.0`. Cards no longer carry a bottom padding that grew with `line_height` — the space under the last row is a fixed 18px, so regenerated cards come out slightly shorter — and the all-time contributions walk now recovers from gateway timeouts, `RESOURCE_LIMITS_EXCEEDED` and empty responses instead of failing the card.
+- [#66](https://github.com/stats-forge/github-stats-forge-action/pull/66) [`26faecf`](https://github.com/stats-forge/github-stats-forge-action/commit/26faecf487738a81d4015c077450fec41591c3dd) - Render with `@stats-forge/github-stats-forge-core@0.8.0`. Cards no longer carry a bottom padding that grew with `line_height` — the space under the last row is a fixed 18px, so regenerated cards come out slightly shorter — and the all-time contributions walk now recovers from gateway timeouts, `RESOURCE_LIMITS_EXCEEDED` and empty responses instead of failing the card.
 
 ## 0.7.1
 
 ### Patch Changes
 
-- [#59](https://github.com/stats-forge/github-stats-forge-action/pull/59) [`9a4a80a`](https://github.com/stats-forge/github-stats-forge-action/commit/9a4a80a50f5871eb3650d1a3e060f78aa94cd4be) Thanks [@marcalexiei](https://github.com/marcalexiei)! - Release automation moved from release-please to Changesets. Nothing changes for the action itself.
+- [#59](https://github.com/stats-forge/github-stats-forge-action/pull/59) [`9a4a80a`](https://github.com/stats-forge/github-stats-forge-action/commit/9a4a80a50f5871eb3650d1a3e060f78aa94cd4be) - Release automation moved from release-please to Changesets. Nothing changes for the action itself.
 
 ## [0.7.0](https://github.com/stats-forge/github-stats-forge-action/compare/v0.6.2...v0.7.0) (2026-09-14)
 
