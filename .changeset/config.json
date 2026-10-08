@@ -2,7 +2,7 @@
   "$schema": "https://unpkg.com/@changesets/config@4.0.1/schema.json",
   "changelog": [
     "@changesets/changelog-github",
-    { "repo": "stats-forge/github-stats-forge-action" }
+    { "repo": "stats-forge/github-stats-forge-action", "disableThanks": true }
   ],
   "commit": false,
   "linked": [],
