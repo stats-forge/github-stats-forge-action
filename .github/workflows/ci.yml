@@ -68,8 +68,8 @@ jobs:
         uses: ./ # zizmor: ignore[self-repository]
         with:
           card: stats
-          options: username=octocat
           path: profile/stats.svg
+          options: username=octocat
           token: ${{ secrets.GITHUB_TOKEN }}
 
       # A render failure already fails the step above.
