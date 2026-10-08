@@ -29,15 +29,15 @@ jobs:
       - uses: stats-forge/github-stats-forge-action@faf6b741abea69f64550a2ae2c32c88b2da99fd1 # v0.8.3
         with:
           card: stats
-          options: '?username=octocat&show_icons=true&theme=dark'
           path: profile/stats.svg
+          options: '?username=octocat&show_icons=true&theme=dark'
           token: ${{ secrets.STATS_PAT }}
 
       - uses: stats-forge/github-stats-forge-action@faf6b741abea69f64550a2ae2c32c88b2da99fd1 # v0.8.3
         with:
           card: top-langs
-          options: '?username=octocat&layout=compact'
           path: profile/langs.svg
+          options: '?username=octocat&layout=compact'
           token: ${{ secrets.STATS_PAT }}
 
       - name: Commit if anything changed
@@ -68,8 +68,8 @@ Your own run spends your own token, fails visibly in the job log, and leaves a c
 | Input     | Required | Default        | Description                                                                                          |
 | --------- | -------- | -------------- | ---------------------------------------------------------------------------------------------------- |
 | `card`    | yes      | —              | `stats`, `top-langs`, `pin`, `wakatime`, `gist`, `contributed-to`, `org` or `org-activity`.          |
-| `options` | no       | `""`           | Query string (`key=value&...`) or JSON. Repeated keys join with commas.                              |
 | `path`    | yes      | —              | Output path, including the filename.                                                                 |
+| `options` | no       | `""`           | Query string (`key=value&...`) or JSON. Repeated keys join with commas.                              |
 | `token`   | no       | `github.token` | GitHub token. Private repo stats need a PAT with `repo` and `read:user`; gists need one with `gist`. |
 
 The account option defaults to the repository owner: `org` for the org and org-activity cards, `username` for the rest. Not for `gist`, keyed on its id, or `wakatime`, keyed on a WakaTime profile rather than a GitHub login.

@@ -10,13 +10,13 @@ inputs:
   card:
     description: Card type to generate (stats, top-langs, pin, wakatime, gist, contributed-to, org, org-activity).
     required: true
+  path:
+    description: Output path for the SVG, including the filename.
+    required: true
   options:
     description: Options for the card (query string or JSON).
     required: false
     default: ''
-  path:
-    description: Output path for the SVG, including the filename.
-    required: true
   token:
     description: GitHub token. Defaults to github.token, enough for public data; private repositories and gists need a PAT.
     required: false
