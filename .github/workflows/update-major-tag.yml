@@ -25,6 +25,15 @@ on:
 
 permissions: {}
 
+# Two releases racing could leave the major tag on the older one.
+concurrency:
+  group: '${{ github.workflow }}'
+  cancel-in-progress: false
+
+defaults:
+  run:
+    shell: bash
+
 jobs:
   update-major-tag:
     name: Update major tag
@@ -34,7 +43,7 @@ jobs:
     # Null, and so allowed, on a dispatch.
     if: ${{ !github.event.release.prerelease }}
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     timeout-minutes: 5
 
