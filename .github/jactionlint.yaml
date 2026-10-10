@@ -1,0 +1,7 @@
+profile: pedantic
+
+paths:
+  .github/workflows/ci.yml:
+    ignore:
+      # `dist/` is built in the job, not committed.
+      - 'file "dist/index.js" does not exist'

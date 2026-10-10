@@ -16,6 +16,15 @@ on:
 
 permissions: {}
 
+# Two releases racing could leave the README pinned to the older one.
+concurrency:
+  group: '${{ github.workflow }}'
+  cancel-in-progress: false
+
+defaults:
+  run:
+    shell: bash
+
 env:
   TAG: ${{ inputs.target || github.event.release.tag_name }}
 
@@ -27,7 +36,7 @@ jobs:
     # Nobody should be told to pin a prerelease. Null, and so allowed, on a dispatch.
     if: ${{ !github.event.release.prerelease }}
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     timeout-minutes: 5
 
@@ -70,6 +79,7 @@ jobs:
 
       # A clean tree opens no PR.
       # `chore`, not `docs`: release-please would list it in the next changelog.
+      # jactionlint ignore=superfluous-actions
       - name: Create Pull Request if the README changed
         id: create_pr
         uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
