@@ -50,8 +50,8 @@ jobs:
           app-id: ${{ vars.RELEASE_HELPER_APP_ID }}
           private-key: ${{ secrets.RELEASE_HELPER_PRIVATE_KEY }}
 
-      # Full history, so `changeset git-tag` sees the tags already released.
-      # Credentials are persisted on purpose: `pnpm release` pushes the tag.
+      # Full history, so Changesets finds the commit that added each changeset.
+      # Credentials are persisted on purpose: Changesets pushes the version branch.
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1 # zizmor: ignore[artipacked]
         with:
@@ -72,7 +72,7 @@ jobs:
         with:
           save-cache: false
 
-      # `dist/` is not committed, so `pnpm release` commits this build onto the tag.
+      # `dist/` is not committed, so `pnpm release` commits this build for the tag.
       - name: Build the bundle
         run: pnpm run build
 
@@ -82,6 +82,8 @@ jobs:
       - name: Changesets
         id: changesets
         uses: changesets/action@ae32849d5ba541f9ae29e40e22a623bc13562f51 # v2.1.2
+        env:
+          GITHUB_TOKEN: ${{ steps.release-helper.outputs.token }} # `pnpm release` commits through the API
         with:
           github-token: ${{ steps.release-helper.outputs.token }}
           # A conventional subject, like the rest of the history.
