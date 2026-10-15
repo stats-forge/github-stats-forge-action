@@ -57,16 +57,10 @@ jobs:
           app-id: ${{ vars.RELEASE_HELPER_APP_ID }}
           private-key: ${{ secrets.RELEASE_HELPER_PRIVATE_KEY }}
 
-      # Credentials are persisted on purpose: the push below needs them.
-      # This doubles as a rollback tool, so keep the pin a release or two back.
-      - name: Checkout
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1 # zizmor: ignore[artipacked]
-        with:
-          token: ${{ steps.release-helper.outputs.token }}
-          fetch-depth: 0
-
       - name: Move the major tag
         env:
+          GH_TOKEN: ${{ steps.release-helper.outputs.token }}
+          REPO: ${{ github.repository }}
           RELEASE_TAG: ${{ github.event.release.tag_name }}
           INPUT_MAJOR: ${{ inputs.major_version }}
           INPUT_TARGET: ${{ inputs.target }}
@@ -89,10 +83,14 @@ jobs:
               ;;
           esac
 
-          # A lightweight tag needs no git identity.
-          # `^{}` resolves an annotated target to its commit, and force covers
-          # create, move and no-op alike.
-          git tag -f "${major}" "${tag}^{}"
-          git push -f origin "refs/tags/${major}"
+          # `commits/` resolves an annotated tag to its commit.
+          sha="$(gh api "repos/${REPO}/commits/${tag}" --jq .sha)"
 
-          echo "::notice::${major} now points at $(git rev-parse "${major}") (${tag})."
+          # A new major has no tag to move yet.
+          if gh api "repos/${REPO}/git/ref/tags/${major}" --silent 2>/dev/null; then
+            gh api -X PATCH "repos/${REPO}/git/refs/tags/${major}" -f sha="${sha}" -F force=true
+          else
+            gh api "repos/${REPO}/git/refs" -f ref="refs/tags/${major}" -f sha="${sha}"
+          fi
+
+          echo "::notice::${major} now points at ${sha} (${tag})."
