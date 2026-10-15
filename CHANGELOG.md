@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.8.5
+
+### Patch Changes
+
+- [#99](https://github.com/stats-forge/github-stats-forge-action/pull/99) [`ebcfd0c`](https://github.com/stats-forge/github-stats-forge-action/commit/ebcfd0ca1696c2f2baa0787094753e63e8d85b96) - Release commits are now signed by GitHub, so each `vX.Y.Z` tag points at a verified commit. Nothing changes for the action itself.
+
 ## 0.8.4
 
 ### Patch Changes
