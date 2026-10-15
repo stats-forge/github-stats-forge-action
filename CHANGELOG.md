@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.8.4
+
+### Patch Changes
+
+- [#95](https://github.com/stats-forge/github-stats-forge-action/pull/95) [`f23bb46`](https://github.com/stats-forge/github-stats-forge-action/commit/f23bb46041953bed9c7c09cdf87ac532bec3c319) - Render with `@stats-forge/github-stats-forge-core@0.8.5`
+
+  - Keep the top-languages donut inside the card, centred on its list.
+  - Stop the repo card's `show` stats running into their values.
+
 ## 0.8.3
 
 ### Patch Changes
