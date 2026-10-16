@@ -9,6 +9,7 @@ import {
   org,
   orgActivity,
   pin,
+  queryOf,
   stats,
   topLangs,
   wakatime,
@@ -114,10 +115,7 @@ export const parseOptions = (value: string): Record<string, string> => {
   }
 
   // URLSearchParams strips a single leading "?" natively.
-  const params = new URLSearchParams(trimmed);
-  return Object.fromEntries(
-    [...new Set(params.keys())].map((key) => [key, params.getAll(key).join(',')]),
-  );
+  return queryOf(new URLSearchParams(trimmed));
 };
 
 /**

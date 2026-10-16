@@ -21,8 +21,8 @@ describe(parseOptions, () => {
   });
 
   it('decodes percent-encoded values', () => {
-    expect(parseOptions('custom_title=My%20Stats')).toStrictEqual({
-      custom_title: 'My Stats',
+    expect(parseOptions('title=My%20Stats')).toStrictEqual({
+      title: 'My Stats',
     });
   });
 
