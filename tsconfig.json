@@ -15,10 +15,7 @@
     "verbatimModuleSyntax": true,
     "isolatedModules": true,
 
-    "noEmit": true,
-
-    // Only for tinybench, which vitest pulls in: its types name a DOM type and `lib` has no DOM.
-    "skipLibCheck": true
+    "noEmit": true
   },
   "include": [
     "src",
