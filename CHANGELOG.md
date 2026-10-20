@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.10.0
+
+### Minor Changes
+
+- [#112](https://github.com/stats-forge/github-stats-forge-action/pull/112) [`d5020af`](https://github.com/stats-forge/github-stats-forge-action/commit/d5020af1ee51705419f70003cccae014d597ed86) - Render with [`@stats-forge/github-stats-forge-core@0.10.0`](https://github.com/stats-forge/github-stats-forge/releases/tag/%40stats-forge/github-stats-forge-core%400.10.0)
+
+  - Draw a repository's topics on the pin card with `show=topics`.
+  - Fold the languages `langs_count` cuts into an Other row on the top-languages card.
+  - Shrink a card title too long for its card instead of cropping it.
+  - Widen the compact top-languages card, its pie and vertical donut, and the compact WakaTime card to fit their longest label.
+  - Fail an expired or revoked token as a token to replace, not a rate limit to wait out.
+  - Count 0 for a search GitHub will not run for the user, instead of failing the stats card.
+
 ## 0.9.0
 
 ### Minor Changes
