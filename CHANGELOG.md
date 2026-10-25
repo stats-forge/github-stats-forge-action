@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.11.0
+
+### Minor Changes
+
+- [#116](https://github.com/stats-forge/github-stats-forge-action/pull/116) [`7f1574f`](https://github.com/stats-forge/github-stats-forge-action/commit/7f1574fe7ad889ce0684a77fe83bb907ff929acc) - Render with [`@stats-forge/github-stats-forge-core@0.11.0`](https://github.com/stats-forge/github-stats-forge/releases/tag/%40stats-forge/github-stats-forge-core%400.11.0)
+
+  - Add `notebooks=code` to the top-languages card, counting notebooks' code cells as their kernel's language.
+
 ## 0.10.0
 
 ### Minor Changes
