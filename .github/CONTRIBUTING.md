@@ -67,7 +67,7 @@ Everyone pinned to `vX` moves back, and the `vX.Y.Z` tag and its release are unt
 The dispatch refuses anything that is not an existing `vX.Y.Z` tag on the major being moved: no branches, no loose commits, no crossing from `v0` to `v1`.
 Add a new major to the dropdown when you first cut one.
 
-The release workflow runs on `workflow_run` after CI, and only when CI passed, so a red commit never reaches a release.
+The release workflow runs on every push to `main`, queued so none is skipped; CI on the version PR is what gates a release.
 
 The release job needs a `release` environment holding `RELEASE_HELPER_APP_ID` and `RELEASE_HELPER_PRIVATE_KEY`.
 It uses a GitHub App token rather than `GITHUB_TOKEN`, whose events do not start other workflows: CI would never run on the version PR.
