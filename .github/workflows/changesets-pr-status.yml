@@ -25,9 +25,10 @@ jobs:
       comment-body: ${{ steps.pr-status.outputs.comment-body }}
 
     steps:
-      # credentials are kept: `pr-status` fetches the PR head ref
       - name: Checkout
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1 # zizmor: ignore[artipacked]
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
       - name: Generate PR status
         id: pr-status

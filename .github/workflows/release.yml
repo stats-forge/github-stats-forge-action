@@ -24,7 +24,7 @@ jobs:
     name: Release
     environment: release
 
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
 
     timeout-minutes: 10
 
@@ -96,7 +96,7 @@ jobs:
     needs: release
     if: ${{ needs.release.outputs.published == 'true' }}
 
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
 
     timeout-minutes: 5
 
