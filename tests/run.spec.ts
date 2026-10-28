@@ -15,7 +15,7 @@ type Handler = (query: unknown, config: unknown) => Promise<ApiResult>;
 
 const mocks = vi.hoisted(() => {
   const success: ApiResult = { status: 'success', content: '<svg>card</svg>' };
-  const card = (): Mock<Handler> => vi.fn<Handler>(() => Promise.resolve(success));
+  const card = (): Mock<Handler> => vi.fn<Handler>(async () => Promise.resolve(success));
   return {
     inputs: new Map<string, string>(),
     core: {
@@ -66,7 +66,7 @@ vi.mock(import('@stats-forge/github-stats-forge-core/api'), async (importOrigina
 
 let workdir: string;
 
-const writtenCard = (relativePath: string): Promise<string> =>
+const writtenCard = async (relativePath: string): Promise<string> =>
   readFile(path.join(workdir, relativePath), 'utf8');
 
 describe(run, () => {
