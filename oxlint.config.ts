@@ -7,7 +7,7 @@ export default defineConfig({
   env: { node: true },
   extends: [baseConfig, typescriptConfig],
   // `typescriptConfig` holds rules that need types, which oxlint-tsgolint reads.
-  options: { typeAware: true },
+  options: { reportUnusedDisableDirectives: 'error', typeAware: true },
   overrides: [
     {
       files: ['**/*.spec.ts'],
