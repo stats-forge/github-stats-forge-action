@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.12.0
+
+### Minor Changes
+
+- [#135](https://github.com/stats-forge/github-stats-forge-action/pull/135) [`f7b7778`](https://github.com/stats-forge/github-stats-forge-action/commit/f7b7778885d965ad2f81d5a3390cf1b7f66902f1) - Render with [`@stats-forge/github-stats-forge-core@0.12.0`](https://github.com/stats-forge/github-stats-forge/releases/tag/%40stats-forge/github-stats-forge-core%400.12.0)
+
+  - Accept `1`/`0` and `on`/`off` for boolean options, beside `true`/`false`.
+  - Refuse a gradient in any color but the background as an invalid option, rather than failing the whole request.
+  - Update the emoji map.
+
 ## 0.11.1
 
 ### Patch Changes
