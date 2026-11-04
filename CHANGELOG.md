@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.13.0
+
+### Minor Changes
+
+- [#141](https://github.com/stats-forge/github-stats-forge-action/pull/141) [`2081040`](https://github.com/stats-forge/github-stats-forge-action/commit/20810403e7ef575ca7d20f721ebd818a55f0160d) - Render with [`@stats-forge/github-stats-forge-core@0.13.0`](https://github.com/stats-forge/github-stats-forge/releases/tag/%40stats-forge/github-stats-forge-core%400.13.0)
+
+  - Give every card the forge look: a heat-gradient title and trail, a corner glow and a 14px radius.
+  - Take one theme, or a `light,dark` pair that follows the viewer's color scheme, as the only color option; the color options and `theme_light`/`theme_dark` are gone.
+  - Replace the themes with `ember`, `cobalt`, `verdigris`, `magma` and `brass`, each `_light` and `_dark`, plus `transparent`, `github_light`, `github_dark`, `github_dark_dimmed` and seven quiet palettes (`default` is now `classic`). The default is `ember_light,ember_dark`.
+  - Draw the organization activity card's pull requests and issues as one row each, over a bar comparing what was done with what was opened.
+  - Lead the WakaTime card with the range's total time and daily average.
+
+- [#142](https://github.com/stats-forge/github-stats-forge-action/pull/142) [`d3ba916`](https://github.com/stats-forge/github-stats-forge-action/commit/d3ba916ea3db549f0ffc1a8074e775d96f4368c3) - Add the `org-calendar` card, an organization's weeks as a row of heat; `org` defaults to the repository owner
+
 ## 0.12.0
 
 ### Minor Changes
