@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.13.1
+
+### Patch Changes
+
+- [#145](https://github.com/stats-forge/github-stats-forge-action/pull/145) [`0004cbf`](https://github.com/stats-forge/github-stats-forge-action/commit/0004cbf6cb6ecdb40d30244067f87ac42ce29374) - Render with [`@stats-forge/github-stats-forge-core@0.13.1`](https://github.com/stats-forge/github-stats-forge/releases/tag/%40stats-forge/github-stats-forge-core%400.13.1)
+
+  - Draw card titles, the stats rank letter and the org-calendar and WakaTime totals in one solid color, so Safari no longer blurs them on retina screens.
+  - Calm the cards: a fainter corner glow and title band, and a tighter glow on the rank ring and bar tips.
+
 ## 0.13.0
 
 ### Minor Changes
