@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.13.2
+
+### Patch Changes
+
+- [#148](https://github.com/stats-forge/github-stats-forge-action/pull/148) [`1fab574`](https://github.com/stats-forge/github-stats-forge-action/commit/1fab574a36d7e92c4c2b358bec96aed4c18ad310) - Render with [`@stats-forge/github-stats-forge-core@0.13.2`](https://github.com/stats-forge/github-stats-forge/releases/tag/%40stats-forge/github-stats-forge-core%400.13.2)
+
+  - Keep the stats card's rank ring and the bars' glowing tips sharp in Safari on retina screens, over a fainter glow.
+
 ## 0.13.1
 
 ### Patch Changes
