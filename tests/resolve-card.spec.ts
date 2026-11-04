@@ -12,6 +12,7 @@ describe(resolveCard, () => {
     ['contributed-to', { username: 'octocat' }],
     ['org', { org: 'stats-forge' }],
     ['org-activity', { org: 'stats-forge' }],
+    ['org-calendar', { org: 'stats-forge' }],
   ])('resolves the %s card the action documents', (card, options) => {
     expect(resolveCard(card, options)).toBeDefined();
   });
@@ -23,6 +24,7 @@ describe(resolveCard, () => {
     ['contributed-to', { username: 'octocat' }, 'username'],
     ['org', { org: 'stats-forge' }, 'org'],
     ['org-activity', { org: 'stats-forge' }, 'org'],
+    ['org-calendar', { org: 'stats-forge' }, 'org'],
   ])(
     'reads the %s card account option off the identities core declares',
     (card, options, account) => {
@@ -42,7 +44,7 @@ describe(resolveCard, () => {
 
   it('names the supported cards when given one it does not know', () => {
     expect(() => resolveCard('stat', { username: 'octocat' })).toThrow(
-      'Unsupported card type: stat. Expected one of stats, top-langs, pin, wakatime, gist, contributed-to, org, org-activity.',
+      'Unsupported card type: stat. Expected one of stats, top-langs, pin, wakatime, gist, contributed-to, org, org-activity, org-calendar.',
     );
   });
 

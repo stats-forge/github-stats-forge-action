@@ -31,6 +31,7 @@ const mocks = vi.hoisted(() => {
       contributedTo: card(),
       org: card(),
       orgActivity: card(),
+      orgCalendar: card(),
     },
   };
 });
@@ -61,6 +62,7 @@ vi.mock(import('@stats-forge/github-stats-forge-core/api'), async (importOrigina
     contributedTo: Object.assign(mocks.handlers.contributedTo, actual.contributedTo),
     org: Object.assign(mocks.handlers.org, actual.org),
     orgActivity: Object.assign(mocks.handlers.orgActivity, actual.orgActivity),
+    orgCalendar: Object.assign(mocks.handlers.orgCalendar, actual.orgCalendar),
   };
 });
 
@@ -172,6 +174,7 @@ describe(run, () => {
       ['stats', 'stats', 'username'],
       ['org', 'org', 'org'],
       ['org-activity', 'orgActivity', 'org'],
+      ['org-calendar', 'orgCalendar', 'org'],
     ] as const)(
       'fills the %s card account option, and says that it did',
       async (card, handler, account) => {

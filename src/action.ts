@@ -8,6 +8,7 @@ import {
   gist,
   org,
   orgActivity,
+  orgCalendar,
   pin,
   queryOf,
   stats,
@@ -57,6 +58,7 @@ const CARDS = {
   'contributed-to': defineCard(contributedTo, 'username'),
   org: defineCard(org, 'org'),
   'org-activity': defineCard(orgActivity, 'org'),
+  'org-calendar': defineCard(orgCalendar, 'org'),
 } satisfies Record<string, CardDefinition>;
 
 type CardName = keyof typeof CARDS;
