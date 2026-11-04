@@ -27,14 +27,14 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
-      - uses: stats-forge/github-stats-forge-action@b6d150903156e4392ee980a26aaa27da2b3a0154 # v0.12.0
+      - uses: stats-forge/github-stats-forge-action@7a704c7600d9b65459a2625dcab8d3a62d658beb # v0.13.0
         with:
           card: stats
           path: profile/stats.svg
           options: '?username=octocat&show_icons=true&theme=github_light,github_dark'
           token: ${{ secrets.STATS_PAT }}
 
-      - uses: stats-forge/github-stats-forge-action@b6d150903156e4392ee980a26aaa27da2b3a0154 # v0.12.0
+      - uses: stats-forge/github-stats-forge-action@7a704c7600d9b65459a2625dcab8d3a62d658beb # v0.13.0
         with:
           card: top-langs
           path: profile/langs.svg
