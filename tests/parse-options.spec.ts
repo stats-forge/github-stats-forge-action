@@ -4,9 +4,9 @@ import { parseOptions } from '../src/action.js';
 
 describe(parseOptions, () => {
   it('reads a query string, which is what a README URL already contains', () => {
-    expect(parseOptions('username=octocat&theme=dark')).toStrictEqual({
+    expect(parseOptions('username=octocat&theme=ember_dark')).toStrictEqual({
       username: 'octocat',
-      theme: 'dark',
+      theme: 'ember_dark',
     });
   });
 

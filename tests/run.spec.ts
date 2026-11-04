@@ -131,12 +131,12 @@ describe(run, () => {
   });
 
   it('passes the parsed options through to the handler', async () => {
-    mocks.inputs.set('options', 'username=octocat&theme=dark');
+    mocks.inputs.set('options', 'username=octocat&theme=ember_dark');
 
     await run();
 
     expect(mocks.handlers.stats).toHaveBeenCalledWith(
-      { username: 'octocat', theme: 'dark' },
+      { username: 'octocat', theme: 'ember_dark' },
       expect.anything(),
     );
   });

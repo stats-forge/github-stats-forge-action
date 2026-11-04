@@ -31,7 +31,7 @@ jobs:
         with:
           card: stats
           path: profile/stats.svg
-          options: '?username=octocat&show_icons=true&theme=dark'
+          options: '?username=octocat&show_icons=true&theme=github_light,github_dark'
           token: ${{ secrets.STATS_PAT }}
 
       - uses: stats-forge/github-stats-forge-action@b6d150903156e4392ee980a26aaa27da2b3a0154 # v0.12.0
