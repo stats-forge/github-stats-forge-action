@@ -59,6 +59,33 @@ Then in your README:
 One card per step.
 `options` takes **the same query string** as the hosted image URL, so migrating is copy-paste: everything from `?` onward, plus an output path.
 
+## Options
+
+Each card's options are listed on its page; [themes](https://stats-forge.github.io/github-stats-forge/docs/customization/themes/) and the [options every card shares](https://stats-forge.github.io/github-stats-forge/docs/customization/common-options/) have their own.
+
+| `card`           | Options                                                                                                     |
+| ---------------- | ----------------------------------------------------------------------------------------------------------- |
+| `stats`          | [Stats](https://stats-forge.github.io/github-stats-forge/docs/cards/stats/)                                 |
+| `top-langs`      | [Top languages](https://stats-forge.github.io/github-stats-forge/docs/cards/top-languages/)                 |
+| `pin`            | [Repo pin](https://stats-forge.github.io/github-stats-forge/docs/cards/repo-pin/)                           |
+| `gist`           | [Gist pin](https://stats-forge.github.io/github-stats-forge/docs/cards/gist-pin/)                           |
+| `wakatime`       | [WakaTime](https://stats-forge.github.io/github-stats-forge/docs/cards/wakatime/)                           |
+| `contributed-to` | [Contributed to](https://stats-forge.github.io/github-stats-forge/docs/cards/contributed-to/)               |
+| `org`            | [Organization](https://stats-forge.github.io/github-stats-forge/docs/cards/organization/)                   |
+| `org-activity`   | [Organization activity](https://stats-forge.github.io/github-stats-forge/docs/cards/organization-activity/) |
+| `org-calendar`   | [Organization calendar](https://stats-forge.github.io/github-stats-forge/docs/cards/organization-calendar/) |
+
+When a query string gets long, `options` also takes a JSON object. A list joins with commas, as a repeated key does:
+
+```yaml
+options: |
+  {
+    "username": "octocat",
+    "hide": ["prs", "issues"],
+    "theme": "github_light,github_dark"
+  }
+```
+
 ## Why files instead of a URL
 
 A hosted instance shares one PAT pool, so heavy traffic rate-limits everyone at once and your README shows a broken image.
