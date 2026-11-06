@@ -53,11 +53,30 @@ jobs:
         run: pnpm run test
 
   action:
-    name: Action renders a card
+    name: Action renders ${{ matrix.card }}
     runs-on: ubuntu-26.04
     timeout-minutes: 5
     permissions:
       contents: read
+    strategy:
+      fail-fast: false
+      # Not `gist`, which needs a gist to point at, `wakatime`, a third-party service,
+      # or `org`, which core fails when the token cannot read the org's members.
+      matrix:
+        include:
+          - card: stats
+            options: username=octocat
+          - card: top-langs
+            options: username=octocat
+          - card: pin
+            options: username=octocat&repo=Hello-World
+          - card: contributed-to
+            options: username=octocat
+          # No `org`, so the repository-owner default is exercised too.
+          - card: org-activity
+            options: ''
+          - card: org-calendar
+            options: ''
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -74,13 +93,13 @@ jobs:
       - name: Build the bundle
         run: pnpm run build
 
-      - name: Generate stats card
+      - name: Generate ${{ matrix.card }} card
         id: generate
         uses: ./ # zizmor: ignore[self-repository]
         with:
-          card: stats
-          path: profile/stats.svg
-          options: username=octocat
+          card: ${{ matrix.card }}
+          path: profile/${{ matrix.card }}.svg
+          options: ${{ matrix.options }}
           token: ${{ secrets.GITHUB_TOKEN }}
 
       # A render failure already fails the step above.
