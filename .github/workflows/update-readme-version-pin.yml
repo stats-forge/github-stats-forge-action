@@ -65,7 +65,6 @@ jobs:
           tag: ${{ env.TAG }}
 
       # A clean tree opens no PR.
-      # `chore`, not `docs`: release-please would list it in the next changelog.
       # jactionlint ignore=superfluous-actions
       - name: Create Pull Request if the README changed
         id: create_pr

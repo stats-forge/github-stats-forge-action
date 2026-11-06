@@ -16,7 +16,7 @@ updates:
     directory: /
     schedule:
       interval: weekly
-    # Conventional subjects, so release-please reads them.
+    # Conventional subjects, like the rest of the history.
     commit-message:
       prefix: chore
       include: scope
