@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.13.3
+
+### Patch Changes
+
+- [#151](https://github.com/stats-forge/github-stats-forge-action/pull/151) [`811965d`](https://github.com/stats-forge/github-stats-forge-action/commit/811965d0c7fac43f389db6e8977f2ae7ceee89f2) - Render with [`@stats-forge/github-stats-forge-core@0.13.3`](https://github.com/stats-forge/github-stats-forge/releases/tag/%40stats-forge/github-stats-forge-core%400.13.3)
+
+  - Accept GitHub logins with a leading, trailing or doubled hyphen, as older accounts have.
+  - Write each top-languages slice's share as the valid `data-size` attribute rather than `size`.
+
 ## 0.13.2
 
 ### Patch Changes
