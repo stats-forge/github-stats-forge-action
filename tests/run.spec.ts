@@ -71,6 +71,19 @@ let workdir: string;
 const writtenCard = async (relativePath: string): Promise<string> =>
   readFile(path.join(workdir, relativePath), 'utf8');
 
+/** Core's answer when no token works, with the hint it writes for a server. */
+const noTokens = (message: string): ApiResult => ({
+  status: 'error',
+  retryable: true,
+  error: {
+    code: 'no_tokens',
+    message,
+    secondaryMessage: 'Please add an env variable called PAT_1',
+    param: undefined,
+  },
+  content: '<svg>Something went wrong</svg>',
+});
+
 describe(run, () => {
   beforeEach(async () => {
     workdir = await mkdtemp(path.join(tmpdir(), 'stats-forge-action-'));
@@ -304,6 +317,62 @@ describe(run, () => {
     });
 
     await expect(run()).rejects.toThrow('Card generation failed: No GitHub API tokens found');
+  });
+
+  it('adds the second line of the error, which often says what to do', async () => {
+    mocks.handlers.stats.mockResolvedValueOnce({
+      status: 'error',
+      retryable: false,
+      error: {
+        code: 'forbidden',
+        message: 'Missing token permission',
+        secondaryMessage: 'The token needs read access to issues',
+        param: undefined,
+      },
+      content: '<svg>Something went wrong</svg>',
+    });
+
+    await expect(run()).rejects.toThrow(
+      'Card generation failed: Missing token permission. The token needs read access to issues.',
+    );
+  });
+
+  // Core's hint talks about a server's `PAT_*` variables, which an action user never sets.
+  describe('when no token works', () => {
+    it('points at an empty token input, the usual sign of a missing secret', async () => {
+      mocks.handlers.stats.mockResolvedValueOnce(noTokens('No GitHub API tokens found'));
+
+      const failure = run();
+
+      await expect(failure).rejects.toThrow('The `token` input is empty.');
+      await expect(failure).rejects.not.toThrow('PAT_1');
+    });
+
+    it('says the token was rejected when one was given', async () => {
+      mocks.inputs.set('token', 'ghp_revoked');
+      mocks.handlers.stats.mockResolvedValueOnce(noTokens('Every GitHub API token was rejected'));
+
+      await expect(run()).rejects.toThrow('GitHub rejected the `token` input');
+    });
+  });
+
+  it('does not suggest deploying an instance when the token is rate limited', async () => {
+    mocks.handlers.stats.mockResolvedValueOnce({
+      status: 'error',
+      retryable: true,
+      error: {
+        code: 'rate_limited',
+        message: 'Downtime due to GitHub API rate limiting',
+        secondaryMessage: 'You can deploy own instance',
+        param: undefined,
+      },
+      content: '<svg>Something went wrong</svg>',
+    });
+
+    const failure = run();
+
+    await expect(failure).rejects.toThrow('The token has used up its GitHub API quota');
+    await expect(failure).rejects.not.toThrow('deploy');
   });
 
   it('does not blame the network for an option the renderer rejected', async () => {
