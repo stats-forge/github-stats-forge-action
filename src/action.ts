@@ -15,7 +15,11 @@ import {
   topLangs,
   wakatime,
 } from '@stats-forge/github-stats-forge-core/api';
-import type { ApiError, ApiResult, ErrorCode } from '@stats-forge/github-stats-forge-core/api';
+import type {
+  ApiResult,
+  CardConfigInit,
+  ErrorCode,
+} from '@stats-forge/github-stats-forge-core/api';
 
 type Handler = ((query: Record<string, string>, config: CardConfig) => Promise<ApiResult>) & {
   /** Which of the card's params name an identity, and which allowlist guards each. */
@@ -26,22 +30,12 @@ type Handler = ((query: Record<string, string>, config: CardConfig) => Promise<A
 // and a missing `token` input is not the network's fault.
 const FETCH_FAILURES: ReadonlySet<ErrorCode> = new Set(['rate_limited', 'upstream']);
 
-/**
- * @param error The failure core answered with.
- * @param tokenGiven Whether the `token` input was set.
- * @returns The second line of the error, reworded where core's is written for a
- *          hosted deployment rather than for this action's inputs.
- */
-const hintFor = (error: ApiError, tokenGiven: boolean): string | undefined => {
-  if (error.code === 'no_tokens') {
-    return tokenGiven
-      ? 'GitHub rejected the `token` input; it may be expired or revoked'
-      : 'The `token` input is empty. If it reads a secret, check that the secret exists: Dependabot and fork pull request runs are not given repository secrets';
-  }
-  if (error.code === 'rate_limited') {
-    return 'The token has used up its GitHub API quota; try again later';
-  }
-  return error.secondaryMessage;
+/** Core's advice for a token failure, worded for this action's `token` input. */
+const HINTS: CardConfigInit['hints'] = {
+  tokens_missing:
+    'The `token` input is empty. If it reads a secret, check that the secret exists: Dependabot and fork pull request runs are not given repository secrets',
+  tokens_rejected: 'The `token` input may be expired or revoked',
+  rate_limited: 'The token has used up its GitHub API quota; try again later',
 };
 
 interface CardDefinition {
@@ -183,6 +177,7 @@ export const run = async (): Promise<void> => {
   const token = getInput('token');
   const config = new CardConfig({
     pats: token ? [{ name: 'action input `token`', value: token }] : [],
+    hints: HINTS,
   });
 
   const result = await handler(options, config);
@@ -191,15 +186,11 @@ export const run = async (): Promise<void> => {
   // the failure drawn onto a card.
   // Writing that would replace a good card with an apology, so it fails instead.
   if (result.status === 'error') {
-    const { code, message } = result.error;
-    const detail = [message, hintFor(result.error, Boolean(token))]
-      .filter((part): part is string => Boolean(part))
-      .map((part) => (/[.!?]$/.test(part) ? part : `${part}.`))
-      .join(' ');
+    const { code, text } = result.error;
     throw new Error(
       FETCH_FAILURES.has(code)
-        ? `Card generation failed while fetching data: ${detail}`
-        : `Card generation failed: ${detail}`,
+        ? `Card generation failed while fetching data: ${text}`
+        : `Card generation failed: ${text}`,
     );
   }
   if (!result.content) {
