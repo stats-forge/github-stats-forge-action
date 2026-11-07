@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.13.4
+
+### Patch Changes
+
+- [#159](https://github.com/stats-forge/github-stats-forge-action/pull/159) [`b820bc1`](https://github.com/stats-forge/github-stats-forge-action/commit/b820bc10a4842c8e30a3906c7f3a555d68ac2df8) - Render with [`@stats-forge/github-stats-forge-core@0.14.0`](https://github.com/stats-forge/github-stats-forge/releases/tag/%40stats-forge/github-stats-forge-core%400.14.0)
+
+  - Draw the organization card when the token may not read its members, rather than reporting the organization not found.
+
+- [#154](https://github.com/stats-forge/github-stats-forge-action/pull/154) [`5c6223b`](https://github.com/stats-forge/github-stats-forge-action/commit/5c6223b0c768ee9927e699e0cfa4137a22ba5e5c) - Report the whole error when a card fails, including the line that says what to fix, and word the token and rate-limit hints for the action's `token` input instead of a server's `PAT_*` variables.
+
+- [#160](https://github.com/stats-forge/github-stats-forge-action/pull/160) [`c626e08`](https://github.com/stats-forge/github-stats-forge-action/commit/c626e08b3e17930e7ba95c5d22f9a01339c71079) - Bundle `undici` 6.29.1, which fixes [GHSA-2m5v-pch6-74hx](https://github.com/advisories/GHSA-2m5v-pch6-74hx), [GHSA-xjj6-f33q-929c](https://github.com/advisories/GHSA-xjj6-f33q-929c), [GHSA-qrxm-fqhp-jwvm](https://github.com/advisories/GHSA-qrxm-fqhp-jwvm), [GHSA-4qv8-2p9j-2685](https://github.com/advisories/GHSA-4qv8-2p9j-2685) and [GHSA-9fm3-97px-rjf6](https://github.com/advisories/GHSA-9fm3-97px-rjf6).
+
 ## 0.13.3
 
 ### Patch Changes
