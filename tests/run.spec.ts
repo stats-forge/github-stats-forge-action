@@ -3,15 +3,20 @@ import { tmpdir } from 'node:os';
 import path from 'node:path';
 
 import type { InputOptions, info, setOutput } from '@actions/core';
-import type { ApiResult } from '@stats-forge/github-stats-forge-core/api';
+import type {
+  ApiError,
+  ApiResult,
+  CardConfig,
+  stats,
+} from '@stats-forge/github-stats-forge-core/api';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import type { Mock } from 'vitest';
 
 // `vi.mock` is hoisted above this import, so `action.ts` sees the doubles.
 import { run } from '../src/action.js';
 
-/** Every card handler, as loosely as the action calls one. */
-type Handler = (query: unknown, config: unknown) => Promise<ApiResult>;
+/** Every card handler, as the action calls one. */
+type Handler = (query: Record<string, string>, config: CardConfig) => Promise<ApiResult>;
 
 const mocks = vi.hoisted(() => {
   const success: ApiResult = { status: 'success', content: '<svg>card</svg>' };
@@ -71,18 +76,25 @@ let workdir: string;
 const writtenCard = async (relativePath: string): Promise<string> =>
   readFile(path.join(workdir, relativePath), 'utf8');
 
-/** Core's answer when no token works, with the hint it writes for a server. */
-const noTokens = (message: string): ApiResult => ({
+/**
+ * Core's answer for a failure, its `text` already holding both lines.
+ *
+ * @returns The result a handler resolves with.
+ */
+const failed = (
+  error: Pick<ApiError, 'code' | 'message' | 'text'> & Partial<ApiError>,
+  retryable = false,
+): ApiResult => ({
   status: 'error',
-  retryable: true,
-  error: {
-    code: 'no_tokens',
-    message,
-    secondaryMessage: 'Please add an env variable called PAT_1',
-    param: undefined,
-  },
+  retryable,
+  error: { reason: undefined, secondaryMessage: undefined, param: undefined, ...error },
   content: '<svg>Something went wrong</svg>',
 });
+
+/** Core's own stats handler, which the token tests run so its wording meets the action's hints. */
+const { stats: realStats } = await vi.importActual<{ stats: typeof stats }>(
+  '@stats-forge/github-stats-forge-core/api',
+);
 
 describe(run, () => {
   beforeEach(async () => {
@@ -100,6 +112,7 @@ describe(run, () => {
 
   afterEach(() => {
     vi.unstubAllEnvs();
+    vi.unstubAllGlobals();
     vi.restoreAllMocks();
   });
 
@@ -269,128 +282,94 @@ describe(run, () => {
 
   it('never writes the error card over a good one', async () => {
     mocks.inputs.set('path', 'profile/stats.svg');
-    mocks.handlers.stats.mockResolvedValueOnce({
-      status: 'error',
-      retryable: true,
-      error: {
-        code: 'rate_limited',
-        message: 'Maximum retries exceeded',
-        secondaryMessage: undefined,
-        param: undefined,
-      },
-      content: '<svg>Something went wrong</svg>',
-    });
+    mocks.handlers.stats.mockResolvedValueOnce(
+      failed(
+        { code: 'upstream', message: 'Could not reach GitHub', text: 'Could not reach GitHub.' },
+        true,
+      ),
+    );
 
     await expect(run()).rejects.toThrow(
-      'Card generation failed while fetching data: Maximum retries exceeded',
+      'Card generation failed while fetching data: Could not reach GitHub.',
     );
     await expect(writtenCard('profile/stats.svg')).rejects.toThrow('ENOENT');
   });
 
-  it('reports what the renderer said went wrong', async () => {
-    mocks.handlers.stats.mockResolvedValueOnce({
-      status: 'error',
-      retryable: false,
-      error: {
-        code: 'not_found',
-        message: 'Could not fetch user',
-        secondaryMessage: undefined,
-        param: undefined,
-      },
-      content: '<svg>Something went wrong</svg>',
-    });
-
-    await expect(run()).rejects.toThrow('Card generation failed: Could not fetch user');
-  });
-
-  it('does not blame the network for a missing token, which core reports as retryable', async () => {
-    mocks.handlers.stats.mockResolvedValueOnce({
-      status: 'error',
-      retryable: true,
-      error: {
-        code: 'no_tokens',
-        message: 'No GitHub API tokens found',
-        secondaryMessage: undefined,
-        param: undefined,
-      },
-      content: '<svg>Something went wrong</svg>',
-    });
-
-    await expect(run()).rejects.toThrow('Card generation failed: No GitHub API tokens found');
-  });
-
-  it('adds the second line of the error, which often says what to do', async () => {
-    mocks.handlers.stats.mockResolvedValueOnce({
-      status: 'error',
-      retryable: false,
-      error: {
+  it("reports core's text, which already holds both lines of the error", async () => {
+    mocks.handlers.stats.mockResolvedValueOnce(
+      failed({
         code: 'forbidden',
         message: 'Missing token permission',
         secondaryMessage: 'The token needs read access to issues',
-        param: undefined,
-      },
-      content: '<svg>Something went wrong</svg>',
-    });
+        text: 'Missing token permission. The token needs read access to issues.',
+      }),
+    );
 
     await expect(run()).rejects.toThrow(
-      'Card generation failed: Missing token permission. The token needs read access to issues.',
+      new Error(
+        'Card generation failed: Missing token permission. The token needs read access to issues.',
+      ),
     );
-  });
-
-  // Core's hint talks about a server's `PAT_*` variables, which an action user never sets.
-  describe('when no token works', () => {
-    it('points at an empty token input, the usual sign of a missing secret', async () => {
-      mocks.handlers.stats.mockResolvedValueOnce(noTokens('No GitHub API tokens found'));
-
-      const failure = run();
-
-      await expect(failure).rejects.toThrow('The `token` input is empty.');
-      await expect(failure).rejects.not.toThrow('PAT_1');
-    });
-
-    it('says the token was rejected when one was given', async () => {
-      mocks.inputs.set('token', 'ghp_revoked');
-      mocks.handlers.stats.mockResolvedValueOnce(noTokens('Every GitHub API token was rejected'));
-
-      await expect(run()).rejects.toThrow('GitHub rejected the `token` input');
-    });
-  });
-
-  it('does not suggest deploying an instance when the token is rate limited', async () => {
-    mocks.handlers.stats.mockResolvedValueOnce({
-      status: 'error',
-      retryable: true,
-      error: {
-        code: 'rate_limited',
-        message: 'Downtime due to GitHub API rate limiting',
-        secondaryMessage: 'You can deploy own instance',
-        param: undefined,
-      },
-      content: '<svg>Something went wrong</svg>',
-    });
-
-    const failure = run();
-
-    await expect(failure).rejects.toThrow('The token has used up its GitHub API quota');
-    await expect(failure).rejects.not.toThrow('deploy');
   });
 
   it('does not blame the network for an option the renderer rejected', async () => {
-    mocks.handlers.stats.mockResolvedValueOnce({
-      status: 'error',
-      retryable: false,
-      error: {
+    mocks.handlers.stats.mockResolvedValueOnce(
+      failed({
         code: 'invalid_param',
-        message: 'Invalid number input for parameter "border_radius"',
-        secondaryMessage: undefined,
+        message: 'Something went wrong',
+        text: 'Something went wrong. Invalid number input for parameter "border_radius".',
         param: 'border_radius',
-      },
-      content: '<svg>Something went wrong</svg>',
-    });
+      }),
+    );
 
     await expect(run()).rejects.toThrow(
-      'Card generation failed: Invalid number input for parameter "border_radius"',
+      new Error(
+        'Card generation failed: Something went wrong. Invalid number input for parameter "border_radius".',
+      ),
     );
+  });
+
+  // core's own advice names no input, and this one does
+  describe('when no token works', () => {
+    beforeEach(() => {
+      mocks.handlers.stats.mockImplementationOnce(realStats);
+    });
+
+    it('points at an empty token input, and blames no network for it', async () => {
+      await expect(run()).rejects.toThrow(
+        new Error(
+          'Card generation failed: No GitHub API tokens found. The `token` input is empty. If it reads a secret, check that the secret exists: Dependabot and fork pull request runs are not given repository secrets.',
+        ),
+      );
+    });
+
+    it('says the token input may be expired when GitHub rejects it', async () => {
+      mocks.inputs.set('token', 'ghp_revoked');
+      vi.stubGlobal('fetch', async () =>
+        Promise.resolve(Response.json({ message: 'Bad credentials' }, { status: 401 })),
+      );
+
+      await expect(run()).rejects.toThrow(
+        new Error(
+          'Card generation failed: Every GitHub API token was rejected. The `token` input may be expired or revoked.',
+        ),
+      );
+    });
+
+    it('says the quota is spent, without suggesting an instance, when it is rate limited', async () => {
+      mocks.inputs.set('token', 'ghp_busy');
+      vi.stubGlobal('fetch', async () =>
+        Promise.resolve(
+          Response.json({ errors: [{ type: 'RATE_LIMITED', message: 'API rate limit exceeded' }] }),
+        ),
+      );
+
+      await expect(run()).rejects.toThrow(
+        new Error(
+          'Card generation failed while fetching data: Downtime due to GitHub API rate limiting. The token has used up its GitHub API quota; try again later.',
+        ),
+      );
+    });
   });
 
   it('does not write an empty file over a good card', async () => {
