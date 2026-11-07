@@ -60,8 +60,7 @@ jobs:
       contents: read
     strategy:
       fail-fast: false
-      # Not `gist`, which needs a gist to point at, `wakatime`, a third-party service,
-      # or `org`, which core fails when the token cannot read the org's members.
+      # Not `gist`, which needs a gist to point at, or `wakatime`, a third-party service.
       matrix:
         include:
           - card: stats
@@ -72,7 +71,9 @@ jobs:
             options: username=octocat&repo=Hello-World
           - card: contributed-to
             options: username=octocat
-          # No `org`, so the repository-owner default is exercised too.
+          # The org cards pass no `org`, so the repository-owner default is exercised too.
+          - card: org
+            options: ''
           - card: org-activity
             options: ''
           - card: org-calendar
