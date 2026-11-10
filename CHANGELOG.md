@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.14.0
+
+### Minor Changes
+
+- [#163](https://github.com/stats-forge/github-stats-forge-action/pull/163) [`33f6780`](https://github.com/stats-forge/github-stats-forge-action/commit/33f6780c4add7ac3c33a0fd6f6213aaed1a303f6) - Render with [`@stats-forge/github-stats-forge-core@0.15.0`](https://github.com/stats-forge/github-stats-forge/releases/tag/%40stats-forge/github-stats-forge-core%400.15.0)
+
+  - Accept the standard locale codes `ko`, `zh-cn`, `ne` and `sv`, plus `zh` and `uk`; `kr`, `cn`, `np` and `se` still work.
+  - Write a figure's decimals with the locale's separator, as `1,2k` for `locale=de`.
+  - Translate the percentile ring's `Top`, and title a rank-only stats card with its rank in every locale.
+  - Update the language colors from GitHub's linguist.
+
 ## 0.13.4
 
 ### Patch Changes
