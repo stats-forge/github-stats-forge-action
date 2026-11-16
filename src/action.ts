@@ -175,9 +175,12 @@ export const run = async (): Promise<void> => {
   const { handler } = resolveCard(card, options);
 
   const token = getInput('token');
+  // Set on every runner, so an Enterprise Server run reads its own instance.
+  const apiUrl = process.env['GITHUB_API_URL'];
   const config = new CardConfig({
     pats: token ? [{ name: 'action input `token`', value: token }] : [],
     hints: HINTS,
+    githubApiUrl: apiUrl === '' ? undefined : apiUrl,
   });
 
   const result = await handler(options, config);
