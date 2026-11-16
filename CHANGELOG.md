@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.16.0
+
+### Minor Changes
+
+- [#170](https://github.com/stats-forge/github-stats-forge-action/pull/170) [`e68765d`](https://github.com/stats-forge/github-stats-forge-action/commit/e68765db2e7685ee99c34e5e1a31d0f441e2c62b) - Render with [`@stats-forge/github-stats-forge-core@0.16.0`](https://github.com/stats-forge/github-stats-forge/releases/tag/%40stats-forge/github-stats-forge-core%400.16.0)
+
+  - Follow core's major and minor version from this release on, so action 0.16.x renders with core 0.16.x; 0.15.0 is skipped.
+  - Lay the stats card's rows out in two columns with `layout=columns`.
+  - Pick the WakaTime card's window with `range`, from the last 7 days to all time.
+
+- [#171](https://github.com/stats-forge/github-stats-forge-action/pull/171) [`68fa74f`](https://github.com/stats-forge/github-stats-forge-action/commit/68fa74f9b79f76945fd19b8c339b285b4b733f96) - Draw cards from a GitHub Enterprise Server's API when the action runs on one, instead of always from github.com.
+
 ## 0.14.0
 
 ### Minor Changes
