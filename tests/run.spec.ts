@@ -191,6 +191,28 @@ describe(run, () => {
     );
   });
 
+  it("reads a GitHub Enterprise Server runner's own API", async () => {
+    vi.stubEnv('GITHUB_API_URL', 'https://ghes.example.com/api/v3');
+
+    await run();
+
+    expect(mocks.handlers.stats).toHaveBeenCalledWith(
+      expect.anything(),
+      expect.objectContaining({ githubApiUrl: 'https://ghes.example.com/api/v3' }),
+    );
+  });
+
+  it('reads github.com when no API URL is set', async () => {
+    vi.stubEnv('GITHUB_API_URL', '');
+
+    await run();
+
+    expect(mocks.handlers.stats).toHaveBeenCalledWith(
+      expect.anything(),
+      expect.objectContaining({ githubApiUrl: 'https://api.github.com' }),
+    );
+  });
+
   describe('the repository-owner fallback', () => {
     beforeEach(() => {
       vi.stubEnv('GITHUB_REPOSITORY_OWNER', 'stats-forge');

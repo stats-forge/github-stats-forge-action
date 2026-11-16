@@ -91,6 +91,10 @@ options: |
 A hosted instance shares one PAT pool, so heavy traffic rate-limits everyone at once and your README shows a broken image.
 Your own run spends your own token, fails visibly in the job log, and leaves a committed SVG that keeps working if the instance goes away.
 
+## GitHub Enterprise Server
+
+On a GitHub Enterprise Server runner the cards are drawn from that server's API, read from the runner's `GITHUB_API_URL`. Nothing to configure: `token` only has to be valid on that server.
+
 ## Inputs
 
 | Input     | Required | Default        | Description                                                                                                 |
