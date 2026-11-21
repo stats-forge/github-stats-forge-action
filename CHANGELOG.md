@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.17.0
+
+### Minor Changes
+
+- [#179](https://github.com/stats-forge/github-stats-forge-action/pull/179) [`f84837c`](https://github.com/stats-forge/github-stats-forge-action/commit/f84837cd07c80e3175ac72bf9e4f6a183e297f90) - Render with [`@stats-forge/github-stats-forge-core@0.17.0`](https://github.com/stats-forge/github-stats-forge/releases/tag/%40stats-forge/github-stats-forge-core%400.17.0)
+
+  - Draw the organization card for large organizations, which GitHub timed out on.
+  - Count up to 1000 repositories on the top languages card, the most recently pushed first.
+  - Show a language's real bytes on the top languages card with `value_format=bytes`, not its weighted size.
+  - Draw the donut's ring when one language rounds to 100%.
+  - Treat `card_width=300` on the top languages card as asked for, like any other width.
+
 ## 0.16.0
 
 ### Minor Changes
