@@ -45,12 +45,14 @@ jobs:
 
     steps:
       # GITHUB_TOKEN events start no workflows, and the ruleset needs CI to merge.
-      - name: Setup release helper
+      - name: Create release helper token
         id: release-helper
-        uses: marcalexiei/github-actions/setup-github-app-user-bot@0dca7a8dfeb729b5b00eaed578440239df457db7 # v2.6.5
+        uses: actions/create-github-app-token@f418cff399f7aef4c2f0ad47e25ca7a6abbdd6fc # v3.4.0
         with:
-          app-id: ${{ vars.RELEASE_HELPER_APP_ID }}
+          client-id: ${{ vars.RELEASE_HELPER_APP_ID }}
           private-key: ${{ secrets.RELEASE_HELPER_PRIVATE_KEY }}
+          permission-contents: write # pushes the signed commit and enables auto-merge
+          permission-pull-requests: write # opens and labels the PR
 
       # `ref` is explicit because a release event checks out the tag.
       - name: Checkout
