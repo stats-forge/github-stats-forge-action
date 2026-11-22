@@ -49,12 +49,13 @@ jobs:
     steps:
       # The same bot release.yml uses, for the same reason: GITHUB_TOKEN is not
       # guaranteed to be able to write here.
-      - name: Setup release helper
+      - name: Create release helper token
         id: release-helper
-        uses: marcalexiei/github-actions/setup-github-app-user-bot@0dca7a8dfeb729b5b00eaed578440239df457db7 # v2.6.5
+        uses: actions/create-github-app-token@f418cff399f7aef4c2f0ad47e25ca7a6abbdd6fc # v3.4.0
         with:
-          app-id: ${{ vars.RELEASE_HELPER_APP_ID }}
+          client-id: ${{ vars.RELEASE_HELPER_APP_ID }}
           private-key: ${{ secrets.RELEASE_HELPER_PRIVATE_KEY }}
+          permission-contents: write # moves the major tag
 
       - name: Move the major tag
         env:

@@ -37,28 +37,21 @@ jobs:
 
     steps:
       # GITHUB_TOKEN events start no workflows, so CI would never run on the version PR.
-      - name: Setup release helper
+      - name: Create release helper token
         id: release-helper
-        uses: marcalexiei/github-actions/setup-github-app-user-bot@0dca7a8dfeb729b5b00eaed578440239df457db7 # v2.6.5
+        uses: actions/create-github-app-token@f418cff399f7aef4c2f0ad47e25ca7a6abbdd6fc # v3.4.0
         with:
-          app-id: ${{ vars.RELEASE_HELPER_APP_ID }}
+          client-id: ${{ vars.RELEASE_HELPER_APP_ID }}
           private-key: ${{ secrets.RELEASE_HELPER_PRIVATE_KEY }}
+          permission-contents: write # pushes the release branch, tags and releases
+          permission-pull-requests: write # opens and updates the release PR
 
       # Full history, so Changesets finds the commit that added each changeset.
-      # Credentials are persisted on purpose: Changesets pushes the version branch.
       - name: Checkout
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1 # zizmor: ignore[artipacked]
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
-          token: ${{ steps.release-helper.outputs.token }}
-
-      - name: Configure git user for GitHub App
-        env:
-          BOT_NAME: ${{ steps.release-helper.outputs.bot-name }}
-          BOT_EMAIL: ${{ steps.release-helper.outputs.bot-email }}
-        run: |
-          git config user.name "${BOT_NAME}"
-          git config user.email "${BOT_EMAIL}"
+          persist-credentials: false
 
       - name: Install dependencies
         uses: marcalexiei/github-actions/setup-node-and-pnpm@0dca7a8dfeb729b5b00eaed578440239df457db7 # v2.6.5
@@ -106,12 +99,15 @@ jobs:
     steps:
       # The app's token, not the default one: it carries issues:write, and the comments
       # then come from the same bot that opened the version PR.
-      - name: Setup release helper
+      - name: Create release helper token
         id: release-helper
-        uses: marcalexiei/github-actions/setup-github-app-user-bot@0dca7a8dfeb729b5b00eaed578440239df457db7 # v2.6.5
+        uses: actions/create-github-app-token@f418cff399f7aef4c2f0ad47e25ca7a6abbdd6fc # v3.4.0
         with:
-          app-id: ${{ vars.RELEASE_HELPER_APP_ID }}
+          client-id: ${{ vars.RELEASE_HELPER_APP_ID }}
           private-key: ${{ secrets.RELEASE_HELPER_PRIVATE_KEY }}
+          permission-contents: read # finds the PRs a commit shipped in
+          permission-pull-requests: write # comments on shipped PRs
+          permission-issues: write # comments on the issues those PRs close
 
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
