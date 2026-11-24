@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.18.0
+
+### Minor Changes
+
+- [#184](https://github.com/stats-forge/github-stats-forge-action/pull/184) [`df3bbfe`](https://github.com/stats-forge/github-stats-forge-action/commit/df3bbfe4883d95c23bc60e069defc0f250116fa4) - Render with [`@stats-forge/github-stats-forge-core@0.18.0`](https://github.com/stats-forge/github-stats-forge/releases/tag/%40stats-forge/github-stats-forge-core%400.18.0)
+
+- [#185](https://github.com/stats-forge/github-stats-forge-action/pull/185) [`de5cd26`](https://github.com/stats-forge/github-stats-forge-action/commit/de5cd26e81ae43cb6536f27f626e047f1eefda0d) - Add the `wakatime-hosts` input, listing the WakaTime hosts the wakatime card's `wakatime_host` may name; core 0.18.0 fetches from `wakatime.com` alone otherwise.
+
 ## 0.17.0
 
 ### Minor Changes
