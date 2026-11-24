@@ -191,6 +191,26 @@ describe(run, () => {
     );
   });
 
+  it('allows the WakaTime hosts the input lists', async () => {
+    mocks.inputs.set('wakatime-hosts', ' wakapi.dev, wakatime.com ,');
+
+    await run();
+
+    expect(mocks.handlers.stats).toHaveBeenCalledWith(
+      expect.anything(),
+      expect.objectContaining({ wakatimeHosts: ['wakapi.dev', 'wakatime.com'] }),
+    );
+  });
+
+  it('allows only wakatime.com when no WakaTime hosts are listed', async () => {
+    await run();
+
+    expect(mocks.handlers.stats).toHaveBeenCalledWith(
+      expect.anything(),
+      expect.objectContaining({ wakatimeHosts: ['wakatime.com'] }),
+    );
+  });
+
   it("reads a GitHub Enterprise Server runner's own API", async () => {
     vi.stubEnv('GITHUB_API_URL', 'https://ghes.example.com/api/v3');
 

@@ -21,6 +21,10 @@ inputs:
     description: GitHub token. Defaults to github.token, enough for public data; private repositories and gists need a PAT.
     required: false
     default: ${{ github.token }}
+  wakatime-hosts:
+    description: Comma-separated WakaTime hosts the wakatime card's `wakatime_host` may name. Replaces the default, wakatime.com, so list it to keep it.
+    required: false
+    default: ''
 
 outputs:
   path:
