@@ -30,7 +30,7 @@ jobs:
           persist-credentials: false
 
       - name: Install dependencies
-        uses: marcalexiei/github-actions/setup-node-and-pnpm@0dca7a8dfeb729b5b00eaed578440239df457db7 # v2.6.5
+        uses: marcalexiei/github-actions/setup-node-and-pnpm@2c28f768b03ce332a96804ae076f15c84f239684 # v4.0.2
 
       # `dist/` is not committed, and `tests/dist.spec.ts` runs it.
       - name: Build the bundle
@@ -85,7 +85,7 @@ jobs:
           persist-credentials: false
 
       - name: Install dependencies
-        uses: marcalexiei/github-actions/setup-node-and-pnpm@0dca7a8dfeb729b5b00eaed578440239df457db7 # v2.6.5
+        uses: marcalexiei/github-actions/setup-node-and-pnpm@2c28f768b03ce332a96804ae076f15c84f239684 # v4.0.2
         with:
           save-cache: false
 
@@ -159,6 +159,6 @@ jobs:
       contents: read # required to read the workflow file
     steps:
       - name: Check needed jobs
-        uses: marcalexiei/github-actions/check-needs@0dca7a8dfeb729b5b00eaed578440239df457db7 # v2.6.5
+        uses: marcalexiei/github-actions/check-needs@2c28f768b03ce332a96804ae076f15c84f239684 # v4.0.2
         with:
           needs: ${{ toJSON(needs) }}
